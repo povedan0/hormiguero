@@ -1,7 +1,7 @@
 EXE=hormiguero
 CFLAGS=-Wall -ansi -pedantic
 CC=gcc
-LIBS=-L. -lscreen
+LIBS=-L../lib -lscreen
 
 all: $(EXE)
 
