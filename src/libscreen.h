@@ -31,7 +31,7 @@ void screen_init(int rows, int columns);
  * As it frees the screen, it must be called at the end of the program,
  *  once the areas created have been freed.
  */
-void screen_destroy();
+void screen_destroy(void);
 
 /**
  * @brief It paints in the terminal the actual screen composition
@@ -40,7 +40,7 @@ void screen_destroy();
  * This function should be called when some updates
  *  in the screen want to be shown.
  */
-void screen_paint();
+void screen_paint(void);
 
 /**
  * @brief It creates a new area inside a screen
