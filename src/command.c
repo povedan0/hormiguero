@@ -31,7 +31,7 @@ struct _Command {
 /** space_create allocates memory for a new space
  *  and initializes its members
  */
-Command* command_create() {
+Command* command_create(void) {
   Command* newCommand = NULL;
 
   newCommand = (Command*)malloc(sizeof(Command));

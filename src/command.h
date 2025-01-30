@@ -22,7 +22,7 @@ typedef enum { NO_CMD = -1, UNKNOWN, EXIT, NEXT, BACK } CommandCode;
 
 typedef struct _Command Command;
 
-Command* command_create();
+Command* command_create(void);
 Status command_destroy(Command* command);
 Status command_set_code(Command* command, CommandCode code);
 CommandCode command_get_code(Command* command);

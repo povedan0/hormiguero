@@ -15,7 +15,7 @@
 
 typedef struct _Graphic_engine Graphic_engine;
 
-Graphic_engine *graphic_engine_create();
+Graphic_engine *graphic_engine_create(void);
 
 void graphic_engine_destroy(Graphic_engine *ge);
 

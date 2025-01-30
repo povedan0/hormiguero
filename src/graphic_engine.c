@@ -30,7 +30,7 @@ struct _Graphic_engine {
   Area *map, *descript, *banner, *help, *feedback;
 };
 
-Graphic_engine *graphic_engine_create() {
+Graphic_engine *graphic_engine_create(void) {
   static Graphic_engine *ge = NULL;
 
   if (ge) {
