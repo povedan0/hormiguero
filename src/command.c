@@ -28,8 +28,9 @@ struct _Command {
   CommandCode code; /*!< Name of the command */
 };
 
-/** space_create allocates memory for a new space
+/** command_create allocates memory for a new space
  *  and initializes its members
+ * 
  */
 Command* command_create(void) {
   Command* newCommand = NULL;
@@ -45,6 +46,10 @@ Command* command_create(void) {
   return newCommand;
 }
 
+/** command_destroy frees memory allocated for a given command and
+ * detangles pointer  
+ * 
+*/
 Status command_destroy(Command* command) {
   if (!command) {
     return ERROR;
@@ -55,6 +60,10 @@ Status command_destroy(Command* command) {
   return OK;
 }
 
+/** command_set_code receives a command code and assigns it to a given 
+ * command variable
+ * 
+*/
 Status command_set_code(Command* command, CommandCode code) {
   if (!command) {
     return ERROR;
@@ -65,6 +74,10 @@ Status command_set_code(Command* command, CommandCode code) {
   return OK;
 }
 
+/** command_get_code retrieves the code contained in a certain command
+ * variable
+ * 
+*/
 CommandCode command_get_code(Command* command) {
   if (!command) {
     return NO_CMD;
@@ -72,16 +85,23 @@ CommandCode command_get_code(Command* command) {
   return command->code;
 }
 
+/** command_get_user_input interprets user input and determines which 
+ * command code it is correspondent to
+ * 
+*/
 Status command_get_user_input(Command* command) {
   char input[CMD_LENGHT] = "", *token = NULL;
-  int i = UNKNOWN - NO_CMD + 1;
+  int i = UNKNOWN + NO_CMD + 1;
   CommandCode cmd;
 
+  /* parameter validation */
   if (!command) {
     return ERROR;
   }
 
+  /* input interpretation */
   if (fgets(input, CMD_LENGHT, stdin)) {
+    /* break input according to empty-space or new-line characters*/
     token = strtok(input, " \n");
     if (!token) {
       return command_set_code(command, UNKNOWN);
@@ -89,6 +109,7 @@ Status command_get_user_input(Command* command) {
 
     cmd = UNKNOWN;
     while (cmd == UNKNOWN && i < N_CMD) {
+      /* Match input according to its code (b/n/e) or meaning (Back/Next/Exit) */
       if (!strcasecmp(token, cmd_to_str[i][CMDS]) || !strcasecmp(token, cmd_to_str[i][CMDL])) {
         cmd = i + NO_CMD;
       } else {
