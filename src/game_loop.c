@@ -16,12 +16,26 @@
 #include "game_actions.h"
 #include "graphic_engine.h"
 
+/** 
+    Private functions
+*/
+
 int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name);
 
 void game_loop_run(Game game, Graphic_engine *gengine);
 
 void game_loop_cleanup(Game game, Graphic_engine *gengine);
 
+/** main declares the game variable and the pointer to the graphic engine, both still to be initialized and intakes command-line arguments
+ * 
+ * The first of these, argv[0] is the  executable file to be run from the command line
+ * The second, argv[1] is the .dat file that includes game data information, to be used later by the game_loop_init
+ * 
+ * once the game loop has been correctly initialized game_loop_run and game_loop_cleanup are called in succession to handle the game logic
+ * and memory de-allocation
+ * 
+ * in case any error occurs, the function will return an error message. 
+*/
 int main(int argc, char *argv[]) {
   Game game;
   Graphic_engine *gengine;
@@ -39,6 +53,12 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
+/** game_loop_init attemps to create a new game instance allocating the necessary memory for a given game and graphic 
+ * engine, through functions defined in game.c and graphic_engine.c.
+ * 
+ * The function returns 0 if everything went well, or 1 and an error message if any error ocurred, while also
+ * freeing any allocated memory.
+*/
 int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name) {
   if (game_create_from_file(game, file_name) == ERROR) {
     fprintf(stderr, "Error while initializing game.\n");
@@ -54,6 +74,10 @@ int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name) {
   return 0;
 }
 
+/** game_loop_run is responsible for the core game mechanics: It checks if the conditions for ending the game are met
+ * and if they aren't prints the game, gets the next user input and updates the game variable. 
+ * 
+*/
 void game_loop_run(Game game, Graphic_engine *gengine) {
   Command *last_cmd;
 
@@ -71,6 +95,9 @@ void game_loop_run(Game game, Graphic_engine *gengine) {
 
 }
 
+/** game_loop_cleanup frees any previously allocated memory for a given game variable and its grapgic engine 
+ * 
+*/
 void game_loop_cleanup(Game game, Graphic_engine *gengine) {
   game_destroy(&game);
   graphic_engine_destroy(gengine);
