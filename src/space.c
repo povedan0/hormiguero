@@ -55,6 +55,9 @@ Space* space_create(Id id) {
   return newSpace;
 }
 
+/** space_destroy frees any previously allocated memory for a space and detangles 
+ * its pointer 
+*/
 Status space_destroy(Space* space) {
   if (!space) {
     return ERROR;
@@ -65,6 +68,9 @@ Status space_destroy(Space* space) {
   return OK;
 }
 
+/** space_get_id fetches the id of a given space struct 
+ * 
+*/
 Id space_get_id(Space* space) {
   if (!space) {
     return NO_ID;
@@ -72,6 +78,9 @@ Id space_get_id(Space* space) {
   return space->id;
 }
 
+/** space_set_name assigns a given name to the space->name field of the space struct 
+ * 
+*/
 Status space_set_name(Space* space, char* name) {
   if (!space || !name) {
     return ERROR;
@@ -83,6 +92,9 @@ Status space_set_name(Space* space, char* name) {
   return OK;
 }
 
+/** space_get name fetches the name of a space 
+ * 
+*/
 const char* space_get_name(Space* space) {
   if (!space) {
     return NULL;
@@ -90,6 +102,9 @@ const char* space_get_name(Space* space) {
   return space->name;
 }
 
+/** space_set_north sets the id of the space located at the north
+ * 
+*/
 Status space_set_north(Space* space, Id id) {
   if (!space || id == NO_ID) {
     return ERROR;
@@ -98,6 +113,9 @@ Status space_set_north(Space* space, Id id) {
   return OK;
 }
 
+/** space_get_north fetches the id of the space located at the north
+ * 
+*/
 Id space_get_north(Space* space) {
   if (!space) {
     return NO_ID;
@@ -105,6 +123,9 @@ Id space_get_north(Space* space) {
   return space->north;
 }
 
+/** space_set_south sets the id of the space located at the south
+ * 
+*/
 Status space_set_south(Space* space, Id id) {
   if (!space || id == NO_ID) {
     return ERROR;
@@ -113,6 +134,9 @@ Status space_set_south(Space* space, Id id) {
   return OK;
 }
 
+/** space_get_south fetches the id of the space located at the south
+ * 
+*/
 Id space_get_south(Space* space) {
   if (!space) {
     return NO_ID;
@@ -120,6 +144,9 @@ Id space_get_south(Space* space) {
   return space->south;
 }
 
+/** space_set_east sets the id of the space located at the east
+ * 
+*/
 Status space_set_east(Space* space, Id id) {
   if (!space || id == NO_ID) {
     return ERROR;
@@ -128,6 +155,9 @@ Status space_set_east(Space* space, Id id) {
   return OK;
 }
 
+/** space_get_east fetches the id of the space located at the east
+ * 
+*/
 Id space_get_east(Space* space) {
   if (!space) {
     return NO_ID;
@@ -135,6 +165,9 @@ Id space_get_east(Space* space) {
   return space->east;
 }
 
+/** space_set_west sets the id of the space located at the west
+ * 
+*/
 Status space_set_west(Space* space, Id id) {
   if (!space || id == NO_ID) {
     return ERROR;
@@ -143,6 +176,9 @@ Status space_set_west(Space* space, Id id) {
   return OK;
 }
 
+/** space_get_west fetches the id of the space located at the west
+ * 
+*/
 Id space_get_west(Space* space) {
   if (!space) {
     return NO_ID;
@@ -150,6 +186,9 @@ Id space_get_west(Space* space) {
   return space->west;
 }
 
+/** space_set_object sets wether a certain space has an object or not 
+ * 
+*/
 Status space_set_object(Space* space, Bool value) {
   if (!space) {
     return ERROR;
@@ -158,6 +197,9 @@ Status space_set_object(Space* space, Bool value) {
   return OK;
 }
 
+/** space_get_object fetches a boolean containing wether a certain space has an object or not 
+ * 
+*/
 Bool space_get_object(Space* space) {
   if (!space) {
     return FALSE;
@@ -165,6 +207,9 @@ Bool space_get_object(Space* space) {
   return space->object;
 }
 
+/** space_print prints a given space's information, space id and name, links, and object information
+ *
+*/
 Status space_print(Space* space) {
   Id idaux = NO_ID;
 
