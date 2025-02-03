@@ -95,7 +95,7 @@ void game_loop_run(Game game, Graphic_engine *gengine) {
 
 }
 
-/** game_loop_cleanup frees any previously allocated memory for a given game variable and its grapgic engine 
+/** game_loop_cleanup frees any previously allocated memory for a given game variable and its graphic engine 
  * 
 */
 void game_loop_cleanup(Game game, Graphic_engine *gengine) {
