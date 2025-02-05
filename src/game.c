@@ -1,6 +1,6 @@
 /**
  * @brief It implements the game structure
- *
+x*
  * @file game.c
  * @author Profesores PPROG
  * @version 0
