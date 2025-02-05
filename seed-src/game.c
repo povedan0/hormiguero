@@ -112,7 +112,7 @@ Status game_set_object_location(Game *game, Id id) {
   game->object_location = id;
   space_set_object(game_get_space(game, id), TRUE);
 
-  /*add this return to delete warning*/
+  /*add this return to delete initial warning*/
   return OK;
 
 }
