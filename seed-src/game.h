@@ -26,6 +26,8 @@ typedef struct _Game {
   Bool finished;
 } Game;
 
+Status game_add_space(Game *game, Space *space);
+
 Status game_create(Game *game);
 
 Status game_create_from_file(Game *game, char *filename);
