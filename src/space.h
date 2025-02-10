@@ -146,7 +146,7 @@ Id space_get_west(Space* space);
  * @param value a boolean, specifying if in the space there is an object (TRUE) or not (FALSE)
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Status space_set_object(Space* space, Bool value);
+Status space_set_object_id(Space* space, Id object_id);
 
 /**
  * @brief It gets whether the space has an object or not
@@ -155,7 +155,7 @@ Status space_set_object(Space* space, Bool value);
  * @param space a pointer to the space
  * @return a boolean, specifying if in the space there is an object (TRUE) or not (FALSE)
  */
-Bool space_get_object(Space* space);
+Id space_get_object_id(Space* space);
 
 /**
  * @brief It prints the space information

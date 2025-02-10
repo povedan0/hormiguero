@@ -109,19 +109,48 @@ Status game_set_player_location(Game *game, Id id) {
   return OK;
 }
 
-Id game_get_object_location(Game *game) { return game->object_location; }
+Id game_get_object_location(Game *game) { 
+  long i;
+  Id idaux;
+
+  /* Error checking */
+  if (!game || (idaux = object_get_object_id(game->object)) == NO_ID) {
+    return NO_ID;
+  }
+
+  long i;
+
+  for (long i = 0 ; i<game->n_spaces ; i++) {                                        /* cycle through spaces looking for space[i].object_id */
+    if (idaux == space_get_object_id(game->spaces+i)) {
+      break;                                                                         /* object id found */
+    }
+  }
+
+  if (i == game->n_spaces) return NO_ID;                                             /* object id not found */
+
+  /* Correct exit */
+  return space_get_id(game->spaces+i);                                   
+}
 
 Status game_set_object_location(Game *game, Id id) {
-  /*int i = 0;*/ /*delete warning: variable unused*/
+  long i = 0;
 
-  if (id == NO_ID) {
+  /* Error checking */
+  if (id == NO_ID || !game) {
     return ERROR;
   }
 
-  game->object_location = id;
-  space_set_object(game_get_space(game, id), TRUE);
+  for (i = 0 ; i < game->n_spaces ; i++) {                                            /* cycle through every space in game struct */
+    if (id == space_get_id(game->spaces+i)) {                                         /* check their correct id number */
+      if (space_set_object_id(game->spaces+i, object_get_object_id(game->object))) {  /* attempt to assign space->object_id */
+        break;                                                                        /* correct assignment */
+      } else return ERROR;                                                            /* error statement */
+    }
+  }
 
-  /*add this return to delete initial warning*/
+  if ( i == game->n_spaces ) return ERROR;                                            /* space was not found */
+
+  /* Correct exit */
   return OK;
 
 }

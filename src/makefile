@@ -1,7 +1,7 @@
 EXE=anthill
 CFLAGS=-Wall -ansi -pedantic -g
 CC=gcc
-CLIB = -L. -lscreen
+CLIB = -L../lib -lscreen
 
 
 all: $(EXE)
