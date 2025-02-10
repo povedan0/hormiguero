@@ -119,17 +119,17 @@ Status player_print(Player *player) {
         return ERROR;
     }
 
-    fprintf(stdout, "--> Player: (id: %ld | name: %s)\n", player->player_id, player->name);
+    fprintf(stdout, "--> Player: (id: %d | name: %s)\n", player->player_id, player->name);
 
     idaux = player_get_location(player);
     if (idaux != NO_ID) {
-        fprintf(stdout, "--> Player location Id: %ld \n", idaux);
+        fprintf(stdout, "--> Player location Id: %d \n", idaux);
     } else {
         fprintf(stdout, "--> No location Id found. \n");
     }
     idaux = player_get_object_id(player);
     if (idaux != NO_ID) {
-        fprintf(stdout, "--> Object Id: %ld \n", idaux);
+        fprintf(stdout, "--> Object Id: %d \n", idaux);
     } else {
         fprintf(stdout, "--> No object Id found. \n");
     }
