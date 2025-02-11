@@ -74,7 +74,7 @@ const char *player_get_name(Player *player);
  * @param location_id the new player location_id
  * @return OK if everything went well or ERROR if an error occurred
 */
-Status player_set_location_id(Player *player, Id location_id);
+Status player_set_location(Player *player, Id location_id);
 
 /** 
  * @brief gets the id number of a given player's location
@@ -83,7 +83,7 @@ Status player_set_location_id(Player *player, Id location_id);
  * @param player A pointer to the player variable whose location id will be fetched
  * @return The player_location_id in question, or NO_ID if an error occurred
 */
-Id player_get_location_id(Player *player);
+Id player_get_location(Player *player);
 
 /** 
  * @brief initializes player->object_id to match a certain object_id

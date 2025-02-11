@@ -82,16 +82,21 @@ Object* object_create(Id id) {
  
  
  Status object_print(Object* object) {
-   Id idaux = NO_ID;
+   Id idaux;
  
    /* Error Control */
    if (!object) {
      return ERROR;
    }
  
+  idaux = object->id;
+
+  if (idaux == NO_ID) {
+    return ERROR;
+  }
    /*
    Print the id and the name of the object */
-   fprintf(stdout, "--> Object (Id: %ld; Name: %s)\n", object->id, object->name);
+   fprintf(stdout, "--> Object (Id: %ld; Name: %s)\n", idaux, object->name);
  
  
    return OK;
