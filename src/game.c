@@ -10,6 +10,8 @@
 
 #include "game.h"
 #include "game_reader.h"
+#include "object.h"
+#include "player.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,8 +47,8 @@ Status game_create(Game *game) {
   }
 
   game->n_spaces = 0;
-  game->player_location = NO_ID;
-  game->object_location = NO_ID;
+  game->player = NULL;
+  game->object = NULL;
   game->last_cmd = command_create();
   game->finished = FALSE;
 
@@ -63,8 +65,8 @@ Status game_create_from_file(Game *game, char *filename) {
   }
 
   /* The player and the object are located in the first space */
-  game_set_player_location(game, game_get_space_id_at(game, 0));
-  game_set_object_location(game, game_get_space_id_at(game, 0));
+  game->player=player_create(game_get_space_id_at(game, 0));
+  game->object=object_create(game_get_space_id_at(game, 0));
 
   return OK;
 }
@@ -97,61 +99,56 @@ Space *game_get_space(Game *game, Id id) {
   return NULL;
 }
 
-Id game_get_player_location(Game *game) { return game->player_location; }
+Space *game_get_player_location(Game *game) { 
+  if(game->player==NULL){
+    return NULL;
+  }
+  
+  return game_get_space(game, player_get_location(game->player)); 
+}
 
 Status game_set_player_location(Game *game, Id id) {
-  if (id == NO_ID) {
+  if (id == NO_ID || game->player==NULL) {
     return ERROR;
   }
 
-  game->player_location = id;
+  player_set_location (game->player, id);
 
   return OK;
 }
 
 Id game_get_object_location(Game *game) { 
-  long i;
-  Id idaux;
+ int i;
 
-  /* Error checking */
-  if (!game || (idaux = object_get_object_id(game->object)) == NO_ID) {
-    return NO_ID;
+ if(game == NULL || game->object==NULL){
+  return NO_ID; /*object not found*/
+ }
+
+ for (i = 0; i < game->n_spaces; i++) {
+  if (space_get_object(game->spaces[i]) == object_get_id(game->object)) {
+    return game->object;
   }
-
-  long i;
-
-  for (long i = 0 ; i<game->n_spaces ; i++) {                                        /* cycle through spaces looking for space[i].object_id */
-    if (idaux == space_get_object_id(game->spaces+i)) {
-      break;                                                                         /* object id found */
-    }
-  }
-
-  if (i == game->n_spaces) return NO_ID;                                             /* object id not found */
-
-  /* Correct exit */
-  return space_get_id(game->spaces+i);                                   
+}
+  return NO_ID; 
 }
 
 Status game_set_object_location(Game *game, Id id) {
-  long i = 0;
+  /*int i = 0;*/ /*delete warning: variable unused*/
 
-  /* Error checking */
-  if (id == NO_ID || !game) {
+  if (id == NO_ID || game == NULL || game->object==NULL) {
     return ERROR;
   }
 
-  for (i = 0 ; i < game->n_spaces ; i++) {                                            /* cycle through every space in game struct */
-    if (id == space_get_id(game->spaces+i)) {                                         /* check their correct id number */
-      if (space_set_object_id(game->spaces+i, object_get_object_id(game->object))) {  /* attempt to assign space->object_id */
-        break;                                                                        /* correct assignment */
-      } else return ERROR;                                                            /* error statement */
+  for (int i = 0; i < game->n_spaces; i++) {
+    if (space_get_id(game->spaces[i])  == id) {
+      // Set the idObject field of the space to the object's id
+      space_set_object (game->spaces[i],  object_get_id(game->object));
+      return OK;
     }
   }
 
-  if ( i == game->n_spaces ) return ERROR;                                            /* space was not found */
-
-  /* Correct exit */
-  return OK;
+  /*add this return to delete initial warning*/
+  return ERROR; /*the space with the given Id not found*/
 
 }
 
@@ -181,8 +178,17 @@ void game_print(Game *game) {
     space_print(game->spaces[i]);
   }
 
-  printf("=> Object location: %d\n", (int)game->object_location);
-  printf("=> Player location: %d\n", (int)game->player_location);
+  if(game->player!=NULL){
+    printf("=> Player location: %ld\n", player_get_location(game->player));
+  }else{
+    printf("Player location not set");
+  }
+
+  if(game->object!=NULL){
+    printf("=> Object location: %ld\n", object_get_location(game->object));
+  }else{
+    printf("Object location not set");
+  }
 }
 
 /**

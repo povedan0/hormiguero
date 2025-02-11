@@ -10,6 +10,7 @@
 
 #include "space.h"
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -26,7 +27,7 @@ struct _Space {
   Id south;                 /*!< Id of the space at the south */
   Id east;                  /*!< Id of the space at the east */
   Id west;                  /*!< Id of the space at the west */
-  Id object_id;              /*!< Whether the space has an object or not */
+  Id idObject;              /*!< Id of the object in this space */
 };
 
 /** space_create allocates memory for a new space
@@ -50,14 +51,11 @@ Space* space_create(Id id) {
   newSpace->south = NO_ID;
   newSpace->east = NO_ID;
   newSpace->west = NO_ID;
-  newSpace->object_id = NO_ID;
+  newSpace->idObject = NO_ID;
 
   return newSpace;
 }
 
-/** space_destroy frees any previously allocated memory for a space and detangles 
- * its pointer 
-*/
 Status space_destroy(Space* space) {
   if (!space) {
     return ERROR;
@@ -68,9 +66,6 @@ Status space_destroy(Space* space) {
   return OK;
 }
 
-/** space_get_id fetches the id of a given space struct 
- * 
-*/
 Id space_get_id(Space* space) {
   if (!space) {
     return NO_ID;
@@ -78,9 +73,6 @@ Id space_get_id(Space* space) {
   return space->id;
 }
 
-/** space_set_name assigns a given name to the space->name field of the space struct 
- * 
-*/
 Status space_set_name(Space* space, char* name) {
   if (!space || !name) {
     return ERROR;
@@ -92,9 +84,6 @@ Status space_set_name(Space* space, char* name) {
   return OK;
 }
 
-/** space_get name fetches the name of a space 
- * 
-*/
 const char* space_get_name(Space* space) {
   if (!space) {
     return NULL;
@@ -102,9 +91,6 @@ const char* space_get_name(Space* space) {
   return space->name;
 }
 
-/** space_set_north sets the id of the space located at the north
- * 
-*/
 Status space_set_north(Space* space, Id id) {
   if (!space || id == NO_ID) {
     return ERROR;
@@ -113,9 +99,6 @@ Status space_set_north(Space* space, Id id) {
   return OK;
 }
 
-/** space_get_north fetches the id of the space located at the north
- * 
-*/
 Id space_get_north(Space* space) {
   if (!space) {
     return NO_ID;
@@ -123,9 +106,6 @@ Id space_get_north(Space* space) {
   return space->north;
 }
 
-/** space_set_south sets the id of the space located at the south
- * 
-*/
 Status space_set_south(Space* space, Id id) {
   if (!space || id == NO_ID) {
     return ERROR;
@@ -134,9 +114,6 @@ Status space_set_south(Space* space, Id id) {
   return OK;
 }
 
-/** space_get_south fetches the id of the space located at the south
- * 
-*/
 Id space_get_south(Space* space) {
   if (!space) {
     return NO_ID;
@@ -144,9 +121,6 @@ Id space_get_south(Space* space) {
   return space->south;
 }
 
-/** space_set_east sets the id of the space located at the east
- * 
-*/
 Status space_set_east(Space* space, Id id) {
   if (!space || id == NO_ID) {
     return ERROR;
@@ -155,9 +129,6 @@ Status space_set_east(Space* space, Id id) {
   return OK;
 }
 
-/** space_get_east fetches the id of the space located at the east
- * 
-*/
 Id space_get_east(Space* space) {
   if (!space) {
     return NO_ID;
@@ -165,9 +136,6 @@ Id space_get_east(Space* space) {
   return space->east;
 }
 
-/** space_set_west sets the id of the space located at the west
- * 
-*/
 Status space_set_west(Space* space, Id id) {
   if (!space || id == NO_ID) {
     return ERROR;
@@ -176,9 +144,6 @@ Status space_set_west(Space* space, Id id) {
   return OK;
 }
 
-/** space_get_west fetches the id of the space located at the west
- * 
-*/
 Id space_get_west(Space* space) {
   if (!space) {
     return NO_ID;
@@ -186,29 +151,21 @@ Id space_get_west(Space* space) {
   return space->west;
 }
 
-/** space_set_object sets wether a certain space has an object or not 
- * 
-*/
-Status space_set_object_id(Space* space, Id object_id) {
-  if (!space || object_id == NO_ID) {
+Status space_set_object(Space* space, Id idObject) {
+  if (!space) {
     return ERROR;
   }
-  space->object_id = object_id;
+  space->idObject = idObject;
   return OK;
 }
 
-/** space_get_object fetches a boolean containing wether a certain space has an object or not 
- * 
-*/
-Id space_get_object_id(Space* space) {
-  if (!space) return NO_ID;
-
-  return space->object_id;
+Id space_get_object(Space* space) {
+  if (!space) {
+    return NO_ID;
+  }
+  return space->idObject;
 }
 
-/** space_print prints a given space's information, space id and name, links, and object information
- *
-*/
 Status space_print(Space* space) {
   Id idaux = NO_ID;
 
@@ -247,8 +204,9 @@ Status space_print(Space* space) {
   }
 
   /* 3. Print if there is an object in the space or not */
-  if (space_get_object_id(space)) {
-    fprintf(stdout, "---> Object in the space. Object id: %d\n", space->object_id);
+  idaux=space_get_object(space);
+  if (idaux !=NO_ID) {
+    fprintf(stdout, "---> Object in the space: %ld\n", idaux);
   } else {
     fprintf(stdout, "---> No object in the space.\n");
   }
