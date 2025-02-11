@@ -248,7 +248,7 @@ Status space_print(Space* space) {
 
   /* 3. Print if there is an object in the space or not */
   if (space_get_object_id(space)) {
-    fprintf(stdout, "---> Object in the space. Object id: %d\n", space->object_id);
+    fprintf(stdout, "---> Object in the space. Object id: %ld\n", space->object_id);
   } else {
     fprintf(stdout, "---> No object in the space.\n");
   }

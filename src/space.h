@@ -146,7 +146,7 @@ Id space_get_west(Space* space);
  * @param idObject id of the object in the space
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Status space_set_object(Space* space, Id idObject);
+Status space_set_object_id(Space* space, Id idObject);
 
 /**
  * @brief It gets the id of the object in the space
@@ -155,7 +155,7 @@ Status space_set_object(Space* space, Id idObject);
  * @param space a pointer to the space
  * @return id number of the object in the space
  */
-Id space_get_object(Space* space);
+Id space_get_object_id(Space* space);
 
 /**
  * @brief It prints the space information

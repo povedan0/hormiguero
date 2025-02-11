@@ -38,7 +38,7 @@ Status game_destroy(Game *game);
 
 Space *game_get_space(Game *game, Id id);
 
-Space *game_get_player_location(Game *game);
+Id game_get_player_location(Game *game);
 
 Status game_set_player_location(Game *game, Id id);
 
