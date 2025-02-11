@@ -2,7 +2,7 @@
  * @brief It implements the module 'object'
  *
  * @file object.c
- * @author 
+ * @author PPROG Group 2 (AGL)
  * @version 0
  * @date 09-02-2025
  * @copyright GNU Public License

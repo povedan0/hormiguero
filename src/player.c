@@ -1,3 +1,13 @@
+/** 
+ * @brief Implements functions relative to the Player data structure and its fields. 
+ * 
+ * @file player.c
+ * @author PPROG Group 2 (GPA)
+ * @version 0
+ * @date 08-02-2025
+ * @copyright GNU Public License
+*/
+
 #include "player.h"
 
 #include <stdio.h>
