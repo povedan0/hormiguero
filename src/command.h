@@ -14,7 +14,7 @@
 #include "types.h"
 
 #define N_CMDT 2
-#define N_CMD 5
+#define N_CMD 7
 
 /** CommandType enum definition used in command_get_user_input 
  * in the command.c file
@@ -24,7 +24,7 @@ typedef enum { CMDS, CMDL } CommandType;
 /** Command code enum definition
  * 
 */
-typedef enum { NO_CMD = -1, UNKNOWN, EXIT, NEXT, BACK } CommandCode;
+typedef enum { NO_CMD = -1, UNKNOWN, EXIT, NEXT, BACK, TAKE, DROP } CommandCode;
 
 /** alias for the _Command struct defined in command.c
  * 

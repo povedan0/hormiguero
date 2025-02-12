@@ -100,6 +100,18 @@ Space *game_get_space(Game *game, Id id) {
   return NULL;
 }
 
+Player *game_get_player(Game *game) {
+  if (!game) return NULL;
+
+  return game->player;
+}
+
+Object *game_get_object(Game *game) {
+  if (!game) return NULL;
+
+  return game->object;
+}
+
 Id game_get_player_location(Game *game) { 
   if (!game || !(game->player)) return NO_ID;
 
@@ -141,13 +153,13 @@ Status game_set_object_location(Game *game, Id id) {
   long i;
 
   /* Error checking */
-  if (id == NO_ID || !game) {
+  if (!game) {   /* removed id == NO_ID clause, conflict in command actions take */
     return ERROR;
   }
 
   for (i = 0 ; i < game->n_spaces ; i++) {                                            /* cycle through every space in game struct */
-    if (id == space_get_id(game->spaces[i])) {                                         /* check their correct id number */
-      if (space_set_object_id(game->spaces[i], object_get_id(game->object))) {  /* attempt to assign space->object_id */
+    if (id == space_get_id(game->spaces[i])) {                                        /* check their correct id number */
+      if (space_set_object_id(game->spaces[i], object_get_id(game->object))) {        /* attempt to assign space->object_id */
         break;                                                                        /* correct assignment */
       } else return ERROR;                                                            /* error statement */
     }

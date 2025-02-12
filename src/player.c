@@ -108,7 +108,7 @@ Id player_get_location(Player *player) {
 
 /** player_set_object_id initializes player->object_id to match a certain object_id*/
 Status player_set_object_id(Player *player, Id object_id) {
-    if (!player || object_id == NO_ID) return ERROR;
+    if (!player) return ERROR; /* removed object_id != NO_ID clause, conflict with game actions drop */
 
     player->object_id = object_id;
 

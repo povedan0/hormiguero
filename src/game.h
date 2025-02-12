@@ -40,6 +40,10 @@ Space *game_get_space(Game *game, Id id);
 
 Id game_get_player_location(Game *game);
 
+Player *game_get_player(Game *game);
+
+Object *game_get_object(Game *game);
+
 Status game_set_player_location(Game *game, Id id);
 
 Id game_get_object_location(Game *game);

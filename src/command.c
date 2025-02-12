@@ -17,7 +17,7 @@
 
 #define CMD_LENGHT 30
 
-char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"n", "Next"}, {"b", "Back"}};
+char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"n", "Next"}, {"b", "Back"}, {"t", "Take"}, {"d", "Drop"}};
 
 /**
  * @brief Command
@@ -28,7 +28,7 @@ struct _Command {
   CommandCode code; /*!< Name of the command */
 };
 
-/** command_create allocates memory for a new space
+/** command_create allocates memory for a new command
  *  and initializes its members
  * 
  */
