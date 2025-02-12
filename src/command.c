@@ -17,7 +17,7 @@
 
 #define CMD_LENGHT 30
 
-char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"n", "Next"}, {"b", "Back"}};
+char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"n", "Next"}, {"b", "Back"}, {"t", "Take"}, {"d", "Drop"}};
 
 /**
  * @brief Command
@@ -91,7 +91,7 @@ CommandCode command_get_code(Command* command) {
 */
 Status command_get_user_input(Command* command) {
   char input[CMD_LENGHT] = "", *token = NULL;
-  int i = UNKNOWN + NO_CMD + 1;
+  int i = UNKNOWN - NO_CMD + 1;
   CommandCode cmd;
 
   /* parameter validation */
@@ -109,7 +109,7 @@ Status command_get_user_input(Command* command) {
 
     cmd = UNKNOWN;
     while (cmd == UNKNOWN && i < N_CMD) {
-      /* Match input according to its code (b/n/e) or meaning (Back/Next/Exit) */
+      /* Match input according to its code (b/n/e/t/d) or meaning (Back/Next/Exit/Take/Drop) */
       if (!strcasecmp(token, cmd_to_str[i][CMDS]) || !strcasecmp(token, cmd_to_str[i][CMDL])) {
         cmd = i + NO_CMD;
       } else {

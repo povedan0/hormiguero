@@ -54,6 +54,14 @@ Status game_actions_update(Game *game, Command *command) {
       game_actions_back(game);
       break;
 
+    case TAKE:
+      game_actions_back(game);
+      break;
+
+    case DROP:
+     game_actions_back(game);
+      break;  
+
     default:
       break;
   }
@@ -68,6 +76,33 @@ Status game_actions_update(Game *game, Command *command) {
 void game_actions_unknown(Game *game) {}
 
 void game_actions_exit(Game *game) {}
+
+void game_actions_take(Game *game) {
+  Id space_id = NO_ID;
+  Id object_id = NO_ID;
+  Space *space = NULL;
+
+/*get the id of the space where the player is located*/
+  space_id = game_get_player_location(game);
+
+  if (NO_ID == space_id) {
+    return;
+  }
+
+/*create variable *space from the id of the space where the player is located*/
+  space = space_create(space_id);
+  if(space== NULL){
+    return;
+  }
+
+/*check if there is an object in that space*/
+  object_id = space_get_object_id(space);
+  if(object_id != NO_ID){
+    space_set_object_id(space, NO_ID); /*set NO_ID in the object of the space*/
+    player_set_object_id(game->player, object_id); /*set the object_id in the player*/
+  }  
+  return;
+}
 
 void game_actions_next(Game *game) {
   Id current_id = NO_ID;
