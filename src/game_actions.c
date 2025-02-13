@@ -9,6 +9,8 @@
  */
 
 #include "game_actions.h"
+#include "space.h"
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,6 +27,10 @@ void game_actions_exit(Game *game);
 void game_actions_next(Game *game);
 
 void game_actions_back(Game *game);
+
+void game_actions_take(Game *game);
+
+void game_actions_drop(Game *game);
 
 /**
    Game actions implementation
@@ -55,11 +61,11 @@ Status game_actions_update(Game *game, Command *command) {
       break;
 
     case TAKE:
-      game_actions_back(game);
+      game_actions_take(game);
       break;
 
     case DROP:
-     game_actions_back(game);
+     game_actions_drop(game);
       break;  
 
     default:
@@ -85,7 +91,7 @@ void game_actions_take(Game *game) {
 /*get the id of the space where the player is located*/
   space_id = game_get_player_location(game);
 
-  if (NO_ID == space_id) {
+  if (space_id == NO_ID) {
     return;
   }
 
@@ -101,6 +107,33 @@ void game_actions_take(Game *game) {
     space_set_object_id(space, NO_ID); /*set NO_ID in the object of the space*/
     player_set_object_id(game->player, object_id); /*set the object_id in the player*/
   }  
+  return;
+}
+
+void game_actions_drop(Game *game) {
+  Id object_id = NO_ID;
+  Space *space=NULL;
+
+
+/*get the Id of the object carried out by the player*/
+/*if the player is not carrying an object, the function exits*/
+object_id = player_get_object_id(game->player);
+  if(object_id == NO_ID){
+    return;
+  }
+
+/*space where the player is located*/
+  space = game_get_space(game, player_get_location(game->player));
+  if(space==NULL){
+    return;
+  }
+/*if the space where the player is located is empty, the object is dropped there*/
+  if(space_get_object_id(space)==NO_ID){
+    space_set_object_id (space, object_id);
+    player_set_object_id(game->player, NO_ID);
+  }
+
+/*successful exit*/
   return;
 }
 
