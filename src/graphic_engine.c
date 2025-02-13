@@ -30,6 +30,8 @@ struct _Graphic_engine {
   Area *map, *descript, *banner, *help, *feedback;
 };
 
+/*initializes the graphic engine; Initializes the screen (height and width)*/
+/*Allocates memory for the graphic engine */
 Graphic_engine *graphic_engine_create(void) {
   static Graphic_engine *ge = NULL;
 
@@ -52,6 +54,7 @@ Graphic_engine *graphic_engine_create(void) {
   return ge;
 }
 
+/*frees the memory allocated for the graphic engine and its areas*/
 void graphic_engine_destroy(Graphic_engine *ge) {
   if (!ge) return;
 
@@ -65,6 +68,8 @@ void graphic_engine_destroy(Graphic_engine *ge) {
   free(ge);
 }
 
+/* update the graphical representation of the game*/
+/*get the location of the player and objects, and updates the screen*/
 void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   Id id_act = NO_ID, id_back = NO_ID, id_next = NO_ID, obj_loc = NO_ID;
   Space *space_act = NULL;
