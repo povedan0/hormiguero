@@ -39,6 +39,7 @@ void game_actions_drop(Game *game);
    Game actions implementation
 */
 
+/*Identify and update the command provided by the user and execute the corresponding function*/
 Status game_actions_update(Game *game, Command *command) {
   CommandCode cmd;
 
