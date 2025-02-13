@@ -1,7 +1,7 @@
 /**
  * @brief It implements the game update through user actions
  *
- * @file game.c
+ * @file game_actions.c
  * @author Profesores PPROG
  * @version 0
  * @date 27-01-2025
@@ -9,7 +9,10 @@
  */
 
 #include "game_actions.h"
-#include "space.h"
+#include "object.h"
+#include "game.h"
+
+
 
 
 #include <stdio.h>
@@ -84,49 +87,51 @@ void game_actions_unknown(Game *game) {}
 void game_actions_exit(Game *game) {}
 
 void game_actions_take(Game *game) {
-  Id space_id = NO_ID;
   Id object_id = NO_ID;
-  Space *space = NULL;
+  Player *player = NULL;
 
-/*get the id of the space where the player is located*/
-  space_id = game_get_player_location(game);
+/*get the object id of the game*/
+object_id = object_get_id(game_get_object(game));
 
-  if (space_id == NO_ID) {
-    return;
-  }
+/*get the player from EdD game*/
+player = game_get_player(game);
+if(player == NULL){
+  return;
+}
 
-/*create variable *space from the id of the space where the player is located*/
-  space = space_create(space_id);
-  if(space== NULL){
-    return;
-  }
+/*check if object and player are in the same sapace*/
+if(game_get_object_location(game)==game_get_player_location(game)){
+  space_set_object_id(game_get_space(game, game_get_object_location(game)), NO_ID); /*set NO_ID in the object of the space*/
+  player_set_object_id(player, object_id); /*set the object_id in the player*/
+}
 
-/*check if there is an object in that space*/
-  object_id = space_get_object_id(space);
-  if(object_id != NO_ID){
-    space_set_object_id(space, NO_ID); /*set NO_ID in the object of the space*/
-    player_set_object_id(game->player, object_id); /*set the object_id in the player*/
-  }  
   return;
 }
 
 void game_actions_drop(Game *game) {
   Id object_id = NO_ID;
-  Space *space=NULL;
+  Space *space = NULL;
+  Player *player = NULL;
 
+/*get the player from EdD game*/
+player = game_get_player(game);
+if(player == NULL){
+  return;
+}
+
+/*get the space from EdD game and the player location*/
+space = game_get_space(game, game_get_player_location(game));
+if(player == NULL){
+  return;
+}
 
 /*get the Id of the object carried out by the player*/
 /*if the player is not carrying an object, the function exits*/
-object_id = player_get_object_id(game->player);
+object_id = player_get_object_id(player);
   if(object_id == NO_ID){
     return;
   }
 
-/*space where the player is located*/
-  space = game_get_space(game, player_get_location(game->player));
-  if(space==NULL){
-    return;
-  }
 /*if the space where the player is located is empty, the object is dropped there*/
   if(space_get_object_id(space)==NO_ID){
     space_set_object_id (space, object_id);

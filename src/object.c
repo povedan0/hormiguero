@@ -2,7 +2,7 @@
  * @brief It implements the module 'object'
  *
  * @file object.c
- * @author 
+ * @author PPROG Group 2 (AGL)
  * @version 0
  * @date 09-02-2025
  * @copyright GNU Public License
@@ -82,16 +82,21 @@ Object* object_create(Id id) {
  
  
  Status object_print(Object* object) {
-   Id idaux = NO_ID;
+   Id idaux;
  
    /* Error Control */
    if (!object) {
      return ERROR;
    }
  
+  idaux = object->id;
+
+  if (idaux == NO_ID) {
+    return ERROR;
+  }
    /*
    Print the id and the name of the object */
-   fprintf(stdout, "--> Object (Id: %ld; Name: %s)\n", object->id, object->name);
+   fprintf(stdout, "--> Object (Id: %ld; Name: %s)\n", idaux, object->name);
  
  
    return OK;

@@ -1,3 +1,13 @@
+/** 
+ * @brief Implements functions relative to the Player data structure and its fields. 
+ * 
+ * @file player.c
+ * @author PPROG Group 2 (GPA)
+ * @version 0
+ * @date 08-02-2025
+ * @copyright GNU Public License
+*/
+
 #include "player.h"
 
 #include <stdio.h>
@@ -77,7 +87,7 @@ const char *player_get_name(Player *player) {
 }
 
 /** player_set_location_id initializes player->location_id to match a certain location_id */
-Status player_set_location_id(Player *player, Id location_id) {
+Status player_set_location(Player *player, Id location_id) {
     /* Error checking */
     if (!player || location_id == NO_ID) {
         return ERROR;
@@ -90,13 +100,13 @@ Status player_set_location_id(Player *player, Id location_id) {
 }
 
 /** player_get_location_id gets the id number of a given player's location*/
-Id player_get_location_id(Player *player) {
+Id player_get_location(Player *player) {
     if (!player) return NO_ID;
 
     return player->location_id;
 }
 
-/** player_set_objectinitializes player->object_id to match a certain object_id*/
+/** player_set_object_id initializes player->object_id to match a certain object_id*/
 Status player_set_object_id(Player *player, Id object_id) {
     if (!player || object_id == NO_ID) return ERROR;
 
@@ -119,17 +129,17 @@ Status player_print(Player *player) {
         return ERROR;
     }
 
-    fprintf(stdout, "--> Player: (id: %d | name: %s)\n", player->player_id, player->name);
+    fprintf(stdout, "--> Player: (id: %ld | name: %s)\n", player->player_id, player->name);
 
     idaux = player_get_location(player);
     if (idaux != NO_ID) {
-        fprintf(stdout, "--> Player location Id: %d \n", idaux);
+        fprintf(stdout, "--> Player location Id: %ld \n", idaux);
     } else {
         fprintf(stdout, "--> No location Id found. \n");
     }
     idaux = player_get_object_id(player);
     if (idaux != NO_ID) {
-        fprintf(stdout, "--> Object Id: %d \n", idaux);
+        fprintf(stdout, "--> Object Id: %ld \n", idaux);
     } else {
         fprintf(stdout, "--> No object Id found. \n");
     }

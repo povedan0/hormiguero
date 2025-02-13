@@ -1,5 +1,5 @@
 /**
- * @brief It defines the space module interface
+ * @brief It defines the object module interface
  *
  * @file object.h
  * @author 
@@ -17,7 +17,7 @@
  
  /**
   * @brief It creates a new object, allocating memory and initializing its fields
-  * @author 
+  * @author PPROG Group 2 (AGL)
   *
   * @param id the identification number for the new object
   * @return a new object, initialized
@@ -26,7 +26,7 @@
  
  /**
   * @brief It destroys an object, freeing the allocated memory
-  * @author 
+  * @author PPROG Group 2 (AGL)
   *
   * @param object a pointer to the object that must be destroyed
   * @return OK, if everything goes well or ERROR if there was some mistake
@@ -36,7 +36,7 @@
 
  /**
   * @brief It gets the id of an object
-  * @author 
+  * @author PPROG Group 2 (AGL)
   *
   * @param object a pointer to the space
   * @return the id of space
@@ -45,7 +45,7 @@
  
  /**
   * @brief It sets the name of an object
-  * @author 
+  * @author PPROG Group 2 (AGL)
   *
   * @param object a pointer to the object
   * @param name a string with the name to store for the object
@@ -55,7 +55,7 @@
  
  /**
   * @brief It gets the name of an object
-  * @author 
+  * @author PPROG Group 2 (AGL)
   *
   * @param object a pointer to the object
   * @return  a string with the name of the object
@@ -65,10 +65,9 @@
  
  
  /**
-  * @brief It prints the object information
-  * @author 
+  * @brief It prints the object information (id and name of the object)
+  * @author PPROG Group 2 (AGL)
   *
-  * This fucntion shows the id and name of the object.
   * @param object a pointer to the object
   * @return OK, if everything goes well or ERROR if there was some mistake
   */

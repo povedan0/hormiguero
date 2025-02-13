@@ -1,11 +1,12 @@
 EXE=anthill
 CFLAGS=-Wall -ansi -pedantic -g
 CC=gcc
-CLIB = -L. -lscreen
+CLIB = -L../lib -lscreen
 
 
 all: $(EXE)
-anthill: command.o space.o game.o game_reader.o  game_actions.o game_loop.o graphic_engine.o 
+
+anthill: command.o space.o game.o game_reader.o  game_actions.o game_loop.o graphic_engine.o player.o object.o
 	$(CC) $(CFLAGS) $^ -o $@ $(CLIB)
 
 command.o: command.c command.h types.h
@@ -28,6 +29,15 @@ game_loop.o: game_loop.c command.h types.h game.h space.h  game_actions.h graphi
 
 graphic_engine.o: graphic_engine.c graphic_engine.h game.h  command.h types.h space.h libscreen.h
 	$(CC) $(CFLAGS) -c $<
+
+player.o: player.c types.h
+	$(CC) $(CFLAGS) -c $<
+
+object.o: object.c types.h
+	$(CC) $(CFLAGS) -c $<
+
+run:
+	./anthill anthill.dat
 
 .PHONY clean:
 	rm -f *.o $(EXE)
