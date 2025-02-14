@@ -9,8 +9,8 @@
  */
 
 
-#include "game.h"
-#include "space.h"
+#include "game_reader.h"
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,10 +32,17 @@ Status game_reader_load_spaces(Game *game, char *filename) {
     return ERROR;
   }
 
+  /**file opening and error checking */
   file = fopen(filename, "r");
   if (file == NULL) {
     return ERROR;
   }
+
+  /**lop This loop reads the file.
+   * If a line starts with #s:, it extract the space ID, name, 
+   * and neighboring space IDs (north, east, south, west). 
+   * It creates a new Space structure, sets its properties, and adds it to the game */
+
 
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#s:", line, 3) == 0) {
@@ -66,6 +73,7 @@ Status game_reader_load_spaces(Game *game, char *filename) {
     }
   }
 
+  /**error checking and close file */
   if (ferror(file)) {
     status = ERROR;
   }
