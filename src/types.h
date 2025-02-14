@@ -12,7 +12,7 @@
 #define TYPES_H
 
 #define WORD_SIZE 1000
-#define NO_ID -1
+#define NO_ID -1 /**constant for an invalid ID */
 
 typedef long Id;
 
@@ -20,6 +20,6 @@ typedef enum { FALSE, TRUE } Bool;
 
 typedef enum { ERROR, OK } Status;
 
-typedef enum { N, S, E, W } Direction;
+typedef enum { N, S, E, W } Direction; /**define direction type with values N (North), S (South), E (East), and W (West) */
 
 #endif
