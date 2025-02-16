@@ -14,6 +14,7 @@
 #include "command.h"
 #include "game.h"
 #include "types.h"
+#include "space.h"
 
 Status game_actions_update(Game *game, Command *cmd);
 
