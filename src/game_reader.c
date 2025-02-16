@@ -8,16 +8,13 @@
  * @copyright GNU Public License
  */
 
-
-#include "game.h"
-#include "space.h"
+#include "game_reader.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 /*Game_reader implementation: load of spaces*/
-
 
 Status game_reader_load_spaces(Game *game, char *filename) {
   FILE *file = NULL;
