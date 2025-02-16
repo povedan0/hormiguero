@@ -17,8 +17,6 @@
 #include "space.h"
 #include "types.h"
 
-
-
 Status game_reader_load_spaces(Game *game, char *filename);
 
 #endif

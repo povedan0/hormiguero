@@ -26,6 +26,10 @@ void game_actions_next(Game *game);
 
 void game_actions_back(Game *game);
 
+void game_actions_take(Game *game);
+
+void game_actions_drop(Game *game);
+
 /**
    Game actions implementation
 */
@@ -52,6 +56,14 @@ Status game_actions_update(Game *game, Command *command) {
 
     case BACK:
       game_actions_back(game);
+      break;
+
+    case TAKE:
+      game_actions_take(game);
+      break;
+
+    case DROP:
+      game_actions_drop(game);
       break;
 
     default:
@@ -102,4 +114,41 @@ void game_actions_back(Game *game) {
   }
 
   return;
+}
+
+void game_actions_take(Game *game) {
+  Id object_id=NO_ID;
+  Player *player=NULL;
+
+  if (!(player = game_get_player(game))) {
+    return;
+  }
+
+  if (((object_id = object_get_id(game_get_object(game))) == NO_ID)){
+    return;
+  }
+
+  
+
+  if (game_get_object_location(game) == game_get_player_location(game)) {
+    player_set_object_id(player, object_id); /* errors already accouted for */
+    space_set_object_id(game_get_space(game, game_get_object_location(game)), NO_ID); /* errors already accounted for */
+  }
+}
+
+void game_actions_drop(Game *game) {
+  Id object_id = NO_ID;
+  Player *player = NULL;
+  Space *space = NULL;
+  
+  if (!game) return;
+
+  if (!(player = game_get_player(game))) return;
+
+  if (!(space = game_get_space(game, player_get_location(player)))) return;
+
+  if ((object_id = player_get_object_id(player)) != NO_ID && (space_get_object_id(space)) == NO_ID) {
+    game_set_object_location(game, space_get_id(space)); /* This function assumes a single object exists */
+    player_set_object_id(player, NO_ID);
+  }
 }

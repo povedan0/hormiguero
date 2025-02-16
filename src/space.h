@@ -143,19 +143,19 @@ Id space_get_west(Space* space);
  * @author Profesores PPROG
  *
  * @param space a pointer to the space
- * @param value a boolean, specifying if in the space there is an object (TRUE) or not (FALSE)
+ * @param idObject id of the object in the space
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Status space_set_object(Space* space, Bool value);
+Status space_set_object_id(Space* space, Id idObject);
 
 /**
- * @brief It gets whether the space has an object or not
+ * @brief It gets the id of the object in the space
  * @author Profesores PPROG
  *
  * @param space a pointer to the space
- * @return a boolean, specifying if in the space there is an object (TRUE) or not (FALSE)
+ * @return id number of the object in the space
  */
-Bool space_get_object(Space* space);
+Id space_get_object_id(Space* space);
 
 /**
  * @brief It prints the space information
