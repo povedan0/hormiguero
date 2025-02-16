@@ -81,6 +81,7 @@ Status game_destroy(Game *game);
 */
 Space *game_get_space(Game *game, Id id);
 
+
 /** 
  * @brief It retrieves the current player location, stored in game struct
  * @author Profesores PPROG

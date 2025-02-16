@@ -30,6 +30,8 @@ struct _Graphic_engine {
   Area *map, *descript, *banner, *help, *feedback;
 };
 
+/*initializes the graphic engine; Initializes the screen (height and width)*/
+/*Allocates memory for the graphic engine */
 Graphic_engine *graphic_engine_create(void) {
   static Graphic_engine *ge = NULL;
 
@@ -52,6 +54,7 @@ Graphic_engine *graphic_engine_create(void) {
   return ge;
 }
 
+/*frees the memory allocated for the graphic engine and its areas*/
 void graphic_engine_destroy(Graphic_engine *ge) {
   if (!ge) return;
 
@@ -65,6 +68,8 @@ void graphic_engine_destroy(Graphic_engine *ge) {
   free(ge);
 }
 
+/**update the graphical representation of the game*/
+/**get the location of the player and objects, and updates the screen*/
 void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   Id id_act = NO_ID, id_back = NO_ID, id_next = NO_ID, obj_loc = NO_ID;
   Space *space_act = NULL;
@@ -73,7 +78,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   CommandCode last_cmd = UNKNOWN;
   extern char *cmd_to_str[N_CMD][N_CMDT];
 
-  /* Paint the in the map area */
+  /** Paint the in the map area */
   screen_area_clear(ge->map);
   if ((id_act = game_get_player_location(game)) != NO_ID) {
     space_act = game_get_space(game, id_act);
@@ -129,17 +134,17 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     }
   }
 
-  /* Paint in the description area */
+  /** Paint in the description area */
   screen_area_clear(ge->descript);
   if ((obj_loc = game_get_object_location(game)) != NO_ID) {
     sprintf(str, "  Object location:%d", (int)obj_loc);
     screen_area_puts(ge->descript, str);
   }
 
-  /* Paint in the banner area */
+  /** Paint in the banner area */
   screen_area_puts(ge->banner, "    The anthill game ");
 
-  /* Paint in the help area */
+  /** Paint in the help area */
   screen_area_clear(ge->help);
   sprintf(str, " The commands you can use are:");
   screen_area_puts(ge->help, str);
@@ -151,7 +156,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   sprintf(str, " %s (%s)", cmd_to_str[last_cmd - NO_CMD][CMDL], cmd_to_str[last_cmd - NO_CMD][CMDS]);
   screen_area_puts(ge->feedback, str);
 
-  /* Dump to the terminal */
+  /**  Dump to the terminal */
   screen_paint();
   printf("prompt:> ");
 }

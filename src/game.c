@@ -10,6 +10,7 @@
 
 #include "game.h"
 #include "game_reader.h"
+#include "space.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -139,12 +140,13 @@ Object *game_get_object(Game *game) {
   return game->object;
 }
 
+
 /**
  * game_get_player_location returns the space id where the player is currently located
 */
 Id game_get_player_location(Game *game) { 
   if (!game || !(game->player)) return NO_ID;
-
+  
   return player_get_location(game->player); 
 }
 
@@ -154,12 +156,13 @@ Id game_get_player_location(Game *game) {
 Status game_set_player_location(Game *game, Id id) {
   if (!game || !game->player || id == NO_ID) {
     return ERROR;
-  }
+  }FF
 
   if (!player_set_location(game->player, id)) return ERROR;
 
   return OK;
 }
+
 
 /**
  * game_get_object_location cycles through every space and returns 
@@ -194,6 +197,7 @@ Status game_set_object_location(Game *game, Id id) {
   long i;
 
   /* Error checking */
+
   if (!game) {   /* removed id == NO_ID clause, conflict in command actions take */
     return ERROR;
   }
