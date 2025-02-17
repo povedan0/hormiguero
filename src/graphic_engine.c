@@ -2,7 +2,7 @@
  * @brief It implements a textual graphic engine
  *
  * @file graphic_engine.c
- * @author Profesores PPROG
+ * @author PPROG - Grupo 2 - GPA, AGL
  * @version 0
  * @date 27-01-2025
  * @copyright GNU Public License
@@ -18,6 +18,7 @@
 #include "space.h"
 #include "types.h"
 
+/** Various static declarations of macros related to the graphical interface */
 #define WIDTH_MAP 48
 #define WIDTH_DES 29
 #define WIDTH_BAN 23
@@ -27,7 +28,7 @@
 #define HEIGHT_FDB 3
 
 struct _Graphic_engine {
-  Area *map, *descript, *banner, *help, *feedback;
+  Area *map, *descript, *banner, *help, *feedback; /*!< pointers to areas representing different parts of the graphical interface */
 };
 
 /** initializes the graphic engine; Initializes the screen (height and width) */
@@ -78,11 +79,10 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   CommandCode last_cmd = UNKNOWN;
   extern char *cmd_to_str[N_CMD][N_CMDT];
 
-  /** Paint the in the map area */
-  screen_area_clear(ge->map);
+  screen_area_clear(ge->map); /* the map area is cleared */
   if ((id_act = game_get_player_location(game)) != NO_ID) {
-    space_act = game_get_space(game, id_act);
-    id_back = space_get_north(space_act);
+    space_act = game_get_space(game, id_act); /* fetches current space */
+    id_back = space_get_north(space_act); /* reads the ids of spaces located at the north and south */
     id_next = space_get_south(space_act);
 
     if (game_get_object_location(game) == id_back)

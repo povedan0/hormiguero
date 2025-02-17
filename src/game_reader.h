@@ -3,7 +3,7 @@
  * @brief It defines the game_reader interface
  *
  * @file game_reader.h
- * @author  PPROG Group 2 (GPA, AGL)
+ * @author  PPROG - Grupo 2 - GPA, AGL
  * @version 0
  * @date 05-02-2025
  * @copyright GNU Public License
@@ -19,7 +19,7 @@
 
 /**
  * @brief implements the loading mechanism for each of the spaces that make up the game map
- * @author Profesores PPROG
+ * @author PPROG Group 2 - AGL 
  * 
  * @param game pointer to game variable to be initialized 
  * @param filename string containing the name of the file cointaining the game data 

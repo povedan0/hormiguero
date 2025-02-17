@@ -2,7 +2,7 @@
  * @brief It defines the game interface
  *
  * @file game.h
- * @author Profesores PPROG
+ * @author PPROG - Grupo 2 - GPA, AGL
  * @version 0
  * @date 27-01-2025
  * @copyright GNU Public License
@@ -17,6 +17,7 @@
 #include "player.h"
 #include "object.h"
 
+/** macro defining the maximum number of spaces contained in a game */
 #define MAX_SPACES 100
 
 /** 
@@ -35,7 +36,7 @@ typedef struct _Game {
 
 /**
  * @brief assigns a given space pointer to a certain position in the game->spaces array 
- * @author Profesores PPROG
+ * @author PPROG Group 2 - AGL
  * 
  * @param game pointer to game containing game->spaces array 
  * @param space space pointer to be assigned 
@@ -45,7 +46,7 @@ Status game_add_space(Game *game, Space *space);
 
 /** 
  * @brief It initializes a given game to the default. 
- * @author Profesores PPROG
+ * @author PPROG Group 2 - GPA 
  * 
  * @param game a pointer to the game to be modified. 
  * @return OK, if everything goes well or ERROR if there was some mistake.
@@ -56,7 +57,7 @@ Status game_create(Game *game);
  * @brief It initializes a game from a given file whose name is passed by argument. 
  * @author Profesores PPROG
  * 
- * @param game a pointer to teh game to be intialized. 
+ * @param game a pointer to the game to be intialized. 
  * @param filename meant to be a .dat file containing all of the spaces information - Ids, Names, and Connections. 
  * @return OK, if everything goes well or ERROR if there was some mistake.
 */
@@ -64,7 +65,7 @@ Status game_create_from_file(Game *game, char *filename);
 
 /** 
  * @brief Frees allocated memory for game->spaces and game->last_cmd. 
- * @author Profesores PPROG.
+ * @author PPROG Group 2 - GPA 
  * 
  * @param game Pointer to a game variable.
  * @return OK, if everything goes well or ERROR if there was some mistake.
@@ -84,7 +85,7 @@ Space *game_get_space(Game *game, Id id);
 
 /** 
  * @brief It retrieves the current player location, stored in game struct
- * @author Profesores PPROG
+ * @author PPROG Group 2 - AGL
  * 
  * @param game A pointer to the current game struct
  * @return Id of the space where the player is currently located. 
@@ -93,7 +94,7 @@ Id game_get_player_location(Game *game);
 
 /** 
  * @brief fetches the player pointer contained in game-player
- * @author PPROG Group 2 (GPA)
+ * @author PPROG Group 2 - GPA
  * 
  * @param game pointer to _Game containing the player variable 
  * @return player pointer if everything went well or NULL if anything went wrong
@@ -102,7 +103,7 @@ Player *game_get_player(Game *game);
 
 /** 
  * @brief fetches the object pointer contained in game-object
- * @author PPROG Group 2 (GPA)
+ * @author PPROG Group 2 - GPA
  * 
  * @param game pointer to _Game containing the object variable 
  * @return object pointer if everything went well or NULL if anything went wrong
@@ -111,7 +112,7 @@ Object *game_get_object(Game *game);
 
 /** 
  * @brief Matches the current player location to a space Id passed by argument
- * @author Profesores PPROG
+ * @author PPROG Group 2 - AGL
  * 
  * @param game A pointer to the current game struct
  * @param id The id of the space the player must be moved to
@@ -121,7 +122,7 @@ Status game_set_player_location(Game *game, Id id);
 
 /** 
  * @brief It retrieves the current object location, stored in game struct
- * @author Profesores PPROG
+ * @author PPROG Group 2 - GPA 
  * 
  * @param game A pointer to the current game struct
  * @return Id of the space where the object is currently located. 
@@ -130,7 +131,7 @@ Id game_get_object_location(Game *game);
 
 /** 
  * @brief Matches the current object location to a space Id passed by argument
- * @author Profesores PPROG
+ * @author PPROG Group 2 - AGL
  * 
  * @param game A pointer to the current game struct
  * @param id The id of the space the object must be moved to

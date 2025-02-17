@@ -35,8 +35,8 @@ Status game_reader_load_spaces(Game *game, char *filename) {
     return ERROR;
   }
 
-  /**lop This loop reads the file.
-   * If a line starts with #s:, it extract the space ID, name, 
+  /** This loop reads the file.
+   * If a line starts with #s:, it extracts the space ID, name, 
    * and neighboring space IDs (north, east, south, west). 
    * It creates a new Space structure, sets its properties, and adds it to the game */
 

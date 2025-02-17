@@ -1,0 +1,146 @@
+
+
+\documentclass[tikz, border={10pt 15pt 5pt 10pt}]{standalone}
+\usepackage[]{xcolor}
+\usepackage{pgfgantt}
+\usepackage{ulem}
+
+
+%\newcommand\textganttbar[4]{%
+%    \ganttbar{#1}{#3}{#4}
+%    \ganttbar[inline,bar label font=\footnotesize]
+%    {#2}{#3}{#4}
+%}
+
+%\title{Gantt Charts with the pgfgantt Package}
+\begin{document}
+
+%
+
+%text width=width("Advection Parcelle de texture sur une surface 3D")
+
+%\newcounter{ganttline}
+% set the counter to zero at start of every ganttchart environment
+%\AtBeginEnvironment{ganttchart}{\setcounter{ganttline}{-1}}
+
+\begin{ganttchart}[
+    hgrid,
+    vgrid,
+    x unit=12mm,
+    y unit chart=9mm,
+    time slot format=isodate,
+    newline shortcut=true,
+    bar label node/.append style={align=left},
+    group label node/.append style={},
+    bar height=.6,
+    milestone/.append style={fill=red, draw=none, rounded corners=1pt},
+    today=2025-02-17,
+    today offset=.5,
+    today label=Semana actual,
+    today label node/.append style={anchor=north west},
+    today label font=\itshape\color{red},
+    today rule/.style={draw=darkgray!50, ultra thick}
+]{2025-01-27}{2025-02-18}
+
+\gantttitle{\textbf{PPROG- ITERACIÓN 1- Guilherme Povedano Aragao (GP), Araceli Gutiérrez Llorente (AG) -- Main responsible/s for each task in bold; both are accountable}}{23}\\
+\gantttitlecalendar{month=name, day, week, weekday=shortname}\\
+
+ %\ganttgroup{Group 1}{2025-01-27}{2025-02-17}\\
+    \ganttbar[bar/.append style={draw=none,fill=magenta!30}]{\bfseries{0. Coordinación semanal (Gantt)} \ganttalignnewline (\textbf{GP}, \textbf{AG})}
+    {2025-01-27}{2025-01-27}\
+    \ganttbar[bar/.append style={draw=none,fill=magenta!30}]{}{2025-02-03}{2025-02-03}
+    \ganttbar[bar/.append style={draw=none,fill=magenta!30}]{}{2025-02-10}{2025-02-10} \\%\ganttnewline[thick, blue]
+
+    \ganttmilestone{\bfseries\color{red}{ENTREGA 1: Gantt inicial}}{2025-02-03}\\
+
+     %\textganttbar{0. Coordinación semanal (Gantt)}{GP, AG}{2025-01-27}{2025-01-27}
+     %\textganttbar{}{GP, AG}{2025-02-03}{2025-02-03}
+     %\textganttbar{}{GP, AG}{2025-02-10}{2025-02-10}\\
+
+     %\textganttbar[bar/.append style={fill=red!50}]{1. Makefile}{GP, AG}{2025-02-03}{2025-02-15}
+    
+
+\ganttgroup[group/.append style={draw=none, fill=teal!60}]{1. Makefile: compilación y enlazado}{2025-02-03}{2025-02-14}\\
+
+   \ganttbar[bar/.append style={draw=none,fill=teal!20}]{\bfseries{1.1. Makefile para código seed-src proporcionado} \ganttalignnewline (\textbf{AG}, \textbf{GP})}{2025-02-03}{2025-02-10}\\
+
+   \ganttmilestone{\bfseries\color{red}{ENTREGA 2: Makefile (seed-src)}}{2025-02-010}\\
+
+   \ganttbar[bar/.append style={draw=none,fill=teal!20}]{\bfseries{1.2. Actualización Makefile} \ganttalignnewline (\textbf{GP}, AG)}{2025-02-10}{2025-02-14}\\
+
+\ganttgroup[group/.append style={draw=none, fill=orange!50}]{2. Código semilla proporcionado: seed-src}{2025-01-28}{2025-02-14}\\
+
+   \ganttbar[bar/.append style={draw=none,fill=orange!20}]{2.1. seed-src - eliminar warnings y entender código \ganttalignnewline (\textbf{GP, AG})}   {2025-01-28}{2025-02-02}\\
+
+   \ganttbar[bar/.append style={draw=none,fill=orange!20}]{2.2. seed-src - documentar \ganttalignnewline (\textbf{AG, GP})}   {2025-01-29}{2025-02-04}\\
+
+   \ganttbar[bar/.append style={draw=none,fill=orange!20}]{2.3. seed-src - Estilo de programación \ganttalignnewline (\textbf{GP, AG})}   {2025-02-11}{2025-02-14}\\
+
+
+\ganttgroup[group/.append style={draw=none, fill=blue!50}]{3. Módulo GameReader}{2025-02-03}{2025-02-07}\\
+
+   \ganttbar[bar/.append style={draw=none,fill=blue!20}]{3.1. Crear módulo GameReader \ganttalignnewline (\textbf{AG}, GP)}   {2025-02-03}{2025-02-07}\\
+
+
+   \ganttbar[bar/.append style={draw=none,fill=blue!20}]{3.2. Documentar módulo GameReader \ganttalignnewline (\textbf{GP}, AG)}   {2025-02-04}{2025-02-07}\\
+
+\ganttgroup[group/.append style={draw=none, fill=olive!50}]{4. Modificar Game}{2025-02-07}{2025-02-08}\\
+
+   \ganttbar[bar/.append style={draw=none,fill=olive!20}]{4.1. Modificar Game, creado GameReader \ganttalignnewline (\textbf{AG}, GP)}   {2025-02-07}{2025-02-08}\\
+
+\ganttgroup[group/.append style={draw=none, fill=purple!50}]{5. Módulo Object}{2025-02-09}{2025-02-10}\\
+
+      \ganttbar[bar/.append style={draw=none,fill=purple!20}]{5.1. Object: estructura de datos \ganttalignnewline (\textbf{AG}, GP)}   {2025-02-09}{2025-02-09}\\
+
+      \ganttbar[bar/.append style={draw=none,fill=purple!20}]{5.2. Object: funciones \tt{create}, \tt{destroy} \ganttalignnewline (\textbf{AG}, GP)}   {2025-02-09}{2025-02-10}\\
+
+     
+      \ganttbar[bar/.append style={draw=none,fill=purple!20}]{5.3. Object: funciones \tt{get}, \tt{set} \ganttalignnewline (\textbf{AG}, GP)}   {2025-02-09}{2025-02-10}\\
+
+      \ganttbar[bar/.append style={draw=none,fill=purple!20}]{5.4. Object: función \tt{print} \ganttalignnewline (\textbf{AG}, GP)}   {2025-02-10}{2025-02-10}\\
+
+      \ganttbar[bar/.append style={draw=none,fill=purple!20}]{5.5. Object: documentar \ganttalignnewline (\textbf{AG}, GP)}   {2025-02-09}{2025-02-10}\\
+
+
+\ganttgroup[group/.append style={draw=none, fill=cyan!50}]{6. Módulo Player}{2025-02-09}{2025-02-10}\\
+
+      \ganttbar[bar/.append style={draw=none,fill=cyan!20}]{6.1. Player: estructura de datos \ganttalignnewline (\textbf{GP}, AG)}   {2025-02-09}{2025-02-09}\\
+
+      \ganttbar[bar/.append style={draw=none,fill=cyan!20}]{6.2. Player: funciones \tt{create}, \tt{destroy} \ganttalignnewline (\textbf{GP}, AG)}   {2025-02-09}{2025-02-10}\\
+
+     
+      \ganttbar[bar/.append style={draw=none,fill=cyan!20}]{6.3. Player: funciones \tt{get}, \tt{get} \ganttalignnewline (\textbf{GP}, AG)}   {2025-02-09}{2025-02-10}\\
+
+      \ganttbar[bar/.append style={draw=none,fill=cyan!20}]{6.4. Player: función \tt{print} \ganttalignnewline (\textbf{GP}, AG)}   {2025-02-10}{2025-02-10}\\
+
+      \ganttbar[bar/.append style={draw=none,fill=cyan!20}]{6.5. Player: documentar \ganttalignnewline (\textbf{GP}, AG)}   {2025-02-09}{2025-02-10}\\
+
+
+\ganttgroup[group/.append style={draw=none, fill=lime!70}]{7. Modificar módulos de seed-src}{2025-02-11}{2025-02-13}\\
+
+      \ganttbar[bar/.append style={draw=none,fill=lime!30}]{7.1. Modificar módulo Game \ganttalignnewline (\textbf{GP}, AG)}   {2025-02-11}{2025-02-13}\\
+
+      \ganttbar[bar/.append style={draw=none,fill=lime!30}]{7.2. Modificar módulo Space \ganttalignnewline (\textbf{AG}, GP)}   {2025-02-11}{2025-02-13}\\
+
+      \ganttbar[bar/.append style={draw=none,fill=lime!30}]{7.2. Modificar otros módulos?\ganttalignnewline (\textbf{GP, AG})}   {2025-02-12}{2025-02-13}\\
+
+\ganttgroup[group/.append style={draw=none, fill=brown!70}]{8. Nuevos comandos (coger objeto/dejar objeto)}{2025-02-13}{2025-02-14}\\
+
+      \ganttbar[bar/.append style={draw=none,fill=brown!30}]{8.1. Comando \tt{take} \ganttalignnewline (\textbf{GP}, AG)}   {2025-02-13}{2025-02-14}\\
+
+         \ganttbar[bar/.append style={draw=none,fill=brown!30}]{8.1. Comando \tt{drop} \ganttalignnewline (\textbf{AG}, GP)}   {2025-02-13}{2025-02-14}\\
+
+\ganttgroup[group/.append style={draw=none, fill=violet!80}]{9. Nuevo fichero de datos (\textbf{AG, GP})}{2025-02-14}{2025-02-14}\\
+
+\ganttgroup[group/.append style={draw=none, fill=darkgray!70}]{10. Depuración de errores (\textbf{AG, GP})}{2025-02-06}{2025-02-15}\\
+
+\ganttgroup[group/.append style={draw=none, fill=lightgray!70}]{11. Revisión general (\textbf{GP, AG})}{2025-02-13}{2025-02-15}\\
+
+
+\ganttmilestone{\bfseries\color{red}{ENTREGA FINAL}}{2025-02-17}\\
+
+
+
+\end{ganttchart}
+\end{document}
+

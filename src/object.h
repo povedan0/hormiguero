@@ -2,7 +2,7 @@
  * @brief It defines the object module interface
  *
  * @file object.h
- * @author PPROG Group 2 (AGL)
+ * @author PPROG - Grupo 2 - AGL
  * @version 0
  * @date 09-02-2025
  * @copyright GNU Public License

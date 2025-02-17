@@ -2,7 +2,7 @@
  * @brief It implements the command interpreter
  *
  * @file command.c
- * @author Profesores PPROG
+ * @author PPROG - Grupo 2 - GPA, AGL
  * @version 0
  * @date 27-01-2025
  * @copyright GNU Public License
@@ -15,8 +15,10 @@
 #include <string.h>
 #include <strings.h>
 
+/** macro defines the maximum size of a command code */
 #define CMD_LENGHT 30
 
+/** global variable to commmand.c that will match user input to the corresponding commands */
 char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"n", "Next"}, {"b", "Back"}, {"t", "Take"}, {"d", "Drop"}};
 
 /**

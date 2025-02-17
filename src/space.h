@@ -2,7 +2,7 @@
  * @brief It defines the space module interface
  *
  * @file space.h
- * @author Profesores PPROG
+ * @author PPROG - Grupo 2 - GPA, AGL
  * @version 0
  * @date 27-01-2025
  * @copyright GNU Public License
@@ -18,7 +18,7 @@ typedef struct _Space Space;
 
 /**
  * @brief It creates a new space, allocating memory and initializing its members
- * @author Profesores PPROG
+ * @author PPROG Group 2 (GPA, AGL)
  *
  * @param id the identification number for the new space
  * @return a new space, initialized
