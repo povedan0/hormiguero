@@ -17,6 +17,14 @@
 #include "space.h"
 #include "types.h"
 
+/**
+ * @brief implements the loading mechanism for each of the spaces that make up the game map
+ * @author Profesores PPROG
+ * 
+ * @param game pointer to game variable to be initialized 
+ * @param filename string containing the name of the file cointaining the game data 
+ * @return OK if everything went well, or ERROR if an error occurred
+*/
 Status game_reader_load_spaces(Game *game, char *filename);
 
 #endif

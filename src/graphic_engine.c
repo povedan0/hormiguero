@@ -30,8 +30,8 @@ struct _Graphic_engine {
   Area *map, *descript, *banner, *help, *feedback;
 };
 
-/*initializes the graphic engine; Initializes the screen (height and width)*/
-/*Allocates memory for the graphic engine */
+/** initializes the graphic engine; Initializes the screen (height and width) */
+/** Allocates memory for the graphic engine */
 Graphic_engine *graphic_engine_create(void) {
   static Graphic_engine *ge = NULL;
 
@@ -54,7 +54,7 @@ Graphic_engine *graphic_engine_create(void) {
   return ge;
 }
 
-/*frees the memory allocated for the graphic engine and its areas*/
+/** frees the memory allocated for the graphic engine and its areas*/
 void graphic_engine_destroy(Graphic_engine *ge) {
   if (!ge) return;
 

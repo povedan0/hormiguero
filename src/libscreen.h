@@ -11,6 +11,7 @@
 #ifndef LIBSCREEN_H
 #define LIBSCREEN_H
 
+/** alias for the Area data srtucture */
 typedef struct _Area Area;
 
 /**

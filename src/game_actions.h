@@ -16,6 +16,14 @@
 #include "types.h"
 #include "space.h"
 
+/**
+ * @brief Identify and update the command provided by the user and execute the corresponding function
+ * @author Profesores PPROG
+ * 
+ * @param game pointer to the game variable being used
+ * @param cmd pointer to the command variable to me modified
+ * @return OK if everything wetn well or ERROR if an error occurred
+*/
 Status game_actions_update(Game *game, Command *cmd);
 
 #endif

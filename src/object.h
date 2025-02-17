@@ -13,6 +13,7 @@
 
 #include "types.h"
 
+/** alias for the object structure */
 typedef struct _Object Object;
 
 /**

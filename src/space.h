@@ -13,6 +13,7 @@
 
 #include "types.h"
 
+/** alias for the space structure */
 typedef struct _Space Space;
 
 /**

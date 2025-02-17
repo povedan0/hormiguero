@@ -156,7 +156,7 @@ Id game_get_player_location(Game *game) {
 Status game_set_player_location(Game *game, Id id) {
   if (!game || !game->player || id == NO_ID) {
     return ERROR;
-  }FF
+  }
 
   if (!player_set_location(game->player, id)) return ERROR;
 

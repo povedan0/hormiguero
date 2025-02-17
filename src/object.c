@@ -24,9 +24,7 @@ struct _Object {
   char name[WORD_SIZE + 1]; /*!< Name of the object */
 };
 
-/** object_create allocates memory for a new object
-*  and initializes its members
-*/
+/** It creates a new object, allocating memory and initializing its fields */
 Object* object_create(Id id) {
   Object* newObject = NULL;
 
@@ -45,6 +43,7 @@ Object* object_create(Id id) {
   return newObject;
 }
 
+/** It destroys an object, freeing the allocated memory */
 Status object_destroy(Object* object) {
   if (!object) {
     return ERROR;
@@ -55,6 +54,7 @@ Status object_destroy(Object* object) {
   return OK;
 }
 
+/** It gets the id of an object */
 Id object_get_id(Object* object) {
   if (!object) {
     return NO_ID;
@@ -62,6 +62,7 @@ Id object_get_id(Object* object) {
   return object->id;
 }
 
+/** It sets the name of an object */
 Status object_set_name(Object* object, char* name) {
   if (!object || !name) {
     return ERROR;
@@ -73,6 +74,7 @@ Status object_set_name(Object* object, char* name) {
   return OK;
 }
 
+/** It gets the name of an object */
 const char* object_get_name(Object* object) {
   if (!object) {
     return NULL;
@@ -80,7 +82,7 @@ const char* object_get_name(Object* object) {
   return object->name;
 }
 
-
+/** It prints the object information (id and name of the object) */
 Status object_print(Object* object) {
   Id idaux;
 
@@ -89,11 +91,11 @@ Status object_print(Object* object) {
     return ERROR;
   }
 
-idaux = object->id;
+  idaux = object->id;
 
-if (idaux == NO_ID) {
-  return ERROR;
-}
+  if (idaux == NO_ID) {
+    return ERROR;
+  }
   /*
   Print the id and the name of the object */
   fprintf(stdout, "--> Object (Id: %ld; Name: %s)\n", idaux, object->name);

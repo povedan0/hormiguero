@@ -121,6 +121,7 @@ Id player_get_object_id(Player *player) {
 
     return player->object_id;
 }
+
 /** player_print prints all the player information */
 Status player_print(Player *player) {
     Id idaux = NO_ID;

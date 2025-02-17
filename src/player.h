@@ -12,7 +12,7 @@
 
 #include "types.h"
 
-/** alias for the _Player priavte data structure */
+/** alias for the Player data structure */
 typedef struct _Player Player;
 
 /* 
