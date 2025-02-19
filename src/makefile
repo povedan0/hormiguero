@@ -1,12 +1,12 @@
 EXE=anthill
 CFLAGS=-Wall -ansi -pedantic -g
 CC=gcc
-CLIB = -L. -lscreen
+CLIB = -L../lib -lscreen
 
 
 all: $(EXE)
 
-anthill: command.o space.o game.o game_reader.o  game_actions.o game_loop.o graphic_engine.o player.o object.o
+anthill: command.o space.o game.o game_reader.o game_actions.o game_loop.o graphic_engine.o player.o object.o set.o
 	$(CC) $(CFLAGS) $^ -o $@ $(CLIB)
 
 command.o: command.c command.h types.h
@@ -34,6 +34,9 @@ player.o: player.c types.h
 	$(CC) $(CFLAGS) -c $<
 
 object.o: object.c types.h
+	$(CC) $(CFLAGS) -c $<
+
+set.o: set.c set.h types.h
 	$(CC) $(CFLAGS) -c $<
 
 run:

@@ -13,20 +13,23 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * @brief Set
+ * 
+ * This struct contains all information relative to a set 
+*/
 struct _Set {
-    Id ids[SET_SIZE];
-    long n_ids;
+    Id ids[SET_SIZE];  /*!< Array of elements contained in the set */
+    long n_ids;        /*!< Number of elements contained in said set */
 };
 
 Set *set_create(void) {
     Set *new_set = NULL;
 
-    if (!(new_set = (Set *) malloc(1 * sizeof(Set)))) return NULL;
+    /* memory allocation */
+    if (!(new_set = (Set *) calloc(1, sizeof(Set)))) return NULL;
 
-    new_set->n_ids = 0;
-    for (long i = 0 ; i < SET_SIZE ; i++) {
-        new_set->ids[i] = NO_ID;
-    }
+    /* since callloc is used, no variable initialization is needed */
 
     return new_set;
 }
@@ -37,12 +40,14 @@ long set_get_number_elements(Set *set) {
     return set->n_ids;
 }
 
-Status set_detroy(Set *set) {
-    if(set) {
-        free(set);
+Status set_destroy(Set **set) {
+    if(*set) {
+        free(*set);
+        *set = NULL;
         return OK;
+    } else {
+        return ERROR;
     }
-    return ERROR;
 }
 
 Bool set_is_full(Set *set) {
@@ -84,22 +89,26 @@ Status set_add(Set *set, Id id) {
 }
 
 Status set_del(Set *set, Id id) {
-    long i, j; 
+    long i; 
 
+    /* check valid set */
     if (set_is_empty(set) == TRUE || id == NO_ID) {
         return ERROR;
     }
 
+    /* search for id position in set */
     for (i = 0 ; i < set->n_ids ; i++) {
         if (set->ids[i] == id) {
             break;
         }
     }
 
+    /* id not found */
     if (i == set->n_ids ) {
         return ERROR;
     }
 
+    /*
     for ( j = i ; j < set->n_ids ; j++) {
         if ( j + 1 != set->n_ids ) {
             set->ids[j] = set->ids[j+1];
@@ -107,7 +116,31 @@ Status set_del(Set *set, Id id) {
             set->ids[j] = NO_ID;
         }
     }
+    */
 
-    (set->n_ids)--;
+   /* swap old id wtih last in the array */
+    if (i != set->n_ids - 1 && set->n_ids > 0) {
+        set->ids[i] = set->ids[set->n_ids - 1];
+    }
+
+    /* decrement n_ids */
+    if (set->n_ids > 0) {
+        (set->n_ids)--;
+    }
+
     return OK;
+}
+
+void set_print(Set *set) {
+    long i;
+    
+    if (set == NULL) return;
+
+    fprintf(stdout, "---> Set: %p\n", (void *) set);
+    fprintf(stdout, "---> Number of elements: %ld\n", set->n_ids);
+
+    for ( i = 0 ; i < set->n_ids ; i++) {
+        fprintf(stdout, "  ---> Element %ld: %ld\n", i+1, set->ids[i]);
+    }
+    
 }
