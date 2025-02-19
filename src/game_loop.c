@@ -20,11 +20,11 @@
     Private functions
 */
 
-int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name);
+int game_loop_init(Game **game, Graphic_engine **gengine, char *file_name);
 
-void game_loop_run(Game game, Graphic_engine *gengine);
+void game_loop_run(Game *game, Graphic_engine *gengine);
 
-void game_loop_cleanup(Game game, Graphic_engine *gengine);
+void game_loop_cleanup(Game *game, Graphic_engine *gengine);
 
 /** main declares the game variable and the pointer to the graphic engine, both still to be initialized and intakes command-line arguments
  * 
@@ -37,7 +37,7 @@ void game_loop_cleanup(Game game, Graphic_engine *gengine);
  * in case any error occurs, the function will return an error message. 
 */
 int main(int argc, char *argv[]) {
-  Game game;
+  Game *game = NULL;
   Graphic_engine *gengine;
 
   if (argc < 2) {
@@ -46,10 +46,11 @@ int main(int argc, char *argv[]) {
   }
 
   if (!game_loop_init(&game, &gengine, argv[1])) {
-    game_loop_run(game, gengine);
-    game_loop_cleanup(game, gengine);
+      game_loop_run(game, gengine);
+      game_loop_cleanup(game, gengine);
   }
 
+  
   return 0;
 }
 
@@ -59,15 +60,16 @@ int main(int argc, char *argv[]) {
  * The function returns 0 if everything went well, or 1 and an error message if any error ocurred, while also
  * freeing any allocated memory.
 */
-int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name) {
-  if (game_create_from_file(game, file_name) == ERROR) {
+int game_loop_init(Game **game, Graphic_engine **gengine, char *file_name) {
+  if ((*game = game_create_from_file(file_name)) == NULL) {
     fprintf(stderr, "Error while initializing game.\n");
     return 1;
   }
 
+
   if ((*gengine = graphic_engine_create()) == NULL) {
     fprintf(stderr, "Error while initializing graphic engine.\n");
-    game_destroy(game);
+    game_destroy(*game);
     return 1;
   }
 
@@ -78,19 +80,19 @@ int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name) {
  * and if they aren't prints the game, gets the next user input and updates the game variable. 
  * 
 */
-void game_loop_run(Game game, Graphic_engine *gengine) {
+void game_loop_run(Game *game, Graphic_engine *gengine) {
   Command *last_cmd;
 
-  if (!gengine) {
+  if (!gengine || !game) {
     return;
   }
 
-  last_cmd=game_get_last_command(&game);
+  last_cmd=game_get_last_command(game);
 
-  while ((command_get_code(last_cmd) != EXIT) && (game_get_finished(&game) == FALSE)) {
-    graphic_engine_paint_game(gengine, &game);
+  while ((command_get_code(last_cmd) != EXIT) && (game_get_finished(game) == FALSE)) {
+    graphic_engine_paint_game(gengine, game);
     command_get_user_input(last_cmd);
-    game_actions_update(&game, last_cmd);
+    game_actions_update(game, last_cmd);
   }
 
 }
@@ -98,7 +100,7 @@ void game_loop_run(Game game, Graphic_engine *gengine) {
 /** game_loop_cleanup frees any previously allocated memory for a given game variable and its graphic engine 
  * 
 */
-void game_loop_cleanup(Game game, Graphic_engine *gengine) {
-  game_destroy(&game);
+void game_loop_cleanup(Game *game, Graphic_engine *gengine) {
+  game_destroy(game);
   graphic_engine_destroy(gengine);
 }

@@ -20,19 +20,8 @@
 /** macro defining the maximum number of spaces contained in a game */
 #define MAX_SPACES 100
 
-/** 
- * @brief Game
- * 
- * This struct stores all the information related to a game.
-*/
-typedef struct _Game {
-  Player *player;             /*!< pointer to Player structure */
-  Object *object;             /*!< pointer to Object structure */
-  Space *spaces[MAX_SPACES];  /*!< array of spaces that make up the game space */
-  int n_spaces;               /*!< number of spaces loaded in the game */
-  Command *last_cmd;          /*!< pointer to last Command */
-  Bool finished;              /*!< boolean containing whether game has finished */
-} Game; 
+/** alias for the game structure */
+typedef struct _Game Game; 
 
 /**
  * @brief assigns a given space pointer to a certain position in the game->spaces array 
@@ -51,21 +40,30 @@ Status game_add_space(Game *game, Space *space);
  * @param game a pointer to the game to be modified. 
  * @return OK, if everything goes well or ERROR if there was some mistake.
 */
-Status game_create(Game *game);
+
+
+/**
+ * @brief It creates a new game, allocating memory and initializing its members
+ * @author PPROG Group 2 - AGL
+ *
+ * @param 
+ * @return a new game, initialized
+ */
+
+Game *game_create();
 
 /** 
  * @brief It initializes a game from a given file whose name is passed by argument. 
- * @author Profesores PPROG
- * 
- * @param game a pointer to the game to be intialized. 
+ * @author PPROG - Group 2 - AGL
+ *  
  * @param filename meant to be a .dat file containing all of the spaces information - Ids, Names, and Connections. 
- * @return OK, if everything goes well or ERROR if there was some mistake.
+ * @return a pointer to a new game; NULL if error.
 */
-Status game_create_from_file(Game *game, char *filename);
+Game *game_create_from_file(char *filename);
 
 /** 
- * @brief Frees allocated memory for game->spaces and game->last_cmd. 
- * @author PPROG Group 2 - GPA 
+ * @brief Frees allocated memory for a game structure, game->spaces and game->last_cmd. 
+ * @author PPROG Group 2 - GPA - AGL
  * 
  * @param game Pointer to a game variable.
  * @return OK, if everything goes well or ERROR if there was some mistake.
