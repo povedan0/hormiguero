@@ -16,6 +16,24 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+/**
+ * @brief Game
+ *
+ * This struct stores all the information of a game.
+ */
+
+struct _Game {
+  Player *player;             /*!< pointer to Player structure */
+  Object *object;             /*!< pointer to Object structure */
+  Space *spaces[MAX_SPACES];  /*!< array of spaces that make up the game space */
+  int n_spaces;               /*!< number of spaces loaded in the game */
+  Command *last_cmd;          /*!< pointer to last Command */
+  Bool finished;              /*!< boolean containing whether game has finished */
+}; 
+
+
+
 /**
    Private functions
 */
@@ -41,11 +59,15 @@ Status game_add_space(Game *game, Space *space) {
   return OK;
 }
 
-/** game_create initializes a given game struct's variables  
- * 
-*/
-Status game_create(Game *game) {
-  int i;
+/** game_create initializes a given game struct's variables  */
+Game *game_create() {
+  Game* game = NULL;
+    int i;
+
+    game = (Game*)malloc(sizeof(Game));
+    if (game == NULL) {
+        return NULL;
+    }
 
   for (i = 0; i < MAX_SPACES; i++) {
     game->spaces[i] = NULL;
@@ -58,7 +80,16 @@ Status game_create(Game *game) {
   game->last_cmd = command_create();
   game->finished = FALSE;
 
-  return OK;
+  if (game->player == NULL || game->object == NULL || game->last_cmd == NULL) {
+    if (game->player) player_destroy(game->player);
+    if (game->object) object_destroy(game->object);
+    if (game->last_cmd) command_destroy(game->last_cmd);
+    game_destroy(game);
+    return NULL;
+  }
+  
+
+  return game;
 }
 
 /** 
@@ -69,20 +100,22 @@ Status game_create(Game *game) {
  * 
  * #s:SPACE_ID|SPACE_NAME|ID_NORTH|ID_EAST|ID_SOUTH|ID_WEST
 */
-Status game_create_from_file(Game *game, char *filename) {
-  if (game_create(game) == ERROR) {
-    return ERROR;
-  }
+Game *game_create_from_file(char *filename) {
+  Game *game = game_create();
+    if (game == NULL) {
+        return NULL;
+    }
 
   if (game_reader_load_spaces(game, filename) == ERROR) {
-    return ERROR;
+    game_destroy(game);
+    return NULL;
   }
 
   /* The player and the object are located in the first space */
   game_set_player_location(game, game_get_space_id_at(game, 0));
   game_set_object_location(game, game_get_space_id_at(game, 0));
 
-  return OK;
+  return game;
 }
 
 /** 
@@ -91,6 +124,10 @@ Status game_create_from_file(Game *game, char *filename) {
 Status game_destroy(Game *game) {
   int i = 0;
 
+  if (!game) {
+    return ERROR;
+  }
+  
   for (i = 0; i < game->n_spaces; i++) {
     space_destroy(game->spaces[i]);
   }
@@ -98,6 +135,9 @@ Status game_destroy(Game *game) {
   command_destroy(game->last_cmd);
   player_destroy(game->player);
   object_destroy(game->object);
+  
+/**free the game structure */
+  free(game);
 
   return OK;
 }
