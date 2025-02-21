@@ -23,6 +23,10 @@ struct _Set {
     long n_ids;        /*!< Number of elements contained in said set */
 };
 
+/**
+ * Allocates and initializes a new set.
+ * Returns a pointer to the set or NULL on failure.
+ */
 Set *set_create(void) {
     Set *new_set = NULL;
 
@@ -34,12 +38,20 @@ Set *set_create(void) {
     return new_set;
 }
 
+/**
+ * Returns the number of elements in the set.
+ * Returns -1 if the set is NULL.
+ */
 long set_get_number_elements(Set *set) {
-    if ( set == NULL ) return 0;
+    if ( set == NULL ) return -1;
 
     return set->n_ids;
 }
 
+/**
+ * Frees memory allocated for a set and nullifies its pointer.
+ * Returns OK on success, ERROR if the set is already NULL.
+ */
 Status set_destroy(Set **set) {
     if(*set) {
         free(*set);
@@ -50,6 +62,10 @@ Status set_destroy(Set **set) {
     }
 }
 
+/**
+ * Checks if the set has reached its maximum capacity.
+ * Returns TRUE if full or NULL, FALSE otherwise.
+ */
 Bool set_is_full(Set *set) {
     if (!set) return TRUE;
 
@@ -58,14 +74,22 @@ Bool set_is_full(Set *set) {
     return FALSE;
 }
 
+/**
+ * Checks if the set is empty.
+ * Returns TRUE if empty, FALSE otherwise.
+ */
 Bool set_is_empty(Set *set) {
-    if ( set == NULL ) return TRUE;
+    if ( set == NULL ) return FALSE;
 
     if ( set->n_ids == 0 ) return TRUE;
 
     return FALSE;
 }
 
+/**
+ * Adds an ID to the set if it's not already present.
+ * Returns ERROR if the set is full or the ID is invalid.
+*/
 Status set_add(Set *set, Id id) {
     long i;
     
@@ -88,6 +112,10 @@ Status set_add(Set *set, Id id) {
     return OK;
 }
 
+/**
+ * Removes an ID from the set if present.
+ * Returns ERROR if the set is empty or the ID is invalid.
+ */
 Status set_del(Set *set, Id id) {
     long i; 
 
@@ -108,29 +136,21 @@ Status set_del(Set *set, Id id) {
         return ERROR;
     }
 
-    /*
-    for ( j = i ; j < set->n_ids ; j++) {
-        if ( j + 1 != set->n_ids ) {
-            set->ids[j] = set->ids[j+1];
-        } else {
-            set->ids[j] = NO_ID;
-        }
-    }
-    */
-
    /* swap old id wtih last in the array */
-    if (i != set->n_ids - 1 && set->n_ids > 0) {
+    if (i != set->n_ids - 1) {
         set->ids[i] = set->ids[set->n_ids - 1];
     }
 
     /* decrement n_ids */
-    if (set->n_ids > 0) {
-        (set->n_ids)--;
-    }
+    (set->n_ids)--;
+
 
     return OK;
 }
 
+/**
+ * Prints the set's contents to stdout
+*/
 void set_print(Set *set) {
     long i;
     

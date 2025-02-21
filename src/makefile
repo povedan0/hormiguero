@@ -37,7 +37,7 @@ object.o: object.c types.h
 	$(CC) $(CFLAGS) -c $<
 
 run:
-	./anthill anthill.dat
+	./$(EXE) anthill.dat
 
 .PHONY clean:
 	rm -f *.o $(EXE)

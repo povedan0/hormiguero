@@ -13,82 +13,82 @@
 
 #include "types.h"
 
-/** macro containing the maximum size fo a set */
+/** @brief Maximum number of elements in a set */
 #define SET_SIZE 100
 
-/** alias for the _Set structure */
+/** @brief Alias for the _Set structure */
 typedef struct _Set Set;
 
-/** 
- * @brief Allocates memory for a new set and initializes its members 
- * @author PPROG Gupo 2 - GPA 
+/**
+ * @brief Creates and initializes a new set.
+ * @author PPROG Grupo 2 - GPA
  * 
- * @return the newly created set structure
-*/
+ * @return Pointer to the newly allocated set, or NULL on failure.
+ */
 Set *set_create(void);
 
 /**
- * @brief De-allocates memory for a set and all of its members
+ * @brief Frees memory allocated for a set and resets its pointer.
  * @author PPROG Grupo 2 - GPA
  * 
- * @param set the set structure to be destroyed 
- * @return OK if everything went well or ERROR if an error occurred 
-*/
+ * @param set Double pointer to the set to be destroyed.
+ * @return OK on success, ERROR on failure.
+ */
 Status set_destroy(Set **set);
 
 /**
- * @brief Adds a given element to a set if said element is not already a part of it 
+ * @brief Adds an element to the set if it is not already present.  
  * @author PPROG Grupo 2 - GPA
  * 
- * @param set pointer to set structure to be modified 
- * @param id id of the new object in the set 
- * @return OK if everything went well or ERROR if an error occurred 
-*/
+ * @param set Pointer to the set.
+ * @param id ID to be added.
+ * @return OK on success, ERROR otherwise.
+ */
 Status set_add(Set *set, Id id);
 
 /**
- * @brief Removes a given element from a set 
- * @author PPROG Grupo 2 - GPA 
+ * @brief Removes an element from the set if it exists.  
+ * @author PPROG Grupo 2 - GPA
  * 
- * @param set pointer to the set struct that will be modified 
- * @param id id number of the object that will be removed 
- * @return OK if everything went well or ERROR if an error occurred
-*/
+ * @param set Pointer to the set.
+ * @param id ID to be removed.
+ * @return OK on success, ERROR otherwise.
+ */
 Status set_del(Set *set, Id id);
 
 /**
- * @brief fetches the number of elements in a set 
- * @author PPROG Grupo 2 - GPA 
+ * @brief Retrieves the number of elements in a set.  
+ * @author PPROG Grupo 2 - GPA
  * 
- * @param set the set whose number of elements will be retrieved 
- * @return the number of elements in the set
-*/
+ * @param set Pointer to the set.
+ * @return Number of elements in the set, -1 if set is NULL.
+ */
 long set_get_number_elements(Set *set);
 
 /**
- * @brief Boolean for checking if a set is full
+ * @brief Checks if the set is full.  
  * @author PPROG Grupo 2 - GPA
  * 
- * @param set pointer to set structure to be checked 
- * @return TRUE if set is full, false otherwise 
-*/
+ * @param set Pointer to the set.
+ * @return TRUE if full, FALSE otherwise.
+ */
 Bool set_is_full(Set *set);
 
 /**
- * @brief Prints all information relative to a set structure 
- * @author PPROG Grupo 2 - GPA 
- * 
- * @param set pointer to set whose data will be printed
-*/
-void set_print(Set *set);
-
-/**
- * @brief Boolean for checking if a set is empty
+ * @brief Checks if the set is empty.  
  * @author PPROG Grupo 2 - GPA
  * 
- * @param set pointer to set structure to be checked 
- * @return TRUE if set is empty, false otherwise 
-*/
+ * @param set Pointer to the set.
+ * @return TRUE if empty, FALSE otherwise.
+ */
 Bool set_is_empty(Set *set);
+
+/**
+ * @brief Prints the set's contents to stdout.  
+ * @author PPROG Grupo 2 - GPA
+ * 
+ * @param set Pointer to the set.
+ */
+void set_print(Set *set);
 
 #endif
