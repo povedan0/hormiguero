@@ -1,0 +1,44 @@
+
+
+//Function to delete an ID from a Set
+
+function set_del(Set *set, Id id) {
+
+    //Check if the set is empty and if the provided ID is invalid.
+    //If either condition is met, return ERROR.
+
+
+     //Loop to search for the ID within the set and return the index (i) in the array.
+     //The loop exits when the index (i) is found.
+     for i = 0 to set->n_ids - 1 do
+        if set->ids[i] == id then
+            break
+        end if
+    end for
+
+    //If the ID is not found, the index (i) after the loop will be equal to the number of elements in the set.
+    //Then, return ERROR
+    if i == set->n_ids then
+        return ERROR
+    end if
+
+
+    // If the ID found is not in the last position of the array:
+    if i != set->n_ids - 1 then
+        // Replace the ID with the last ID in the array (removing the ID provided as an argument to the function)
+        set->ids[i] = set->ids[set->n_ids - 1]  
+        // Set the last element in the array to NO_ID
+        set->ids[set->n_ids - 1] = NO_ID
+    //If the ID found is in the last position of the array: set it to NO_ID (removing the provided ID)
+    else
+        set->ids[set->n_ids - 1] = NO_ID
+    end if
+
+    // Decrement n_ids
+    set->n_ids = set->n_ids - 1
+
+return OK
+end function
+    
+}
+

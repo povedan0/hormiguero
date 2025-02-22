@@ -1,0 +1,33 @@
+
+
+//Function to add an ID to a Set
+
+function set_add(Set *set, Id id) {
+
+    // Declare variable
+    i = 0
+
+    //Verify that the set is not full and that the ID provided as an argument is valid.
+    //If either condition is not met, return ERROR.
+
+    // Loop to search for the ID within the set
+    for (i = 0 to (set->ids)-1)
+
+    //if the ID is already in the set, the loop exits, 
+    // with the index (i) being lower than the number of elements in the set (set->ids)
+    do 
+        if set->ids[i] == id then break end if
+    end for
+
+    //If the ID is not found after the loop, the index (i) will be equal to the number of elements in the set (set->ids)
+    //Then, add the ID to the first position available in the array and increase the number of elements stored in the set
+
+    if (i == set->ids) do
+        set->ids = id
+        set->n_ids ++   
+    end
+
+    return OK
+end function
+    
+}
