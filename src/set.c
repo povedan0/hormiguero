@@ -104,7 +104,7 @@ Status set_add(Set *set, Id id) {
     long i;
     
     /* check available sapce and valid ID */
-    if (set_is_full(set) == TRUE || id == NO_ID ) {
+    if (set == NULL || set_is_full(set) == TRUE || id == NO_ID ) {
         return ERROR;
     }    
 
