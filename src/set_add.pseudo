@@ -22,7 +22,7 @@ function set_add(Set *set, Id id) {
     //If the ID is not found after the loop, the index (i) will be equal to the number of elements in the set (set->ids)
     //Then, add the ID to the first position available in the array and increase the number of elements stored in the set
 
-    if (i == set->ids) do
+    if (i == set->ids) then
         set->ids = id
         set->n_ids ++   
     end

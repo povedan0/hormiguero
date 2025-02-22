@@ -136,9 +136,12 @@ Status set_del(Set *set, Id id) {
         return ERROR;
     }
 
-   /* swap old id wtih last in the array */
+   /* Replace the ID with the last ID in the array and set the last element in the array to NO_ID */
     if (i != set->n_ids - 1) {
         set->ids[i] = set->ids[set->n_ids - 1];
+        set->ids[set->n_ids - 1] = NO_ID;
+    } else {
+        set->ids[set->n_ids - 1] = NO_ID;
     }
 
     /* decrement n_ids */
