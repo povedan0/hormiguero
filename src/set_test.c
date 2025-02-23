@@ -208,8 +208,9 @@ void test2_set_del() {
   PRINT_TEST_RESULT(set_del(set, NO_ID) == ERROR);
   set_destroy(set);
 }
+
 /**Tests removing an ID from an empty set. Expected result: ERROR.
- * If ID = 1 is not found the expected result is also ERROR.
+ * (If ID = 1 is not found the expected result is also ERROR).
 */
 void test3_set_del() {
   Set *set = set_create();
