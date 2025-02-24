@@ -9,6 +9,7 @@
  */
 
 #include "space.h"
+#include "set.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,7 +27,7 @@ struct _Space {
   Id south;                 /*!< Id of the space at the south */
   Id east;                  /*!< Id of the space at the east */
   Id west;                  /*!< Id of the space at the west */
-  Id object_id;             /*!< Whether the space has an object or not */
+  Set *objects;             /*!< Set of objects in the space */
 };
 
 /** space_create allocates memory for a new space
@@ -50,7 +51,7 @@ Space* space_create(Id id) {
   newSpace->south = NO_ID;
   newSpace->east = NO_ID;
   newSpace->west = NO_ID;
-  newSpace->object_id = NO_ID;
+  newSpace->objects = set_create();  /**Initialize the Set*/ 
 
   return newSpace;
 }
@@ -63,8 +64,12 @@ Status space_destroy(Space* space) {
     return ERROR;
   }
 
+  if(space->objects != NULL){
+    set_destroy(&(space->objects));
+  }
+
   free(space);
-  /**space = NULL;*/
+  /**space = NULL;*/ /**nonsense */
   return OK;
 }
 
@@ -193,17 +198,39 @@ Status space_set_object_id(Space* space, Id object_id) {
   if (!space) { /* removed object_id == NO_ID clause, conflict with game actions take */
     return ERROR;
   }
-  space->object_id = object_id;
+
+  /** Initialize the Set objects in the Space if it is not already initialized */
+  if (space->objects == NULL) {
+    space->objects = set_create(); 
+    if (space->objects == NULL) {
+      return ERROR;
+    }
+  }
+
+  /** Add the object_id to the Set*/
+  if (set_add(space->objects, object_id) == ERROR) {  
+    return ERROR;
+  }
+
   return OK;
 }
 
-/** space_get_object fetches a boolean containing wether a certain space has an object or not 
- * 
-*/
-Id space_get_object_id(Space* space) {
-  if (!space) return NO_ID;
+/**Returns an array with the IDs of all the objects in the Set of Space.*/
+Id *space_get_object_id(Space* space) {
 
-  return space->object_id;
+  long num_objects = 0;
+  Id *objects_ids = NULL;
+
+  if (!space || !space->objects) return NULL;
+
+  num_objects = set_get_number_elements(space->objects);
+    if(num_objects == 0){
+      return NULL;
+    }
+  
+  objects_ids = set_get_ids(space->objects);  
+
+  return objects_ids;
 }
 
 /** space_print prints a given space's information, space id and name, links, and object information
@@ -211,6 +238,8 @@ Id space_get_object_id(Space* space) {
 */
 Status space_print(Space* space) {
   Id idaux = NO_ID;
+  long i; 
+  Id *ids = NULL;
 
   /* Error Control */
   if (!space) {
@@ -247,8 +276,13 @@ Status space_print(Space* space) {
   }
 
   /* 3. Print if there is an object in the space or not */
-  if (space_get_object_id(space)) {
-    fprintf(stdout, "---> Object in the space. Object id: %ld\n", space->object_id);
+  ids = space_get_object_id(space);
+  if (ids != NULL) {
+    fprintf(stdout, "---> Objects in the space. Objects' ids: \n");
+    for(i=0; i<set_get_number_elements(space->objects); i++){
+      fprintf(stdout, "%ld \n", ids[i]);
+    }
+    free(ids);  /*Free the allocated memory for ids */ 
   } else {
     fprintf(stdout, "---> No object in the space.\n");
   }

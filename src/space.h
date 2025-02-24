@@ -154,9 +154,9 @@ Status space_set_object_id(Space* space, Id idObject);
  * @author Profesores PPROG
  *
  * @param space a pointer to the space
- * @return id number of the object in the space
+ * @return arrays of id's of the objects in the set of the space
  */
-Id space_get_object_id(Space* space);
+Id *space_get_object_id(Space* space);
 
 /**
  * @brief It prints the space information
