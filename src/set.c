@@ -48,6 +48,22 @@ long set_get_number_elements(Set *set) {
     return set->n_ids;
 }
 
+Bool set_contains_id(Set *set, Id element_id) {
+    long i;
+
+    if (!set || element_id == NO_ID) {
+        return FALSE;
+    }
+
+    for (i = 0 ; i <set->n_ids ; i++) {
+        if (set->ids[i] == element_id) break;
+    }
+
+    if (i == set->n_ids) return FALSE;
+
+    return TRUE;
+}
+
 /**Sets the number of elements in a set.
  * This function is primarily used for testing purposes. Specifically, to test the function 
  * set_get_number_elements, as the structure Set is not accessible from set_test.c
@@ -60,30 +76,19 @@ void set_set_number_elements(Set *set, long n_ids) {
 
 /**This function returns an array containing the IDs from the set */
 Id *set_get_ids(Set *set){
-
-    Id *ids = NULL;
-    long i;
-
     if (!set){
         return NULL;
     }
 
     /**check if the set is empty */
+    /*
     if(set_is_empty(set) == TRUE){
         return NULL;
     }
+    */
 
-    /**Allocate memory for the ids array */
-    ids = (Id*)malloc(set->n_ids * sizeof(Id)); 
-    if (!ids) {
-        return NULL;
-    }
-
-    for(i=0; i<set->n_ids; i++){
-        ids[i] = set->ids[i];
-    }
-
-    return ids;       
+    /* the number of valid elements in the set should be handled externally to the function to avoid unnecessary memory allocs */
+    return set->ids;       
 }
 
 /**
@@ -175,12 +180,7 @@ Status set_del(Set *set, Id id) {
     }
 
    /* Replace the ID with the last ID in the array and set the last element in the array to NO_ID */
-    if (i != set->n_ids - 1) {
-        set->ids[i] = set->ids[set->n_ids - 1];
-        set->ids[set->n_ids - 1] = NO_ID;
-    } else {
-        set->ids[set->n_ids - 1] = NO_ID;
-    }
+    set->ids[i] = set->ids[set->n_ids - 1];
 
     /* decrement n_ids */
     (set->n_ids)--;

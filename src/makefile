@@ -6,7 +6,7 @@ CLIB = -L. -lscreen
 
 all: $(EXE)
 
-anthill: command.o space.o game.o game_reader.o  game_actions.o game_loop.o graphic_engine.o player.o object.o
+anthill: command.o space.o game.o game_reader.o set.o game_actions.o game_loop.o graphic_engine.o player.o object.o
 	$(CC) $(CFLAGS) $^ -o $@ $(CLIB)
 
 command.o: command.c command.h types.h
@@ -36,6 +36,9 @@ player.o: player.c types.h
 object.o: object.c types.h
 	$(CC) $(CFLAGS) -c $<
 
+set.o: set.c types.h
+	$(CC) $(CFLAGS) -c $<
+ 
 run:
 	./$(EXE) anthill.dat
 

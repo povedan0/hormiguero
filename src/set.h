@@ -85,8 +85,17 @@ void set_set_number_elements(Set *set, long n_ids);
  * @return ids array containing the IDs from the set.
 
  */
-long *set_get_ids(Set *set);
+Id *set_get_ids(Set *set);
 
+/**
+ * @brief returns a boolean containing whether the set contains a certain id or not
+ * @author PPROG Group 2 - GPA
+ * 
+ * @param set pointer to set that should contain the id
+ * @param element_id id of the element to be searched within the set
+ * @return TRUE if the set contains the element id or FALSE if an error occurred or the set does not contain it
+*/
+Bool set_contains_id(Set *set, Id element_id);
 
 /**
  * @brief Checks if the set is full.  
