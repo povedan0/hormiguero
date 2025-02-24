@@ -1,4 +1,4 @@
-EXE=anthill
+EXE=anthill space_test
 CFLAGS=-Wall -ansi -pedantic -g
 CC=gcc
 CLIB = -L. -lscreen
@@ -7,6 +7,9 @@ CLIB = -L. -lscreen
 all: $(EXE)
 
 anthill: command.o space.o game.o game_reader.o set.o game_actions.o game_loop.o graphic_engine.o player.o object.o
+	$(CC) $(CFLAGS) $^ -o $@ $(CLIB)
+
+space_test: space_test.o space.o set.o
 	$(CC) $(CFLAGS) $^ -o $@ $(CLIB)
 
 command.o: command.c command.h types.h
@@ -38,9 +41,12 @@ object.o: object.c types.h
 
 set.o: set.c types.h
 	$(CC) $(CFLAGS) -c $<
- 
+
+space_test.o: space_test.c space.h types.h set.h test.h
+	$(CC) $(CFLAGS) -c $<
+	
 run:
-	./$(EXE) anthill.dat
+	./anthill anthill.dat
 
 .PHONY clean:
 	rm -f *.o $(EXE)
