@@ -45,27 +45,26 @@ int main(int argc, char** argv) {
 
 
   if (all || test == 1) test1_set_create();
-  if (all || test == 2) test2_set_create();
-  if (all || test == 3) test1_set_get_number_elements();
-  if (all || test == 4) test2_set_get_number_elements();
-  if (all || test == 5) test1_set_is_full();
-  if (all || test == 6) test2_set_is_full();
-  if (all || test == 7) test3_set_is_full();
-  if (all || test == 8) test4_set_is_full();
-  if (all || test == 9)  test1_set_is_empty();
-  if (all || test == 10) test2_set_is_empty();
-  if (all || test == 11) test3_set_is_empty();
-  if (all || test == 12) test1_set_add();
-  if (all || test == 13) test2_set_add();
-  if (all || test == 14) test3_set_add();
-  if (all || test == 15) test4_set_add();
-  if (all || test == 16) test5_set_add();
-  if (all || test == 17) test1_set_del();
-  if (all || test == 18) test2_set_del();
-  if (all || test == 19) test3_set_del();
-  if (all || test == 20) test4_set_del();
-  if (all || test == 21) test5_set_del();
-  if (all || test == 22) test6_set_del();
+  if (all || test == 2) test1_set_get_number_elements();
+  if (all || test == 3) test2_set_get_number_elements();
+  if (all || test == 4) test1_set_is_full();
+  if (all || test == 5) test2_set_is_full();
+  if (all || test == 6) test3_set_is_full();
+  if (all || test == 7) test4_set_is_full();
+  if (all || test == 8)  test1_set_is_empty();
+  if (all || test == 9) test2_set_is_empty();
+  if (all || test == 10) test3_set_is_empty();
+  if (all || test == 11) test1_set_add();
+  if (all || test == 12) test2_set_add();
+  if (all || test == 13) test3_set_add();
+  if (all || test == 14) test4_set_add();
+  if (all || test == 15) test5_set_add();
+  if (all || test == 16) test1_set_del();
+  if (all || test == 17) test2_set_del();
+  if (all || test == 18) test3_set_del();
+  if (all || test == 19) test4_set_del();
+  if (all || test == 20) test5_set_del();
+  if (all || test == 21) test6_set_del();
 
   PRINT_PASSED_PERCENTAGE;
 
@@ -79,17 +78,7 @@ void test1_set_create() {
   set = set_create();
   result=set!=NULL ;
   PRINT_TEST_RESULT(result);
-  set_destroy(set);
-}
-
-/**Test the function space_create when it returns NULL (memory not allocated)*/
-void test2_set_create() {
-  int result;
-  Set *set;
-  set = set_create();
-  result= set ==NULL ;
-  PRINT_TEST_RESULT(result);
-  space_destroy(set);
+  set_destroy(&set);
 }
 
 /**Test whether the function set_get_number_elements successfully 
@@ -99,7 +88,7 @@ void test1_set_get_number_elements() {
   set = set_create();
   set_set_number_elements(set, 13);
   PRINT_TEST_RESULT(set_get_number_elements(set) == 13);
-  set_destroy(set);
+  set_destroy(&set);
 }
 
 
@@ -120,7 +109,7 @@ void test1_set_is_full() {
 void test2_set_is_full() {
   Set *set = set_create();
   PRINT_TEST_RESULT(set_is_full(set) == FALSE);
-  set_destroy(set);
+  set_destroy(&set);
 }
 
 /**Tests the function with a full set. The expected result is TRUE */
@@ -128,7 +117,7 @@ void test3_set_is_full() {
   Set *set = set_create();
   set_set_number_elements(set, SET_SIZE);
   PRINT_TEST_RESULT(set_is_full(set) == TRUE);
-  set_destroy(set);
+  set_destroy(&set);
 }
 
 /**Tests the function with a partially filled set. The expected result is FALSE. */
@@ -136,7 +125,7 @@ void test4_set_is_full() {
   Set *set = set_create();
   set_set_number_elements(set, SET_SIZE-5);
   PRINT_TEST_RESULT(set_is_full(set) == FALSE);
-  set_destroy(set);
+  set_destroy(&set);
 }
 
 /**If set points to NULL. The expected result is FALSE */
@@ -149,7 +138,7 @@ void test1_set_is_empty() {
 void test2_set_is_empty() {
   Set *set = set_create();
   PRINT_TEST_RESULT(set_is_empty(set) == TRUE);
-  set_destroy(set);
+  set_destroy(&set);
 }
 
 /**If the set is not empty, it should return FALSE */
@@ -157,7 +146,7 @@ void test3_set_is_empty() {
   Set *set = set_create();
   set_add(set, 1);  /* Add an element to the set*/
   PRINT_TEST_RESULT(set_is_empty(set) == FALSE);
-  set_destroy(set);
+  set_destroy(&set);
 }
 
 /** Verify that the function returns ERROR when the set pointer is NULL. */
@@ -170,7 +159,7 @@ void test1_set_add() {
 void test2_set_add() {
   Set *set = set_create();
   PRINT_TEST_RESULT(set_add(set, NO_ID) == ERROR);
-  set_destroy(set);
+  set_destroy(&set);
 }
 
 /**Verify that the function returns ERROR if the set is full. */
@@ -178,14 +167,14 @@ void test3_set_add() {
   Set *set = set_create();
   set_set_number_elements(set, SET_SIZE);
   PRINT_TEST_RESULT(set_add(set, 1) == ERROR);
-  set_destroy(set);
+  set_destroy(&set);
 }
 
 /**Verify that the function returns OK when ID is added. */
 void test4_set_add() {
   Set *set = set_create();
   PRINT_TEST_RESULT(set_add(set, 1) == OK);
-  set_destroy(set);
+  set_destroy(&set);
 }
 
 /**Tests adding an ID to a full set. The expected result is ERROR */
@@ -193,7 +182,7 @@ void test5_set_add() {
   Set *set = set_create();
   set_set_number_elements(set, SET_SIZE);
   PRINT_TEST_RESULT(set_add(set, 1) == ERROR);
-  set_destroy(set);
+  set_destroy(&set);
 }
 
 /**Test with a NULL set. The expected result is ERROR */
@@ -206,7 +195,7 @@ void test1_set_del() {
 void test2_set_del() {
   Set *set = set_create();
   PRINT_TEST_RESULT(set_del(set, NO_ID) == ERROR);
-  set_destroy(set);
+  set_destroy(&set);
 }
 
 /**Tests removing an ID from an empty set. Expected result: ERROR.
@@ -215,7 +204,7 @@ void test2_set_del() {
 void test3_set_del() {
   Set *set = set_create();
   PRINT_TEST_RESULT(set_del(set, 1) == ERROR);
-  set_destroy(set);
+  set_destroy(&set);
 }
 
 /** Tests removing an ID that is not in the set. Expected result: ERROR. */
@@ -223,7 +212,7 @@ void test4_set_del() {
   Set *set = set_create();
   set_add(set, 1);
   PRINT_TEST_RESULT(set_del(set, 2) == ERROR);
-  set_destroy(set);
+  set_destroy(&set);
 }
 
 /**Tests removing an ID from a set */
@@ -231,7 +220,7 @@ void test5_set_del() {
   Set *set = set_create();
   set_add(set, 1);
   PRINT_TEST_RESULT(set_del(set, 1) == OK);
-  set_destroy(set);
+  set_destroy(&set);
 }
 
 /**Tests removing an ID from a set with multiple elements. */
@@ -242,6 +231,6 @@ void test6_set_del() {
   set_add(set, 3);
   set_del(set, 2);
   PRINT_TEST_RESULT(set_get_number_elements(set) == 2);
-  set_destroy(set);
+  set_destroy(&set);
 }
 

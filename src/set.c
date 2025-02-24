@@ -130,7 +130,7 @@ Status set_del(Set *set, Id id) {
     long i; 
 
     /* check valid set */
-    if (set_is_empty(set) == TRUE || id == NO_ID) {
+    if (!set || set_is_empty(set) == TRUE || id == NO_ID) {
         return ERROR;
     }
 
