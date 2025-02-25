@@ -19,13 +19,6 @@
 void test1_set_create();
 
 /**
- * @test Test set creation
- * @pre set pointer to NULL 
- * @post Output == NULL
- */
-void test2_set_create();
-
-/**
  * @test Test function for getting number of elements of a set
  * @pre Set with a number of elements
  * @post Ouput==OK 
