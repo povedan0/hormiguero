@@ -12,6 +12,10 @@
 
 #include "types.h"
 
+
+/** macro defining the maximum string length for the graphical description of characters*/
+#define GDESC_SIZE 6
+
 /** macro defining the maximum number of health points for characters */
 #define MAX_HEALTH_POINTS 100
 
