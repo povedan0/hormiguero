@@ -3,18 +3,24 @@ EXE=anthill space_test set_test
 CFLAGS=-Wall -ansi -pedantic -g
 CC=gcc
 CLIB = -L. -lscreen
-
+SRC=command.o space.o game.o game_reader.o game_actions.o game_loop.o graphic_engine.o player.o object.o set.o
 
 all: $(EXE)
 
-anthill: command.o space.o game.o game_reader.o set.o game_actions.o game_loop.o graphic_engine.o player.o object.o
+############################## anthill executable ########################################
+
+anthill: $(SRC)
 	$(CC) $(CFLAGS) $^ -o $@ $(CLIB)
+
+############################ test module executables #####################################
 
 space_test: space_test.o space.o set.o
 	$(CC) $(CFLAGS) $^ -o $@ $(CLIB)
 
 set_test: set_test.o set.o
 	$(CC) $(CFLAGS) $^ -o $@ $(CLIB)
+
+############################## anthil source code ########################################
 
 command.o: command.c command.h types.h
 	$(CC) $(CFLAGS) -c $<
@@ -46,11 +52,15 @@ object.o: object.c types.h
 set.o: set.c types.h
 	$(CC) $(CFLAGS) -c $<
 
+################################### test module source ###################################
+
 space_test.o: space_test.c space.h types.h set.h test.h
 	$(CC) $(CFLAGS) -c $<
 
 set_test.o: set_test.c set.h types.h set_test.h test.h
 	$(CC) $(CFLAGS) -c $<
+
+################################## instructions ##########################################
 
 run:
 	./anthill anthill.dat

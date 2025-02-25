@@ -11,6 +11,9 @@
 #ifndef SET_TEST_H
 #define SET_TEST_H
 
+#include "set.h"
+#include "test.h"
+
 /**
  * @test Test set creation
  * @pre void 
