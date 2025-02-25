@@ -26,7 +26,7 @@ struct _Space {
   Id south;                 /*!< Id of the space at the south */
   Id east;                  /*!< Id of the space at the east */
   Id west;                  /*!< Id of the space at the west */
-  Id object_id;             /*!< Whether the space has an object or not */
+  Set *objects;             /*!< Set of objects in the space */
 };
 
 /** space_create allocates memory for a new space
@@ -50,7 +50,13 @@ Space* space_create(Id id) {
   newSpace->south = NO_ID;
   newSpace->east = NO_ID;
   newSpace->west = NO_ID;
-  newSpace->object_id = NO_ID;
+  newSpace->objects = set_create();  /**Initialize the Set*/ 
+
+  /* check for correct newSpace->objects initialization before exiting the function, as in game.c */
+  if (newSpace->objects == NULL) {
+    space_destroy(newSpace);
+    return NULL;
+  }
 
   return newSpace;
 }
@@ -63,8 +69,12 @@ Status space_destroy(Space* space) {
     return ERROR;
   }
 
+  if(space->objects != NULL){
+    set_destroy(&(space->objects));
+  }
+
   free(space);
-  /**space = NULL;*/
+  /**space = NULL;*/ /**nonsense */
   return OK;
 }
 
@@ -189,21 +199,49 @@ Id space_get_west(Space* space) {
 /** space_set_object sets wether a certain space has an object or not 
  * 
 */
-Status space_set_object_id(Space* space, Id object_id) {
+Status space_add_object_id(Space* space, Id object_id) {
   if (!space) { /* removed object_id == NO_ID clause, conflict with game actions take */
     return ERROR;
   }
-  space->object_id = object_id;
+
+  /** Add the object_id to the Set*/
+  if (set_add(space->objects, object_id) == ERROR) {  
+    return ERROR;
+  }
+
   return OK;
 }
 
-/** space_get_object fetches a boolean containing wether a certain space has an object or not 
- * 
-*/
-Id space_get_object_id(Space* space) {
-  if (!space) return NO_ID;
+/**Returns an array with the IDs of all the objects in the Set of Space.*/
+Id *space_get_objects(Space* space) {
+  /*long num_objects = 0;*/
+  Id *objects_ids = NULL;
 
-  return space->object_id;
+  if (!space || !space->objects) return NULL;
+
+  if (set_is_empty(space->objects)) return NULL;
+  
+  objects_ids = set_get_ids(space->objects);  
+
+  return objects_ids;
+}
+
+/** Returns a boolean containing whether the space contains a certain object */
+Bool space_contains(Space *space, Id object_id) {
+  if (!space || object_id == NO_ID) {
+    return FALSE;
+  }
+
+  return set_contains_id(space->objects, object_id);
+}
+
+/** Returns the number of objects contained in a space, -1 if an error occurred */
+long space_get_number_objects(Space *space) {
+  if (!space || !space->objects) {
+    return -1;
+  }
+
+  return set_get_number_elements(space->objects);
 }
 
 /** space_print prints a given space's information, space id and name, links, and object information
@@ -211,6 +249,8 @@ Id space_get_object_id(Space* space) {
 */
 Status space_print(Space* space) {
   Id idaux = NO_ID;
+  long i, n_ids; 
+  Id *ids = NULL;
 
   /* Error Control */
   if (!space) {
@@ -246,11 +286,19 @@ Status space_print(Space* space) {
     fprintf(stdout, "---> No west link.\n");
   }
 
-  /* 3. Print if there is an object in the space or not */
-  if (space_get_object_id(space)) {
-    fprintf(stdout, "---> Object in the space. Object id: %ld\n", space->object_id);
+  /* 3. Print every object in the space or not */
+
+  ids = space_get_objects(space);
+  n_ids = space_get_number_objects(space);
+
+  if (ids != NULL) {
+    fprintf(stdout, "---> Number of objects in the space: %ld\n", n_ids);
+    for (i = 0 ; i < n_ids ; i++) {
+      fprintf(stdout, "\n  ---> Object %ld: %ld", i+1, ids[i]);
+    }
+
   } else {
-    fprintf(stdout, "---> No object in the space.\n");
+    fprintf(stdout, "---> No objects in the space.\n");
   }
 
   return OK;

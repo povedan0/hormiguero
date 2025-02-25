@@ -1,4 +1,5 @@
-EXE=anthill set_test
+
+EXE=anthill space_test set_test
 CFLAGS=-Wall -ansi -pedantic -g
 CC=gcc
 CLIB = -L. -lscreen
@@ -7,6 +8,9 @@ CLIB = -L. -lscreen
 all: $(EXE)
 
 anthill: command.o space.o game.o game_reader.o set.o game_actions.o game_loop.o graphic_engine.o player.o object.o
+	$(CC) $(CFLAGS) $^ -o $@ $(CLIB)
+
+space_test: space_test.o space.o set.o
 	$(CC) $(CFLAGS) $^ -o $@ $(CLIB)
 
 set_test: set_test.o set.o
@@ -39,7 +43,10 @@ player.o: player.c types.h
 object.o: object.c types.h
 	$(CC) $(CFLAGS) -c $<
 
-set.o: set.c types.h 
+set.o: set.c types.h
+	$(CC) $(CFLAGS) -c $<
+
+space_test.o: space_test.c space.h types.h set.h test.h
 	$(CC) $(CFLAGS) -c $<
 
 set_test.o: set_test.c set.h types.h set_test.h test.h

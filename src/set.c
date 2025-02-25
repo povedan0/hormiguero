@@ -77,6 +77,17 @@ void set_set_number_elements(Set *set, long n_ids) {
     }
 }
 
+
+/**This function returns an array containing the IDs from the set */
+Id *set_get_ids(Set *set){
+    if (!set){
+        return NULL;
+    }
+
+    /* the number of valid elements in the set should be handled externally to the function to avoid unnecessary memory allocs */
+    return set->ids;       
+}
+
 /**
  * Frees memory allocated for a set and nullifies its pointer.
  * Returns OK on success, ERROR if the set is already NULL.
@@ -166,12 +177,7 @@ Status set_del(Set *set, Id id) {
     }
 
    /* Replace the ID with the last ID in the array and set the last element in the array to NO_ID */
-    if (i != set->n_ids - 1) {
-        set->ids[i] = set->ids[set->n_ids - 1];
-        set->ids[set->n_ids - 1] = NO_ID;
-    } else {
-        set->ids[set->n_ids - 1] = NO_ID;
-    }
+    set->ids[i] = set->ids[set->n_ids - 1];
 
     /* decrement n_ids */
     (set->n_ids)--;

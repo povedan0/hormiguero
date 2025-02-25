@@ -65,6 +65,38 @@ Status set_del(Set *set, Id id);
  */
 long set_get_number_elements(Set *set);
 
+
+/**
+ * @brief Sets the number of elements in a set.  (Initially, added for testing purposes)
+ * @author PPROG Grupo 2 - AGL
+ * 
+ * @param set Pointer to the set.
+ * @param n_ids Number of elements in the set.
+ * @return void
+ */
+void set_set_number_elements(Set *set, long n_ids);
+
+
+/**
+ * @brief Gets the Ids of the elements in a set. 
+ * @author PPROG Grupo 2 - AGL
+ * 
+ * @param set Pointer to the set.
+ * @return ids array containing the IDs from the set.
+
+ */
+Id *set_get_ids(Set *set);
+
+/**
+ * @brief returns a boolean containing whether the set contains a certain id or not
+ * @author PPROG Group 2 - GPA
+ * 
+ * @param set pointer to set that should contain the id
+ * @param element_id id of the element to be searched within the set
+ * @return TRUE if the set contains the element id or FALSE if an error occurred or the set does not contain it
+*/
+Bool set_contains_id(Set *set, Id element_id);
+
 /**
  * @brief Returns a boolean to whether the space contains an object or not
  * @author PPROG Group 2 - GPA
