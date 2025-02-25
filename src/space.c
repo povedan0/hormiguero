@@ -200,7 +200,7 @@ Id space_get_west(Space* space) {
  * 
 */
 Status space_add_object_id(Space* space, Id object_id) {
-  if (!space) { /* removed object_id == NO_ID clause, conflict with game actions take */
+  if (!space) { 
     return ERROR;
   }
 

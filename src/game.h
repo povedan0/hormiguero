@@ -19,6 +19,7 @@
 
 /** macro defining the maximum number of spaces contained in a game */
 #define MAX_SPACES 100
+#define MAX_OBJECTS 25
 
 /** alias for the game structure */
 typedef struct _Game Game; 
@@ -33,14 +34,7 @@ typedef struct _Game Game;
 */
 Status game_add_space(Game *game, Space *space);
 
-/** 
- * @brief It initializes a given game to the default. 
- * @author PPROG Group 2 - GPA 
- * 
- * @param game a pointer to the game to be modified. 
- * @return OK, if everything goes well or ERROR if there was some mistake.
-*/
-
+Status game_add_object(Game *game, Object *object);
 
 /**
  * @brief It creates a new game, allocating memory and initializing its members
@@ -50,7 +44,7 @@ Status game_add_space(Game *game, Space *space);
  * @return a new game, initialized
  */
 
-Game *game_create();
+Game *game_create(void);
 
 /** 
  * @brief It initializes a game from a given file whose name is passed by argument. 
@@ -106,7 +100,7 @@ Player *game_get_player(Game *game);
  * @param game pointer to _Game containing the object variable 
  * @return object pointer if everything went well or NULL if anything went wrong
 */
-Object *game_get_object(Game *game);
+Object **game_get_objects(Game *game);
 
 /** 
  * @brief Matches the current player location to a space Id passed by argument
@@ -125,7 +119,7 @@ Status game_set_player_location(Game *game, Id id);
  * @param game A pointer to the current game struct
  * @return Id of the space where the object is currently located. 
 */
-Id game_get_object_location(Game *game);
+Id game_get_object_location(Game *game, Id object_id);
 
 /** 
  * @brief Matches the current object location to a space Id passed by argument
@@ -135,7 +129,7 @@ Id game_get_object_location(Game *game);
  * @param id The id of the space the object must be moved to
  * @return OK if everything went well, or ERROR if an error ocurred. 
 */
-Status game_set_object_location(Game *game, Id id);
+Status game_set_object_location(Game *game, Id space_id, Id object_id);
 
 /** 
  * @brief Retrieves the last command input stored in the game struct
