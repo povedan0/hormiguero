@@ -65,6 +65,18 @@ Status set_del(Set *set, Id id);
  */
 long set_get_number_elements(Set *set);
 
+
+/**
+ * @brief Sets the number of elements in a set.  (Initially, added for testing purposes)
+ * @author PPROG Grupo 2 - AGL
+ * 
+ * @param set Pointer to the set.
+ * @param n_ids Number of elements in the set.
+ * @return void
+ */
+void set_set_number_elements(Set *set, long n_ids);
+
+
 /**
  * @brief Checks if the set is full.  
  * @author PPROG Grupo 2 - GPA
