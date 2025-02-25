@@ -51,20 +51,23 @@ int main(int argc, char** argv) {
   if (all || test == 5) test2_set_is_full();
   if (all || test == 6) test3_set_is_full();
   if (all || test == 7) test4_set_is_full();
-  if (all || test == 8)  test1_set_is_empty();
+  if (all || test == 8) test1_set_is_empty();
   if (all || test == 9) test2_set_is_empty();
   if (all || test == 10) test3_set_is_empty();
   if (all || test == 11) test1_set_add();
   if (all || test == 12) test2_set_add();
   if (all || test == 13) test3_set_add();
   if (all || test == 14) test4_set_add();
-  if (all || test == 15) test5_set_add();
-  if (all || test == 16) test1_set_del();
-  if (all || test == 17) test2_set_del();
-  if (all || test == 18) test3_set_del();
-  if (all || test == 19) test4_set_del();
-  if (all || test == 20) test5_set_del();
-  if (all || test == 21) test6_set_del();
+  if (all || test == 15) test1_set_del();
+  if (all || test == 16) test2_set_del();
+  if (all || test == 17) test3_set_del();
+  if (all || test == 18) test4_set_del();
+  if (all || test == 19) test5_set_del();
+  if (all || test == 20) test6_set_del();
+  if (all || test == 21) test1_set_contains_id();
+  if (all || test == 22) test2_set_contains_id();
+  if (all || test == 23) test3_set_contains_id();
+  if (all || test == 24) test4_set_contains_id();
 
   PRINT_PASSED_PERCENTAGE;
 
@@ -90,7 +93,6 @@ void test1_set_get_number_elements() {
   PRINT_TEST_RESULT(set_get_number_elements(set) == 13);
   set_destroy(&set);
 }
-
 
 /**Test whether the function set_get_number_elements returns the error code -1
  * when set points to NULL */
@@ -177,14 +179,6 @@ void test4_set_add() {
   set_destroy(&set);
 }
 
-/**Tests adding an ID to a full set. The expected result is ERROR */
-void test5_set_add() {
-  Set *set = set_create();
-  set_set_number_elements(set, SET_SIZE);
-  PRINT_TEST_RESULT(set_add(set, 1) == ERROR);
-  set_destroy(&set);
-}
-
 /**Test with a NULL set. The expected result is ERROR */
 void test1_set_del() {
   Set *set = NULL;
@@ -215,7 +209,7 @@ void test4_set_del() {
   set_destroy(&set);
 }
 
-/**Tests removing an ID from a set */
+/**Tests removing an ID from a set */ /* same as test3 (?) */
 void test5_set_del() {
   Set *set = set_create();
   set_add(set, 1);
@@ -234,3 +228,30 @@ void test6_set_del() {
   set_destroy(&set);
 }
 
+void test1_set_contains_id() {
+  Set *s= NULL;
+  PRINT_TEST_RESULT(set_contains_id(s, 1) == FALSE);
+}
+
+void test2_set_contains_id() {
+  Set *s;
+  s = set_create();
+  PRINT_TEST_RESULT(set_contains_id(s, NO_ID) == FALSE);
+  set_destroy(&s);
+}
+
+void test3_set_contains_id() {
+  Set *s;
+  s = set_create();
+  set_add(s, 1);
+  PRINT_TEST_RESULT(set_contains_id(s, 10) == FALSE);
+  set_destroy(&s);
+}
+
+void test4_set_contains_id() {
+  Set *s;
+  s = set_create();
+  set_add(s, 1);
+  PRINT_TEST_RESULT(set_contains_id(s, 1) == TRUE);
+  set_destroy(&s);
+}

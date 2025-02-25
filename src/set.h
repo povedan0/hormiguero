@@ -65,6 +65,15 @@ Status set_del(Set *set, Id id);
  */
 long set_get_number_elements(Set *set);
 
+/**
+ * @brief Returns a boolean to whether the space contains an object or not
+ * @author PPROG Group 2 - GPA
+ * 
+ * @param set pointer to Set to look through 
+ * @param element_id ID number to look for in set
+ * @return TRUE if the object is contained in the set, FALSE if an error occurred or if the object cannot be found
+*/
+Bool set_contains_id(Set *set, Id element_id); 
 
 /**
  * @brief Sets the number of elements in a set.  (Initially, added for testing purposes)
@@ -75,7 +84,6 @@ long set_get_number_elements(Set *set);
  * @return void
  */
 void set_set_number_elements(Set *set, long n_ids);
-
 
 /**
  * @brief Checks if the set is full.  
