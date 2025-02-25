@@ -48,6 +48,25 @@ long set_get_number_elements(Set *set) {
     return set->n_ids;
 }
 
+/** 
+ * Returns a boolean containing whether a set contains a certain object or not
+*/
+Bool set_contains_id(Set *set, Id element_id) {
+    long i;
+
+    if (!set || element_id == NO_ID) {
+        return FALSE;
+    }
+
+    for (i = 0 ; i <set->n_ids ; i++) {
+        if (set->ids[i] == element_id) break;
+    }
+
+    if (i == set->n_ids) return FALSE;
+
+    return TRUE;
+}
+
 /**Sets the number of elements in a set.
  * This function is primarily used for testing purposes. Specifically, to test the function 
  * set_get_number_elements, as the structure Set is not accessible from set_test.c
