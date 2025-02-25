@@ -80,13 +80,6 @@ Id *set_get_ids(Set *set){
         return NULL;
     }
 
-    /**check if the set is empty */
-    /*
-    if(set_is_empty(set) == TRUE){
-        return NULL;
-    }
-    */
-
     /* the number of valid elements in the set should be handled externally to the function to avoid unnecessary memory allocs */
     return set->ids;       
 }

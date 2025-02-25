@@ -52,7 +52,7 @@ Space* space_create(Id id) {
   newSpace->west = NO_ID;
   newSpace->objects = set_create();  /**Initialize the Set*/ 
 
-  /* check for correct nrewSpace->objects initialization before exiting the function, as in game.c */
+  /* check for correct newSpace->objects initialization before exiting the function, as in game.c */
   if (newSpace->objects == NULL) {
     space_destroy(newSpace);
     return NULL;
@@ -204,19 +204,6 @@ Status space_add_object_id(Space* space, Id object_id) {
     return ERROR;
   }
 
-  /** Initialize the Set objects in the Space if it is not already initialized */
-
-  /* this is no longer necessary since the space_create function has been modified */ 
-  /* set->objects will never be a NULL pointer */
-  /*
-  if (space->objects == NULL) {
-    space->objects = set_create(); 
-    if (space->objects == NULL) {
-      return ERROR;
-    }
-  }
-  */
-
   /** Add the object_id to the Set*/
   if (set_add(space->objects, object_id) == ERROR) {  
     return ERROR;
@@ -231,14 +218,6 @@ Id *space_get_objects(Space* space) {
   Id *objects_ids = NULL;
 
   if (!space || !space->objects) return NULL;
-
-  /* set_is_empty public function already checks for this */
-  /*
-  num_objects = set_get_number_elements(space->objects);
-    if(num_objects == 0){
-      return NULL;
-    }
-  */
 
   if (set_is_empty(space->objects)) return NULL;
   
@@ -321,18 +300,6 @@ Status space_print(Space* space) {
   } else {
     fprintf(stdout, "---> No objects in the space.\n");
   }
-  /*
-  ids = space_get_object_id(space);
-  if (ids != NULL) {
-    fprintf(stdout, "---> Objects in the space. Objects' ids: \n");
-    for(i=0; i<set_get_number_elements(space->objects); i++){
-      fprintf(stdout, "%ld \n", ids[i]);
-    }
-    free(ids);  Free the allocated memory for ids 
-  } else {
-    fprintf(stdout, "---> No object in the space.\n");
-  }
-  */
 
   return OK;
 }
