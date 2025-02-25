@@ -48,6 +48,9 @@ long set_get_number_elements(Set *set) {
     return set->n_ids;
 }
 
+/** 
+ * Returns a boolean containing whether a set contains a certain object or not
+*/
 Bool set_contains_id(Set *set, Id element_id) {
     long i;
 
@@ -73,6 +76,7 @@ void set_set_number_elements(Set *set, long n_ids) {
         set->n_ids = n_ids;
     }
 }
+
 
 /**This function returns an array containing the IDs from the set */
 Id *set_get_ids(Set *set){
@@ -156,7 +160,7 @@ Status set_del(Set *set, Id id) {
     long i; 
 
     /* check valid set */
-    if (set_is_empty(set) == TRUE || id == NO_ID) {
+    if (!set || set_is_empty(set) == TRUE || id == NO_ID) {
         return ERROR;
     }
 
