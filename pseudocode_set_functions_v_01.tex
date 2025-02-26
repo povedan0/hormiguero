@@ -1,0 +1,92 @@
+\documentclass[]{article}
+
+\usepackage[ruled,linesnumbered,lined,boxed,commentsnumbered]{algorithm2e}
+
+\begin{document}
+
+
+\noindent {\bf{PPROG - Group 2 - GPA, AGL}}
+
+\vspace{1cm}
+
+%\RestyleAlgo{ruled}
+
+%% This is needed if you want to add comments in
+%% your algorithm with \Comment
+\SetKwComment{Comment}{/* }{ */}
+
+
+\begin{algorithm}[H]
+\DontPrintSemicolon
+%\TitleOfAlgo{Status set\_add (*set, ID)}
+\SetAlgoLined
+\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+%Add an element (ID) to a set\;
+	\Input{pointer to set (with $n$ elements), ID}
+	\Output{OK}
+	\BlankLine
+
+
+
+	\If{set is full}{
+		return ERROR\;
+	}
+	\For{$i\leftarrow 0$ \KwTo $n$}{
+		search for ID in the set\;
+	}
+	\Comment*{$i=n$ if ID not found}
+	\If{ID not found in the set}{
+		add element ID to the set in the last position\;
+		increase number of elements in the set\;
+	}
+
+	{
+	return OK\;
+	}
+
+\caption{Status set\_add (*set, ID)\label{alg_add}}
+\end{algorithm}
+
+\vspace{1cm}
+
+\begin{algorithm}[H]
+\DontPrintSemicolon
+%\TitleOfAlgo{Status set\_add (*set, ID)}
+\SetAlgoLined
+\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+%Add an element (ID) to a set\;
+	\Input{pointer to set (with $n$ elements), ID}
+	\Output{OK}
+	\BlankLine
+
+
+
+	\If{set is empty}{
+		return ERROR\;
+	}
+
+	\For{$i\leftarrow 0$ \KwTo $n$}{
+		search for ID in the set\;
+		exit loop if ID found\; 
+	}
+	\Comment*{$i=n$ if ID not found}
+	\If{ID not found in the set}{
+		return ERROR\; 
+	}
+
+	\eIf{ID found not in the last position}{replace that element for the one in the last position\;}
+	{replace ID in the last position by NO\_ID}
+	
+
+	{
+	increase number of elements in the set\;
+	return OK\;
+	}
+
+\caption{Status set\_del (*set, ID)\label{alg_add}}
+\end{algorithm}
+
+
+\end{document}
