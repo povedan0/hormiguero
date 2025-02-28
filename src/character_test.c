@@ -1,8 +1,8 @@
 /** 
  * @brief It tests character module
  * 
- * @file set_test.c
- * @author PPROG - Group 2 - AGL
+ * @file character_test.c
+ * @author PPROG - Group 2 - GPA
  * @version 0.0 
  * @date 22-02-2025
  * @copyright GNU Public License
