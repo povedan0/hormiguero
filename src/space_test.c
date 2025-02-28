@@ -13,7 +13,7 @@
 #include <stdlib.h> 
 #include <string.h> 
 
-#define MAX_TESTS 100
+#define MAX_TESTS 37
 
 /** 
  * @brief Main function for SPACE unit tests. 
