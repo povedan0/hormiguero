@@ -343,8 +343,7 @@ void test1_character_get_name() {
 
 void test2_character_get_name() {
   Character *c=NULL;
-  character_create(10);
-  character_set_name(c, "a");
+  c = character_create(10);
   PRINT_TEST_RESULT(character_get_name(c) != NULL);
   character_destroy(c);
 }
@@ -356,8 +355,7 @@ void test1_character_get_gdesc() {
 
 void test2_character_get_gdesc() {
   Character *c=NULL;
-  character_create(10);
-  character_set_gdesc(c, "a");
+  c = character_create(10);
   PRINT_TEST_RESULT(character_get_gdesc(c) != NULL);
   character_destroy(c);
 }

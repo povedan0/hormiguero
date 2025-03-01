@@ -24,7 +24,7 @@
 struct _Character {
     Id  character_id;               /*!< Id of the character */
     char name[WORD_SIZE + 1];       /*!< Name of the character */
-    char gdesc[GDESC_SIZE];                  /*!< Graphical description of the character */
+    char gdesc[GDESC_SIZE];         /*!< Graphical description of the character */
     int health;                     /*!< Number of health points of the character */
     Bool friendly;                  /*!< Boolean indicating whether the character is friendly (TRUE) */  
     char message[WORD_SIZE + 1];    /*!< Message */
@@ -41,11 +41,12 @@ Character *character_create(Id id) {
     }
 
     /* variable initializations */
+    character->character_id = id;
     character->name[0] = '\0';
     character->gdesc[0] = '\0';
-    character->health = MAX_HEALTH_POINTS;  /* Set health to the maximum health points*/
-    character -> friendly = TRUE;
-    character->message[0] = '\0';           /*Set friendly to TRUE*/
+    character->health = MAX_HEALTH_POINTS;  /* Set health to the maximum health points */
+    character -> friendly = TRUE;           /* Set friendly to TRUE */
+    character->message[0] = '\0';           
     
     /* Correct exit */
     return character;
@@ -116,7 +117,6 @@ const char *character_get_gdesc(Character *character) {
 
 /**character_get_health returns the health of a given character */
 int character_get_health(Character *character){
-
     if (!character) return -1; /*return error code if character pointer is NULL */
 
     return character->health;
@@ -155,10 +155,15 @@ Status character_remove_health(Character *character, int health_points) {
 }
 
 /**character_get_friendly returns whether the character is friendly*/
-Bool character_get_friendly(Character *character) { return character->friendly; }
+Bool character_get_friendly(Character *character) { 
+    if (!character) return FALSE;
+    
+    return character->friendly; }
 
 /**character_set_friendly sets the friendly or unfrendly nature of the character*/
 Status character_set_friendly(Character *character, Bool friendly) {
+  if (!character) return ERROR;
+
   character->friendly = friendly;
 
   return OK;
