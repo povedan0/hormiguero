@@ -11,6 +11,7 @@
 #include "game.h"
 #include "game_reader.h"
 #include "space.h"
+#include "character.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,12 +25,15 @@
  */
 
 struct _Game {
-  Player *player;             /*!< pointer to Player structure */
-  Object *object;             /*!< pointer to Object structure */
-  Space *spaces[MAX_SPACES];  /*!< array of spaces that make up the game space */
-  int n_spaces;               /*!< number of spaces loaded in the game */
-  Command *last_cmd;          /*!< pointer to last Command */
-  Bool finished;              /*!< boolean containing whether game has finished */
+  Player *player;                           /*!< pointer to Player structure */
+  Object *objects[MAX_OBJECTS];             /*!< array of pointers to Object structures */
+  int n_objects;                            /*!< number of objects loaded in the game */
+  Space *spaces[MAX_SPACES];                /*!< array of spaces that make up the game space */
+  int n_spaces;                             /*!< number of spaces loaded in the game */
+  Character *characters[MAX_CHARACTERS];    /*!< array of pointers to Character structures */
+  int n_characters;                         /*!< number of characters loaded in the game */
+  Command *last_cmd;                        /*!< pointer to last Command */
+  Bool finished;                            /*!< boolean containing whether game has finished */
 }; 
 
 
@@ -46,7 +50,7 @@ Id game_get_space_id_at(Game *game, int position);
 
 /** 
  * game_add_space assigns a pointer to space struct to a given position in the game->spaces array 
- * and increments the nunmber of spaces in the game by one
+ * and increments the number of spaces in the game by one
 */
 Status game_add_space(Game *game, Space *space) {
   if ((space == NULL) || (game->n_spaces >= MAX_SPACES)) {
@@ -55,6 +59,24 @@ Status game_add_space(Game *game, Space *space) {
 
   game->spaces[game->n_spaces] = space;
   game->n_spaces++;
+
+  return OK;
+}
+
+/**
+ * game_add_character assigns a pointer to character to a given position in the game->characters array 
+ * and increments the number of characters in the game by one
+*/
+Status game_add_character(Game *game, Character *character) {
+
+  /*check if character pointer is NULL or if the number of characters has reached the maximum limit*/
+  if ((character == NULL) || (game->n_characters >= MAX_CHARACTERS)) {
+    return ERROR;
+  }
+
+  /*adds the character to the characters array and increments the n_characters counter.*/
+  game->characters[game->n_characters] = character;
+  game->n_characters++;
 
   return OK;
 }
@@ -73,16 +95,22 @@ Game *game_create() {
     game->spaces[i] = NULL;
   }
 
+  for (i = 0; i < MAX_OBJECTS; i++) {
+    game->objects[i] = NULL;
+  }
+
+  for (i = 0; i < MAX_CHARACTERS; i++) {
+    game->characters[i] = NULL;
+  }
+
   /* variable initializations */
   game->n_spaces = 0;
   game->player = player_create(1); /* suppose player_id == 1 */
-  game->object = object_create(2); /* suppose object_id == 2 */
   game->last_cmd = command_create();
   game->finished = FALSE;
 
-  if (game->player == NULL || game->object == NULL || game->last_cmd == NULL) {
+  if (game->player == NULL || game->last_cmd == NULL) {
     if (game->player) player_destroy(game->player);
-    if (game->object) object_destroy(game->object);
     if (game->last_cmd) command_destroy(game->last_cmd);
     game_destroy(game);
     return NULL;
@@ -101,6 +129,7 @@ Game *game_create() {
  * #s:SPACE_ID|SPACE_NAME|ID_NORTH|ID_EAST|ID_SOUTH|ID_WEST
 */
 Game *game_create_from_file(char *filename) {
+  int i;
   Game *game = game_create();
     if (game == NULL) {
         return NULL;
@@ -113,7 +142,16 @@ Game *game_create_from_file(char *filename) {
 
   /* The player and the object are located in the first space */
   game_set_player_location(game, game_get_space_id_at(game, 0));
-  game_set_object_location(game, game_get_space_id_at(game, 0));
+
+  /* Initialize the locations for all objects to the first space */
+  for (i = 0; i < game->n_objects; i++) {
+    game_set_object_location(game, game_get_space_id_at(game, 0), object_get_id(game->objects[i]));
+  }
+
+  /* Initialize the locations for all characters to different spaces */
+  for (i = 0; i < game->n_characters && i < game->n_spaces; i++) {
+    game_set_character_location(game, game_get_space_id_at(game, i), character_get_id(game->characters[i]));
+  }
 
   return game;
 }
@@ -132,9 +170,16 @@ Status game_destroy(Game *game) {
     space_destroy(game->spaces[i]);
   }
 
+  for (i = 0; i < game->n_objects; i++) {
+    object_destroy(game->objects[i]);
+  }
+
+  for (i = 0; i < game->n_characters; i++) {
+    character_destroy(game->characters[i]);
+  }
+
   command_destroy(game->last_cmd);
   player_destroy(game->player);
-  object_destroy(game->object);
   
 /**free the game structure */
   free(game);
@@ -143,7 +188,7 @@ Status game_destroy(Game *game) {
 }
 
 /**
- * game_get space searches a certain space by its id number and returns
+ * game_get_space searches a certain space by its id number and returns
  * the pointer to said space
 */
 Space *game_get_space(Game *game, Id id) {
@@ -171,13 +216,24 @@ Player *game_get_player(Game *game) {
   return game->player;
 }
 
-/** 
- * game_get_object returns the pointer to the object structure contained in game 
+/**
+ * game_get_object  iterates through the array of objects to find the one with the matching ID.
+ * If it finds the object, it returns the pointer to that object; otherwise, it returns NULL. 
 */
-Object *game_get_object(Game *game) {
-  if (!game) return NULL;
+Object *game_get_object(Game *game, Id id) {
+  int i = 0;
 
-  return game->object;
+  if (!game || id == NO_ID) {
+    return NULL;
+  }
+
+  for (i = 0; i < game->n_objects; i++) {
+    if (id == object_get_id(game->objects[i])) {
+      return game->objects[i];
+    }
+  }
+
+  return NULL;
 }
 
 
@@ -205,35 +261,31 @@ Status game_set_player_location(Game *game, Id id) {
 
 
 /**
- * game_get_object_location cycles through every space and returns 
- * the space id that matches the object's location
+ * game_get_object_location  the function uses space_contains to check 
+ * if a space contains the specified object ID. If it finds the space, it returns the space ID;
+ * otherwise, it returns NO_ID
 */
-Id game_get_object_location(Game *game) { 
+Id game_get_object_location(Game *game,  Id object_id) { 
   long i;
-  Id idaux;
-
+ 
   /* Error checking */
-  if (!game || (idaux = object_get_id(game->object)) == NO_ID) {
+  if (!game || object_id == NO_ID) {
     return NO_ID;
   }
-
-  for (i = 0 ; i<game->n_spaces ; i++) {                                             /* cycle through spaces looking for space[i].object_id */
-    if (idaux == space_get_object_id(game->spaces[i])) {
-      break;                                                                         /* object id found */
+  for (i = 0; i < game->n_spaces; i++) {  /* cycle through spaces */
+    if (space_contains(game->spaces[i], object_id)) {
+      return space_get_id(game->spaces[i]);  /* object id found */
     }
   }
 
-  if (i == game->n_spaces) return NO_ID;                                             /* object id not found */
-
-  /* Correct exit */
-  return space_get_id(game->spaces[i]);                                   
+  return NO_ID;  /* object id not found */
 }
 
 /**
  * game_set_object_location is passed a certain space id and 
  * initializes that space's object_id 
 */
-Status game_set_object_location(Game *game, Id id) {
+Status game_set_object_location(Game *game, Id space_id, Id object_id) {
   long i;
 
   /* Error checking */
@@ -242,19 +294,60 @@ Status game_set_object_location(Game *game, Id id) {
     return ERROR;
   }
 
-  for (i = 0 ; i < game->n_spaces ; i++) {                                            /* cycle through every space in game struct */
-    if (id == space_get_id(game->spaces[i])) {                                        /* check their correct id number */
-      if (space_set_object_id(game->spaces[i], object_get_id(game->object))) {        /* attempt to assign space->object_id */
-        break;                                                                        /* correct assignment */
-      } else return ERROR;                                                            /* error statement */
+  for (i = 0; i < game->n_spaces; i++) {  /* cycle through every space in game */
+    if (space_id == space_get_id(game->spaces[i])) {  /* check the correct id number */
+      if (space_add_object_id(game->spaces[i], object_id) == OK) {  /* attempt to add object to space */
+        return OK;  /* correct assignment */
+      } else {
+        return ERROR;  /* returns error if object_id cannot be added to the space  */
+      }
     }
   }
 
-  if ( i == game->n_spaces ) return ERROR;                                            /* space was not found */
+  return ERROR;  /* space was not found */
+}
 
-  /* Correct exit */
-  return OK;
+/**
+ * game_get_character_location cycles through every space and returns 
+ * the space id that matches the character's location
+*/
+Id game_get_character_location(Game *game, Id character_id) { 
+  int i;
 
+  /* Error checking */
+  if (!game || character_id == NO_ID) {
+    return NO_ID;
+  }
+
+  for (i = 0; i < game->n_spaces; i++) {  /* cycle through spaces */
+    if (game->spaces[i] != NULL && space_get_character(game->spaces[i]) == character_id) {  /* check if the space contains the character */
+      return space_get_id(game->spaces[i]);  /* character id found */
+    }
+  }
+
+  return NO_ID;  /* character id not found */
+}
+
+/**sets the location of the character to a space_id */
+Status game_set_character_location(Game *game, Id space_id, Id character_id) {
+  int i;
+
+  /* Error checking */
+  if (!game || character_id == NO_ID) {
+    return ERROR;
+  }
+
+  for (i = 0; i < game->n_spaces; i++) {  /* cycle through every space in game */
+    if (game->spaces[i]  && space_id == space_get_id(game->spaces[i])) {  /* check the correct id number */
+      if (space_set_character(game->spaces[i], character_id) == OK) {  /* attempt to set character in space */
+        return OK;  /* correct assignment */
+      } else {
+        return ERROR;  /* returns error if character_id cannot be set in the space */
+      }
+    }
+  }
+
+  return ERROR;  /* space was not found */
 }
 
 /**
@@ -301,14 +394,25 @@ void game_print(Game *game) {
     space_print(game->spaces[i]);
   }
 
-  fprintf(stdout, "=> Object location: %d\n", (int)game_get_object_location(game));
+  /** loop to print the locations of all objects in the game */
+  fprintf(stdout, "=> Objects locations: \n");
+  for (i = 0; i < game->n_objects; i++) {
+    fprintf(stdout, "Object %d location: %d\n", (int)object_get_id(game->objects[i]), (int)game_get_object_location(game, object_get_id(game->objects[i])));
+  }
+
   fprintf(stdout, "=> Player location: %d\n", (int)player_get_location(game->player));
+
+  /**print the characters of the game and their locations */
+
+  fprintf(stdout, "=> Number of characters: %d\n",  game->n_characters);
+  for (i = 0; i < game->n_characters; i++){
+    fprintf(stdout, "Character %d location: %d\n", (int)character_get_id(game->characters[i]), (int)game_get_character_location(game, character_get_id(game->characters[i])));
+  }
 }
 
 /**
    Implementation of private functions
 */
-
 
 /**
  * game_get_space_id_at receives a position in the game->spaces array and returns its id number

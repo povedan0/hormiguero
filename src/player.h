@@ -12,6 +12,9 @@
 
 #include "types.h"
 
+/** macro defining the maximum number of health points for player */
+#define MAX_HEALTH_POINTS 100
+
 /** alias for the Player data structure */
 typedef struct _Player Player;
 
@@ -103,6 +106,33 @@ Status player_set_object_id(Player *player, Id object_id);
  * @return The player_object_id in question, or NO_ID if an error occurred
 */
 Id player_get_object_id(Player *player);
+
+/** 
+ * @brief Returns the health of the player
+ * @author PPROG Group 2 (AGL)
+ * 
+ * @param player a pointer to player 
+ * @return The health of the player, or -1 if the character is NULL
+*/
+int player_get_health(Player *player);
+
+/** 
+ * @brief Increases the health of the player 
+ * @author PPROG Group 2 (AGL)
+ * 
+ * @param player A pointer to the player
+ * @return OK if everything went well or ERROR if an error occurred
+*/
+Status player_increase_health(Player *player, int health_points);
+
+/** 
+ * @brief Reduces the health of a player
+ * @author PPROG Group 2 (AGL)
+ * 
+ * @param player A pointer to the player
+ * @return OK if everything went well or ERROR if an error occurred
+*/
+Status player_remove_health(Player *player, int health_points) ;
 
 /** 
  * @brief Prints all the player information to stdout

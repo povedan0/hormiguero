@@ -130,24 +130,44 @@ void game_actions_back(Game *game) {
   return;
 }
 
-/** Implementation of take object function */
+/** Implementation of take object function 
+ *  There are multiple objects in the game. The function iterates through the objects in the space
+ * where the player is located and allow the player to take one of them.
+*/
 void game_actions_take(Game *game) {
-  Id object_id=NO_ID;
+  Id *object_ids=NULL;
   Player *player=NULL;
+  Space *space=NULL;
+  Id player_location = NO_ID;
+  Id object_id = NO_ID;
+  
 
   if (!(player = game_get_player(game))) {
     return;
   }
 
-  if (((object_id = object_get_id(game_get_object(game))) == NO_ID)){
+  /* Get the player's location */
+  player_location = game_get_player_location(game);
+
+   /* Get the space at the player's location */
+   if (!(space = game_get_space(game, player_location))) {
     return;
   }
 
-  /* Get the object_id from the space and assign it to the player, if poossible */
-  if (game_get_object_location(game) == game_get_player_location(game)) { 
-    player_set_object_id(player, object_id); /* set player->object_id to match that of the space */
-    space_set_object_id(game_get_space(game, game_get_object_location(game)), NO_ID); /* reset the object id contained in the space */
+  /* Get the object IDs from the space */
+  object_ids = space_get_objects(space);
+   /* Error checking for object IDs */
+   if (!object_ids) {
+    return;
   }
+
+  /* Take the first object in the array */
+  object_id = object_ids[0];
+
+  /* Assign the object to the player and remove it from the space */
+  player_set_object_id(player, object_id); /* Set player->object_id to match that of the object */
+  space_del_object_id(space, object_id); /* Remove the object from the space */
+
 }
 
 /** Implementation of drop object function */
@@ -163,9 +183,15 @@ void game_actions_drop(Game *game) {
 
   if (!(space = game_get_space(game, player_get_location(player)))) return;
 
-  /* Get the object_id from the player and set it to the space variable */
-  if ((object_id = player_get_object_id(player)) != NO_ID && (space_get_object_id(space)) == NO_ID) { /* check if space already has an object */
-    game_set_object_location(game, space_get_id(space)); /* This function assumes a single object exists */
-    player_set_object_id(player, NO_ID); /* reset the object carried by the player */
+  /* Get the object ID from the player */
+  object_id = player_get_object_id(player);
+
+  /* Error checking for object ID and that space does not contain object_id */
+  if (object_id != NO_ID && !space_contains(space, object_id)) {
+    /* Add the object to the space */
+    space_add_object_id(space, object_id);
+
+    /* Reset the object carried by the player to NO_ID */
+    player_set_object_id(player, NO_ID);
   }
 }
