@@ -196,11 +196,11 @@ Id space_get_west(Space* space) {
   return space->west;
 }
 
-/** space_set_object sets wether a certain space has an object or not 
- * 
+/** 
+ * adds a given id to the set of objects in the space
 */
 Status space_add_object_id(Space* space, Id object_id) {
-  if (!space) { 
+  if (!space || !space->objects) { 
     return ERROR;
   }
 
@@ -212,10 +212,30 @@ Status space_add_object_id(Space* space, Id object_id) {
   return OK;
 }
 
+/** 
+ * removes a given id from the set of objects in the space
+*/
+Status space_del_object(Space *space, Id object_id) {
+  if (!space || object_id == NO_ID) {
+    return ERROR;
+  }
+
+  return set_del(space->objects, object_id);
+}
+
+/** 
+ * returns whether a given space's space->objects field is full
+*/
+Bool space_objects_is_full(Space *space) {
+  if (!space || !space->objects) return TRUE;
+
+  return set_is_full(space->objects);
+}
+
 /**Returns an array with the IDs of all the objects in the Set of Space.*/
 Id *space_get_objects(Space* space) {
   /*long num_objects = 0;*/
-  Id *objects_ids = NULL;
+  Set *objects_ids = NULL;
 
   if (!space || !space->objects) return NULL;
 

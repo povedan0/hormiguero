@@ -57,6 +57,9 @@ Status game_add_space(Game *game, Space *space) {
   return OK;
 }
 
+/** 
+ * adds an initialized object to the game struct
+*/
 Status game_add_object(Game *game, Object *object) {
   if (!object || game->n_objects >= MAX_OBJECTS) {
     return ERROR;
@@ -289,6 +292,26 @@ Status game_set_finished(Game *game, Bool finished) {
   game->finished = finished;
 
   return OK;
+}
+
+/** 
+ * fetches the object pointer contained at a certain position in the game->objects array 
+*/
+Object *game_get_object_at(Game *game, int pos) {
+  if (!game || pos >= MAX_OBJECTS || pos <0) {
+    return NULL;
+  }
+
+  return game->objects[pos];
+}
+
+/** 
+ * fecthes the number of objects initialized in game 
+*/
+int game_get_number_objects(Game *game) {
+  if (!game) return -1;
+
+  return game->n_objects;
 }
 
 /**

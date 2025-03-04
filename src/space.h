@@ -149,6 +149,25 @@ Id space_get_west(Space* space);
  */
 Status space_add_object_id(Space* space, Id idObject);
 
+/** 
+ * @brief Removed a certain object_id from the set of objects contained in a space
+ * @author PPROG GROUP 2 - GPA
+ * 
+ * @param space pointer to space struct where space->objects will be modified
+ * @param object_id ID number that muust be searched and removed from set
+ * @return OK, if everything goes well or ERROR if there was some mistake 
+*/
+Status space_del_object(Space *space, Id object_id);
+
+/** 
+ * @brief Returns a boolean containing whether space->objects is full
+ * @author PPROG Group 2 - GPA 
+ * 
+ * @param space pointer to space struct to be checked
+ * @return TRUE if space->objects is full or pointers are invalid, FALSE otherwise
+*/
+Bool space_objects_is_full(Space *space);
+
 /**
  * @brief It gets the id of the object in the space
  * @author Profesores PPROG

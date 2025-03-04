@@ -34,6 +34,14 @@ typedef struct _Game Game;
 */
 Status game_add_space(Game *game, Space *space);
 
+/** 
+ * @brief adds a certain initialized object to the game->objects array and increments game->objects by one
+ * @author PPROG Group 2 - GPA
+ * 
+ * @param game pointer to game struct to be modified
+ * @param object pointer to object to be added to game->objects  
+ * @return OK if everything went well or ERROR if an error occurred
+*/
 Status game_add_object(Game *game, Object *object);
 
 /**
@@ -120,6 +128,25 @@ Status game_set_player_location(Game *game, Id id);
  * @return Id of the space where the object is currently located. 
 */
 Id game_get_object_location(Game *game, Id object_id);
+
+/**
+ * @brief returns the pointer to object contained in that position of the game->objects array
+ * @author PPROG Group 2 - GPA 
+ * 
+ * @param game game structure containing the objects array
+ * @param pos position in the array to return 
+ * @return the pointer to object contained in that position of the array
+*/
+Object *game_get_object_at(Game *game, int pos);
+
+/** 
+ * @brief retrieves the number of objects contained in a game
+ * @author PPROG Group 2 - GPA
+ * 
+ * @param game pointer to gaem structure containing the number of objects
+ * @return game->n_objects, which ranges from 0 to MAX_OBJECTS or -1 if an error occurred
+*/
+int game_get_number_objects(Game *game);
 
 /** 
  * @brief Matches the current object location to a space Id passed by argument
