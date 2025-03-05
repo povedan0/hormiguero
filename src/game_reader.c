@@ -39,8 +39,6 @@ Status game_reader_load_spaces(Game *game, char *filename) {
    * If a line starts with #s:, it extracts the space ID, name, 
    * and neighboring space IDs (north, east, south, west). 
    * It creates a new Space structure, sets its properties, and adds it to the game */
-
-
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#s:", line, 3) == 0) {
       toks = strtok(line + 3, "|");
@@ -71,6 +69,64 @@ Status game_reader_load_spaces(Game *game, char *filename) {
   }
 
   /**error checking and close file */
+  if (ferror(file)) {
+    status = ERROR;
+  }
+
+  fclose(file);
+
+  return status;
+}
+
+/** This function reads object data from the file, 
+ * creates Object structures, sets their properties, and adds them to the game */
+Status game_reader_load_objects(Game *game, char *filename) {
+  FILE *file = NULL;
+  char line[WORD_SIZE] = "";
+  char name[WORD_SIZE] = "";
+  char *toks = NULL;
+  Id id = NO_ID, location = NO_ID;
+  Object *object = NULL;
+  Status status = OK;
+
+  if (!filename) {
+    return ERROR;
+  }
+
+  /* Open the file and check for errors */
+  file = fopen(filename, "r");
+  if (file == NULL) {
+    return ERROR;
+  }
+
+  /**Loop through each line of the file. 
+   * If a line starts with #o:, extract the object ID, name, and location using strtok.
+   * Create a new Object structure and set its properties.
+   * Add the object to the game using game_add_object. */
+  while (fgets(line, WORD_SIZE, file)) {
+    if (strncmp("#o:", line, 3) == 0) {
+      toks = strtok(line + 3, "|");
+      id = atol(toks);
+      toks = strtok(NULL, "|");
+      strcpy(name, toks);
+      toks = strtok(NULL, "|");
+      location = atol(toks);
+#ifdef DEBUG
+      printf("Leido: %ld|%s|%ld\n", id, name, location);
+#endif
+      object = object_create(id);
+      if (object != NULL) {
+        object_set_name(object, name);
+        game_add_object(game, object);
+        /* Set the object's location */
+        if (game_set_object_location(game, location, id) != OK) {
+          status = ERROR;
+        }
+      }
+    }
+  }
+
+  /* Error checking and close file */
   if (ferror(file)) {
     status = ERROR;
   }

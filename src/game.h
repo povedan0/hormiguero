@@ -16,9 +16,16 @@
 #include "types.h"
 #include "player.h"
 #include "object.h"
+#include "character.h"
 
 /** macro defining the maximum number of spaces contained in a game */
 #define MAX_SPACES 100
+
+/** macro defining the maximum number of spaces contained in a game */
+#define MAX_OBJECTS 100
+
+/** macro defining the maximum number of spaces contained in a game */
+#define MAX_CHARACTERS 100
 
 /** alias for the game structure */
 typedef struct _Game Game; 
@@ -33,13 +40,26 @@ typedef struct _Game Game;
 */
 Status game_add_space(Game *game, Space *space);
 
-/** 
- * @brief It initializes a given game to the default. 
- * @author PPROG Group 2 - GPA 
+/**
+ * @brief assigns a given character pointer to a certain position in the game->spaces array 
+ * @author PPROG Group 2 - AGL
  * 
- * @param game a pointer to the game to be modified. 
- * @return OK, if everything goes well or ERROR if there was some mistake.
+ * @param game pointer to game containing game->character array 
+ * @param character character pointer to be added to the game 
+ * @return OK if everything went well or ERROR if an error occurred 
 */
+Status game_add_character(Game *game, Character *character);
+
+
+/**
+ * @brief assigns a given object pointer to a certain position in the game->objects array 
+ * @author PPROG Group 2 - AGL
+ * 
+ * @param game pointer to game containing game->objects array 
+ * @param object space pointer to be assigned 
+ * @return OK if everything went well or ERROR if an error occurred 
+*/
+Status game_add_object(Game *game, Object *object);
 
 
 /**
@@ -101,12 +121,13 @@ Player *game_get_player(Game *game);
 
 /** 
  * @brief fetches the object pointer contained in game-object
- * @author PPROG Group 2 - GPA
+ * @author PPROG Group 2 - GPA, AGL(mod. to include array of objects)
  * 
  * @param game pointer to _Game containing the object variable 
+ * @param Id of the object  
  * @return object pointer if everything went well or NULL if anything went wrong
 */
-Object *game_get_object(Game *game);
+Object *game_get_object(Game *game, Id id);
 
 /** 
  * @brief Matches the current player location to a space Id passed by argument
@@ -120,22 +141,48 @@ Status game_set_player_location(Game *game, Id id);
 
 /** 
  * @brief It retrieves the current object location, stored in game struct
- * @author PPROG Group 2 - GPA 
+ * @author PPROG Group 2 - GPA - AGL (mod to include array of objects)
  * 
  * @param game A pointer to the current game struct
+ * @param Id Id of the object
  * @return Id of the space where the object is currently located. 
 */
-Id game_get_object_location(Game *game);
+Id game_get_object_location(Game *game,  Id object_id);
 
 /** 
  * @brief Matches the current object location to a space Id passed by argument
  * @author PPROG Group 2 - AGL
  * 
  * @param game A pointer to the current game struct
- * @param id The id of the space the object must be moved to
+ * @param space_id The id of the space the object must be moved to
+ * @param object_id The id of the object added to the space
+ * 
  * @return OK if everything went well, or ERROR if an error ocurred. 
 */
-Status game_set_object_location(Game *game, Id id);
+Status game_set_object_location(Game *game, Id space_id, Id object_id) ;
+
+/** 
+ * @brief  gets the character's location
+ * @author PPROG Group 2 - AGL
+ * 
+ * @param game A pointer to the current game struct
+ * @param character_id The id of the character 
+ *  * 
+ * @return Id of the space where the character is located. 
+*/
+Id game_get_character_location(Game *game, Id character_id);
+
+/** 
+ * @brief sets the location of the character to a space_id
+ * @author PPROG Group 2 - AGL
+ * 
+ * @param game A pointer to the current game struct
+ * @param space_id The id of the space the object must be moved to
+ * @param character_id The id of the object added to the space
+ * 
+ * @return OK if everything went well, or ERROR if an error ocurred. 
+*/
+Status game_set_character_location(Game *game, Id space_id, Id character_id);
 
 /** 
  * @brief Retrieves the last command input stored in the game struct
