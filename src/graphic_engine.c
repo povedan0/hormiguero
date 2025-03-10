@@ -84,12 +84,12 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     space_act = game_get_space(game, id_act); /* fetches current space */
     id_back = space_get_north(space_act); /* reads the ids of spaces located at the north and south */
     id_next = space_get_south(space_act);
-
+/* 
     if (game_get_object_location(game) == id_back)
       obj = '*';
     else
       obj = ' ';
-
+*/
     if (id_back != NO_ID) {
       sprintf(str, "  |         %2d|", (int)id_back);
       screen_area_puts(ge->map, str);
@@ -100,12 +100,12 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
       sprintf(str, "        ^");
       screen_area_puts(ge->map, str);
     }
-
+/*
     if (game_get_object_location(game) == id_act)
       obj = '*';
     else
       obj = ' ';
-
+*/
     if (id_act != NO_ID) {
       sprintf(str, "  +-----------+");
       screen_area_puts(ge->map, str);
@@ -116,12 +116,12 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
       sprintf(str, "  +-----------+");
       screen_area_puts(ge->map, str);
     }
-
+/*
     if (game_get_object_location(game) == id_next)
       obj = '*';
     else
       obj = ' ';
-
+*/
     if (id_next != NO_ID) {
       sprintf(str, "        v");
       screen_area_puts(ge->map, str);
@@ -136,10 +136,12 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
 
   /** Paint in the description area */
   screen_area_clear(ge->descript);
+  /*
   if ((obj_loc = game_get_object_location(game)) != NO_ID) {
     sprintf(str, "  Object location:%d", (int)obj_loc);
     screen_area_puts(ge->descript, str);
   }
+  */
 
   /** Paint in the banner area */
   screen_area_puts(ge->banner, "    The anthill game ");

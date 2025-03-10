@@ -85,7 +85,7 @@ Status game_reader_load_objects(Game *game, char *filename) {
   char line[WORD_SIZE] = "";
   char name[WORD_SIZE] = "";
   char *toks = NULL;
-  Id id = NO_ID, location = NO_ID;
+  Id object_id = NO_ID, space_id = NO_ID;
   Object *object = NULL;
   Status status = OK;
 
@@ -93,40 +93,41 @@ Status game_reader_load_objects(Game *game, char *filename) {
     return ERROR;
   }
 
-  /* Open the file and check for errors */
+
+  /**file opening and error checking */
   file = fopen(filename, "r");
   if (file == NULL) {
     return ERROR;
   }
 
-  /**Loop through each line of the file. 
-   * If a line starts with #o:, extract the object ID, name, and location using strtok.
-   * Create a new Object structure and set its properties.
-   * Add the object to the game using game_add_object. */
+  /** 
+   * This loop reads the file.
+   * If a line starts with #o:, it extracts the object ID, name, 
+   * and space ID where it is contained.  
+   * It creates a new object structure, sets its properties, and 
+   * adds it to the game in the apropriate space 
+   * */
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#o:", line, 3) == 0) {
       toks = strtok(line + 3, "|");
-      id = atol(toks);
+      object_id = atol(toks);
       toks = strtok(NULL, "|");
       strcpy(name, toks);
       toks = strtok(NULL, "|");
-      location = atol(toks);
+      space_id = atol(toks);
 #ifdef DEBUG
-      printf("Leido: %ld|%s|%ld\n", id, name, location);
+      printf("Leido: %ld|%s|%ld|%ld|%ld|%ld\n", id, name, north, east, south, west);
 #endif
-      object = object_create(id);
+      object = object_create(object_id);
       if (object != NULL) {
         object_set_name(object, name);
+        game_set_object_location(game, space_id, object_id);
         game_add_object(game, object);
-        /* Set the object's location */
-        if (game_set_object_location(game, location, id) != OK) {
-          status = ERROR;
-        }
       }
     }
   }
 
-  /* Error checking and close file */
+  /**error checking and close file */
   if (ferror(file)) {
     status = ERROR;
   }
@@ -134,4 +135,5 @@ Status game_reader_load_objects(Game *game, char *filename) {
   fclose(file);
 
   return status;
+
 }
