@@ -75,6 +75,8 @@ Status game_add_character(Game *game, Character *character) {
   game->characters[game->n_characters] = character;
   game->n_characters++;
 
+  return OK;
+}
 
 /** 
  * adds an initialized object to the game struct
@@ -191,7 +193,7 @@ Status game_destroy(Game *game) {
   command_destroy(game->last_cmd);
   player_destroy(game->player);
   
-/**free the game structure */
+  /*free the game structure */
   free(game);
 
   return OK;
@@ -244,6 +246,7 @@ Object *game_get_object(Game *game, Id id) {
   }
 
   return NULL;
+}
 
 /** 
 * game_get_objects returns the game->objects array to be iterated through int other functions 

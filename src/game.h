@@ -20,13 +20,6 @@
 
 /** macro defining the maximum number of spaces contained in a game */
 #define MAX_SPACES 100
-#define MAX_OBJECTS 25
-
-/** macro defining the maximum number of spaces contained in a game */
-#define MAX_OBJECTS 100
-
-/** macro defining the maximum number of spaces contained in a game */
-#define MAX_CHARACTERS 100
 
 /** macro defining the maximum number of spaces contained in a game */
 #define MAX_OBJECTS 100
@@ -67,24 +60,13 @@ Status game_add_character(Game *game, Character *character);
 */
 Status game_add_object(Game *game, Object *object);
 
-/** 
- * @brief adds a certain initialized object to the game->objects array and increments game->objects by one
- * @author PPROG Group 2 - GPA
- * 
- * @param game pointer to game struct to be modified
- * @param object pointer to object to be added to game->objects  
- * @return OK if everything went well or ERROR if an error occurred
-*/
-Status game_add_object(Game *game, Object *object);
-
 /**
  * @brief It creates a new game, allocating memory and initializing its members
  * @author PPROG Group 2 - AGL
  *
  * @param 
  * @return a new game, initialized
- */
-
+*/
 Game *game_create(void);
 
 /** 

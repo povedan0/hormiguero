@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 
 /**
    Private functions - implementation of each possible command 
@@ -135,7 +136,7 @@ void game_actions_back(Game *game) {
  * where the player is located and allow the player to take one of them.
 */
 void game_actions_take(Game *game) {
-  Id *object_ids=NULL;
+  Id object_id;
   Player *player=NULL;
   Command *last_cmd=NULL;
   Space *space=NULL;
@@ -169,19 +170,11 @@ void game_actions_take(Game *game) {
 
     name = object_get_name(game_get_object_at(game, i));
     
-    if (strcasecmp(name, command_get_name(last_cmd)) == 0) {
+    if (strcasecmp(name, command_get_string(last_cmd)) == 0) {
       player_set_object_id(player, object_id);
-      space_del_object(space, object_id);
+      space_del_object_id(space, object_id);
     }
   }
-
-  /* Take the first object in the array */
-  object_id = object_ids[0];
-
-  /* Assign the object to the player and remove it from the space */
-  player_set_object_id(player, object_id); /* Set player->object_id to match that of the object */
-  space_del_object_id(space, object_id); /* Remove the object from the space */
-
 }
 
 /** Implementation of drop object function */

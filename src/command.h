@@ -65,7 +65,7 @@ Status command_set_string(Command *command, char *string);
  * @param command structure containing the string in question
  * @return string associated with the given command
 */
-const char *command_get_string(Command *command);
+char *command_get_string(Command *command);
 
 /** 
  * @brief Assigns a given code to a certain command->code variable
