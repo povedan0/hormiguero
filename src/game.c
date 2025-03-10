@@ -17,6 +17,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define CHARACTER_ID_1 1   /*For now, the two characters are added using macros for their IDs*/
+#define CHARACTER_ID_2 2
+
 
 /**
  * @brief Game
@@ -130,6 +133,23 @@ Game *game_create() {
     game_destroy(game);
     return NULL;
   }
+
+   /* Create two characters with IDs 1 and 2 */
+   game->characters[game->n_characters++] = character_create(CHARACTER_ID_1);
+   game->characters[game->n_characters++] = character_create(CHARACTER_ID_2);
+
+  /* Check if character creation was successful */
+  if (game->characters[0] == NULL || game->characters[1] == NULL) {
+    for (i = 0; i < game->n_characters; i++) {
+      if (game->characters[i]) {
+        character_destroy(game->characters[i]);
+      }
+    }
+    player_destroy(game->player);
+    command_destroy(game->last_cmd);
+    game_destroy(game);
+    return NULL;
+  }
   
 
   return game;
@@ -162,10 +182,27 @@ Game *game_create_from_file(char *filename) {
     return NULL;
   }
 
-  /* The player and the object are located in the first space */
+  /* The player is located in the first space */
   game_set_player_location(game, game_get_space_id_at(game, 0));
 
-  /* Initialize the locations for all characters to different spaces */
+
+   /* Create two characters with IDs 1 and 2 */
+   game->characters[game->n_characters++] = character_create(CHARACTER_ID_1);
+   game->characters[game->n_characters++] = character_create(CHARACTER_ID_2);
+ 
+   /* Check if character creation was successful */
+   if (game->characters[0] == NULL || game->characters[1] == NULL) {
+     for (i = 0; i < game->n_characters; i++) {
+        if (game->characters[i]) character_destroy(game->characters[i]);
+     }
+     player_destroy(game->player);
+     command_destroy(game->last_cmd);
+     game_destroy(game);
+     return NULL;
+   }
+ 
+  /**Initialize the locations for all characters to different spaces.
+   * Each character is assigned to a different space within the game  */ 
   for (i = 0; i < game->n_characters && i < game->n_spaces; i++) {
     game_set_character_location(game, game_get_space_id_at(game, i), character_get_id(game->characters[i]));
   }
