@@ -18,8 +18,11 @@
 /** macro defines the maximum size of a command code */
 #define CMD_LENGHT 30
 
+/** macro defines the maximum size of a complement name */
+#define COMPLEMENT_LENGTH 30
+
 /** global variable to commmand.c that will match user input to the corresponding commands */
-char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"n", "Next"}, {"b", "Back"}, {"t", "Take"}, {"d", "Drop"}};
+char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"n", "Next"}, {"b", "Back"},  {"l", "Left"},  {"r", "Right"}, {"t", "Take"}, {"d", "Drop"}};
 
 /**
  * @brief Command
@@ -28,6 +31,7 @@ char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "E
  */
 struct _Command {
   CommandCode code; /*!< Name of the command */
+  char complement[COMPLEMENT_LENGTH];    /*!< Name of the complement command */
 };
 
 /** command_create allocates memory for a new command
@@ -44,6 +48,9 @@ Command* command_create(void) {
 
   /* Initialization of an empty command*/
   newCommand->code = NO_CMD;
+
+   /* Initialization of an empty complement*/
+   newCommand->complement[0] = '\0';
 
   return newCommand;
 }
@@ -87,6 +94,31 @@ CommandCode command_get_code(Command* command) {
   return command->code;
 }
 
+/** command_set_complement receives a complement (string of chars) and assigns it to a given 
+ * command variable
+ * 
+*/
+Status command_set_complement(Command* command, char *complement) {
+  if (!command) {
+    return ERROR;
+  }
+  strcpy(command->complement, complement);
+
+
+  return OK;
+}
+
+/** command_get_complement retrieves the command contained in a certain command
+ * variable
+ * 
+*/
+char* command_get_complement(Command* command) {
+  if (!command) {
+    return NULL;
+  }
+  return command->complement;
+}
+
 /** command_get_user_input interprets user input and determines which 
  * command code it is correspondent to
  * 
@@ -111,14 +143,27 @@ Status command_get_user_input(Command* command) {
 
     cmd = UNKNOWN;
     while (cmd == UNKNOWN && i < N_CMD) {
-      /* Match input according to its code (b/n/e/t/d) or meaning (Back/Next/Exit/Take/Drop) */
+      /* Match input according to its code (b/n/e/l/r/t/d) or meaning (Back/Next/Exit/Left/Right/Take/Drop) */
       if (!strcasecmp(token, cmd_to_str[i][CMDS]) || !strcasecmp(token, cmd_to_str[i][CMDL])) {
         cmd = i + NO_CMD;
       } else {
         i++;
       }
     }
-    return command_set_code(command, cmd);
+    /* Set the command code */
+    command_set_code(command, cmd);
+
+    /* If the command is TAKE, read the complement */
+    if (cmd == TAKE) {
+      token = strtok(NULL, " \n");
+      if (token) {
+        command_set_complement(command, token);
+      } else {
+        command_set_complement(command, ""); /*Set an empty complement if none is done*/
+      }
+    }
+
+    return OK;
   }
   else
     return command_set_code(command, EXIT);
