@@ -39,8 +39,6 @@ Status game_reader_load_spaces(Game *game, char *filename) {
    * If a line starts with #s:, it extracts the space ID, name, 
    * and neighboring space IDs (north, east, south, west). 
    * It creates a new Space structure, sets its properties, and adds it to the game */
-
-
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#s:", line, 3) == 0) {
       toks = strtok(line + 3, "|");
@@ -80,6 +78,8 @@ Status game_reader_load_spaces(Game *game, char *filename) {
   return status;
 }
 
+/** This function reads object data from the file, 
+ * creates Object structures, sets their properties, and adds them to the game */
 Status game_reader_load_objects(Game *game, char *filename) {
   FILE *file = NULL;
   char line[WORD_SIZE] = "";
@@ -92,6 +92,7 @@ Status game_reader_load_objects(Game *game, char *filename) {
   if (!filename) {
     return ERROR;
   }
+
 
   /**file opening and error checking */
   file = fopen(filename, "r");
@@ -106,8 +107,6 @@ Status game_reader_load_objects(Game *game, char *filename) {
    * It creates a new object structure, sets its properties, and 
    * adds it to the game in the apropriate space 
    * */
-
-
   while (fgets(line, WORD_SIZE, file)) {
     if (strncmp("#o:", line, 3) == 0) {
       toks = strtok(line + 3, "|");
@@ -136,4 +135,5 @@ Status game_reader_load_objects(Game *game, char *filename) {
   fclose(file);
 
   return status;
+
 }

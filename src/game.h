@@ -28,6 +28,12 @@
 /** macro defining the maximum number of spaces contained in a game */
 #define MAX_CHARACTERS 100
 
+/** macro defining the maximum number of spaces contained in a game */
+#define MAX_OBJECTS 100
+
+/** macro defining the maximum number of spaces contained in a game */
+#define MAX_CHARACTERS 100
+
 /** alias for the game structure */
 typedef struct _Game Game; 
 
@@ -51,6 +57,15 @@ Status game_add_space(Game *game, Space *space);
 */
 Status game_add_character(Game *game, Character *character);
 
+/**
+ * @brief assigns a given object pointer to a certain position in the game->objects array 
+ * @author PPROG Group 2 - AGL, GPA
+ * 
+ * @param game pointer to game containing game->objects array 
+ * @param object space pointer to be assigned 
+ * @return OK if everything went well or ERROR if an error occurred 
+*/
+Status game_add_object(Game *game, Object *object);
 
 /** 
  * @brief adds a certain initialized object to the game->objects array and increments game->objects by one

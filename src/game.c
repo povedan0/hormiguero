@@ -59,6 +59,7 @@ Status game_add_space(Game *game, Space *space) {
   return OK;
 }
 
+
 /**
  * game_add_character assigns a pointer to character to a given position in the game->characters array 
  * and increments the number of characters in the game by one
@@ -73,6 +74,7 @@ Status game_add_character(Game *game, Character *character) {
   /*adds the character to the characters array and increments the n_characters counter.*/
   game->characters[game->n_characters] = character;
   game->n_characters++;
+
 
 /** 
  * adds an initialized object to the game struct
@@ -133,6 +135,7 @@ Game *game_create(void) {
  * The expected data format is the following: 
  * 
  * #s:SPACE_ID|SPACE_NAME|ID_NORTH|ID_EAST|ID_SOUTH|ID_WEST
+ * #o:OBJECT_ID|OBJECT_NAME|SPACE_ID WHERE THE OBJECT IS LOCATED 
 */
 Game *game_create_from_file(char *filename) {
   int i;
@@ -146,6 +149,7 @@ Game *game_create_from_file(char *filename) {
     return NULL;
   }
 
+  /** objects are loaded from the file with their specific locations */
   if (game_reader_load_objects(game, filename) == ERROR) {
     game_destroy(game);
     return NULL;
@@ -279,7 +283,6 @@ Status game_set_player_location(Game *game, Id id) {
  * if a space contains the specified object ID. If it finds the space, it returns the space ID;
  * otherwise, it returns NO_ID
 */
-
 Id game_get_object_location(Game *game, Id object_id) { 
   int i;
   if (!game || object_id == NO_ID) return NO_ID;    
@@ -305,12 +308,12 @@ Status game_set_object_location(Game *game, Id space_id, Id object_id) {
   for (i = 0 ; i < game->n_spaces ; i++) { /* cycle through every space in game */
     if (space_id == space_get_id(game->spaces[i])) { /* check the correct id number */
       if (space_contains(game->spaces[i], object_id)) return ERROR; /* check if object already in the space */
-      if (!space_add_object_id(game->spaces[i], object_id)) return ERROR; /* attempt to add object */
-      return OK;
+      return space_add_object_id(game->spaces[i], object_id); /* attempt to add object */
     }
   }
 
-  return ERROR;
+  return ERROR;  /* space was not found */
+}
 
 /**
  * game_get_character_location cycles through every space and returns 
@@ -430,7 +433,6 @@ void game_print(Game *game) {
   for (i = 0; i < game->n_characters; i++){
     fprintf(stdout, "Character %d location: %d\n", (int)character_get_id(game->characters[i]), (int)game_get_character_location(game, character_get_id(game->characters[i])));
   }
-
 }
 
 /**
