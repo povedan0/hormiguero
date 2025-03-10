@@ -127,6 +127,7 @@ Game *game_create() {
   game->player = player_create(1); /* suppose player_id == 1 */
   game->last_cmd = command_create();
   game->finished = FALSE;
+  game->chat_message[0] = '\0'; /* Initialize chat_message to an empty string */
 
   if (game->player == NULL || game->last_cmd == NULL) {
     if (game->player) player_destroy(game->player);
@@ -185,6 +186,9 @@ Game *game_create_from_file(char *filename) {
 
   /* The player is located in the first space */
   game_set_player_location(game, game_get_space_id_at(game, 0));
+
+  /* Initialize chat_message to an empty string */
+  game->chat_message[0] = '\0';
 
 
    /* Create two characters with IDs 1 and 2 */
@@ -507,6 +511,10 @@ void game_print(Game *game) {
   for (i = 0; i < game->n_characters; i++){
     fprintf(stdout, "Character %d location: %d\n", (int)character_get_id(game->characters[i]), (int)game_get_character_location(game, character_get_id(game->characters[i])));
   }
+
+  /** print the chat message */
+  fprintf(stdout, "=> Chat message: %s\n", game->chat_message);
+  
 }
 
 /**
