@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 /**
    Private functions - implementation of each possible command 
@@ -38,6 +39,8 @@ void game_actions_right(Game *game);
 void game_actions_take(Game *game);
 
 void game_actions_drop(Game *game);
+
+void game_actions_attack(Game *game);
 
 /**
    Game actions implementation
@@ -84,6 +87,10 @@ Status game_actions_update(Game *game, Command *command) {
 
     case DROP:
       game_actions_drop(game);
+      break;
+
+    case ATTACK:
+      game_actions_attack(game);
       break;
 
     default:
@@ -266,4 +273,66 @@ void game_actions_drop(Game *game) {
     /* Reset the object carried by the player to NO_ID */
     player_set_object_id(player, NO_ID);
   }
+}
+
+/** Implementation of the action to attack a character */
+void game_actions_attack(Game *game) {
+  Id player_location = NO_ID;
+  Id character_id = NO_ID;
+  Space *space=NULL;
+  int random_number;
+
+  /* Error checking */
+  if (!game) return;
+
+  /* Get the player's location */
+  player_location = game_get_player_location(game);
+
+  /* Get the space at that player location */
+  if (!(space = game_get_space(game, player_location))) {
+    return;
+  }
+
+  /**gets the character ID in a given space
+   * if there is no character in the space, return (exit the function)
+  */
+  character_id = space_get_character(space);
+  if(character_id == NO_ID || game_get_character_location(game, character_id) != player_location){
+    return;
+  }
+
+  /* If the character is friendly, return (exit the function) */
+  if (character_get_friendly(game_get_character(game, character_id)) == TRUE) {
+    return;
+  }
+
+  /* Check if the character is already dead */
+  if (character_get_health(game_get_character(game, character_id)) == 0) {
+    return;
+  }
+
+  /* Generate a random number between 0 and 9 */
+  srand(time(NULL));
+  random_number = rand() % 10;
+
+  /* Determine the outcome of the attack */
+  if (random_number >= 0 && random_number <= 4) {
+    /* Character wins */
+    player_remove_health(game_get_player(game), 1);
+  } else {
+    /* Player wins */
+    character_remove_health(game_get_character(game, character_id), 1);
+  }
+
+  /* If the player has zero health points, the game finishes */
+  if (player_get_health(game_get_player(game)) == 0) {
+    game_set_finished(game, TRUE);
+  }
+
+  /* Check if the character has zero health points */
+  if (character_get_health(game_get_character(game, character_id)) == 0) {
+    /* Set the character's message */
+    character_set_message(game_get_character(game, character_id), "Health is zero. Dead");
+  }
+  return;
 }
