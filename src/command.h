@@ -49,6 +49,25 @@ Command* command_create(void);
 Status command_destroy(Command* command);
 
 /** 
+ * @brief Sets the string that accompanies the command code
+ * @author PPROG Gorup 2 - GPA 
+ * 
+ * @param command the command variable to be modified
+ * @param string string to be assigned to command->string
+ * @return OK if it was correctly assigned, ERROR if an error occurred
+*/
+Status command_set_string(Command *command, char *string);
+
+/**
+ * @brief fetches the string associated with a given command
+ * @author PPROG Group 2 - GPA 
+ * 
+ * @param command structure containing the string in question
+ * @return string associated with the given command
+*/
+char *command_get_string(Command *command);
+
+/** 
  * @brief Assigns a given code to a certain command->code variable
  * @author Profesores PPROG
  * 

@@ -15,6 +15,9 @@ set_test: set_test.o set.o
 character_test: character_test.o character.o
 	$(CC) $(CFLAGS) $^ -o $@ $(CLIB)
 
+space_test: space_test.o space.o set.o
+	$(CC) $(CFLAGS) $^ -o $@ $(CLIB)
+
 command.o: command.c command.h types.h
 	$(CC) $(CFLAGS) -c $<
 
@@ -52,6 +55,9 @@ character.o: character.c character.h types.h
 	$(CC) $(CFLAGS) -c $<
 
 character_test.o: character_test.c character.h types.h character_test.h test.h
+	$(CC) $(CFLAGS) -c $<
+
+space_test.o: space_test.c space_test.h space.h types.h test.h
 	$(CC) $(CFLAGS) -c $<
 
 run:

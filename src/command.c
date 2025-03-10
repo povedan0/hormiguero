@@ -15,8 +15,10 @@
 #include <string.h>
 #include <strings.h>
 
-/** macro defines the maximum size of a command code */
+/** @brief defines the maximum lenght to be read at the command line */
 #define CMD_LENGHT 30
+/** @brief defines the length of the statically-defined auxiliary string */
+#define CMD_STRING 10
 
 /** global variable to commmand.c that will match user input to the corresponding commands */
 char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"n", "Next"}, {"b", "Back"}, {"t", "Take"}, {"d", "Drop"}};
@@ -27,7 +29,8 @@ char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "E
  * This struct stores all the information related to a command.
  */
 struct _Command {
-  CommandCode code; /*!< Name of the command */
+  CommandCode code;         /*!< Name of the command */
+  char string[CMD_STRING];  /*!< Auxiliary string which stores additional info for some commands */
 };
 
 /** command_create allocates memory for a new command
@@ -62,6 +65,28 @@ Status command_destroy(Command* command) {
   return OK;
 }
 
+/** 
+ * assings a string passed as argument to the corresponding coommand->string field
+*/
+Status command_set_string(Command *command, char *string) {
+  if (!command || !string) {
+    return ERROR;
+  }
+
+  if (!strcpy(command->string, string)) return ERROR;
+
+  return OK;
+}
+
+/** fetches the string asssociated with a given command, or NULL */
+char *command_get_string(Command *command) {
+  if (!command) {
+    return NULL;
+  }
+
+  return command->string;
+}
+
 /** command_set_code receives a command code and assigns it to a given 
  * command variable
  * 
@@ -88,7 +113,7 @@ CommandCode command_get_code(Command* command) {
 }
 
 /** command_get_user_input interprets user input and determines which 
- * command code it is correspondent to
+ * command code it is correspondent to, assigning the auxiliary string in the command if it is necessary 
  * 
 */
 Status command_get_user_input(Command* command) {
@@ -118,7 +143,13 @@ Status command_get_user_input(Command* command) {
         i++;
       }
     }
-    return command_set_code(command, cmd);
+    if (cmd == TAKE /* cmd == DROP */) { /* player can only hold one object for now */
+      token = strtok(NULL, " \n");
+      command_set_string(command, token);
+    } else {
+      command_set_string(command, 0); /* empty string to avoid undefined behaviour of object locations */
+    }
+    command_set_code(command, cmd);
   }
   else
     return command_set_code(command, EXIT);
