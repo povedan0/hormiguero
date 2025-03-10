@@ -27,4 +27,6 @@
 */
 Status game_reader_load_spaces(Game *game, char *filename);
 
+Status game_reader_load_objects(Game *game, char *filename);
+
 #endif

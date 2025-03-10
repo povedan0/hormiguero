@@ -137,28 +137,42 @@ void game_actions_back(Game *game) {
 void game_actions_take(Game *game) {
   Id *object_ids=NULL;
   Player *player=NULL;
+  Command *last_cmd=NULL;
   Space *space=NULL;
-  Id player_location = NO_ID;
-  Id object_id = NO_ID;
-  
+  const char *name;
+  int i, n_objects;
+
+  if (!(last_cmd = game_get_last_command(game))) {
+    return;
+  }
 
   if (!(player = game_get_player(game))) {
     return;
   }
 
-  /* Get the player's location */
-  player_location = game_get_player_location(game);
-
-   /* Get the space at the player's location */
-   if (!(space = game_get_space(game, player_location))) {
+  if ((space = game_get_space(game, player_get_location(player))) == NULL) {
     return;
   }
 
-  /* Get the object IDs from the space */
-  object_ids = space_get_objects(space);
-   /* Error checking for object IDs */
-   if (!object_ids) {
+  if (player_get_object_id(player) != NO_ID) {
     return;
+  }
+
+  if ((n_objects = game_get_number_objects(game)) <= 0 ) {
+    return;
+  }
+
+  for (i = 0 ; i < n_objects ; i++) {
+    if (!space_contains(space, object_id = object_get_id(game_get_object_at(game, i)))) {
+      continue;
+    }
+
+    name = object_get_name(game_get_object_at(game, i));
+    
+    if (strcasecmp(name, command_get_name(last_cmd)) == 0) {
+      player_set_object_id(player, object_id);
+      space_del_object(space, object_id);
+    }
   }
 
   /* Take the first object in the array */
@@ -183,11 +197,8 @@ void game_actions_drop(Game *game) {
 
   if (!(space = game_get_space(game, player_get_location(player)))) return;
 
-  /* Get the object ID from the player */
-  object_id = player_get_object_id(player);
-
   /* Error checking for object ID and that space does not contain object_id */
-  if (object_id != NO_ID && !space_contains(space, object_id)) {
+  if ((object_id = player_get_object_id(player)) != NO_ID && !space_objects_is_full(space)) {
     /* Add the object to the space */
     space_add_object_id(space, object_id);
 

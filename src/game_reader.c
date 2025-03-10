@@ -79,3 +79,61 @@ Status game_reader_load_spaces(Game *game, char *filename) {
 
   return status;
 }
+
+Status game_reader_load_objects(Game *game, char *filename) {
+  FILE *file = NULL;
+  char line[WORD_SIZE] = "";
+  char name[WORD_SIZE] = "";
+  char *toks = NULL;
+  Id object_id = NO_ID, space_id = NO_ID;
+  Object *object = NULL;
+  Status status = OK;
+
+  if (!filename) {
+    return ERROR;
+  }
+
+  /**file opening and error checking */
+  file = fopen(filename, "r");
+  if (file == NULL) {
+    return ERROR;
+  }
+
+  /** 
+   * This loop reads the file.
+   * If a line starts with #o:, it extracts the object ID, name, 
+   * and space ID where it is contained.  
+   * It creates a new object structure, sets its properties, and 
+   * adds it to the game in the apropriate space 
+   * */
+
+
+  while (fgets(line, WORD_SIZE, file)) {
+    if (strncmp("#o:", line, 3) == 0) {
+      toks = strtok(line + 3, "|");
+      object_id = atol(toks);
+      toks = strtok(NULL, "|");
+      strcpy(name, toks);
+      toks = strtok(NULL, "|");
+      space_id = atol(toks);
+#ifdef DEBUG
+      printf("Leido: %ld|%s|%ld|%ld|%ld|%ld\n", id, name, north, east, south, west);
+#endif
+      object = object_create(object_id);
+      if (object != NULL) {
+        object_set_name(object, name);
+        game_set_object_location(game, space_id, object_id);
+        game_add_object(game, object);
+      }
+    }
+  }
+
+  /**error checking and close file */
+  if (ferror(file)) {
+    status = ERROR;
+  }
+
+  fclose(file);
+
+  return status;
+}

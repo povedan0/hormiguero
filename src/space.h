@@ -152,7 +152,7 @@ Status space_add_object_id(Space* space, Id idObject);
 
 /**
  * @brief removes the given object ID from the set of objects in the space
- * @author PPROG - Group 2 - AGL
+ * @author PPROG - Group 2 - AGL, GPA
  *
  * @param space a pointer to the space
  * @param object_id id of the object in the space to be removed
@@ -160,6 +160,14 @@ Status space_add_object_id(Space* space, Id idObject);
  */
 Status space_del_object_id(Space* space, Id object_id);
 
+/** 
+ * @brief Returns a boolean containing whether space->objects is full
+ * @author PPROG Group 2 - GPA 
+ * 
+ * @param space pointer to space struct to be checked
+ * @return TRUE if space->objects is full or pointers are invalid, FALSE otherwise
+*/
+Bool space_objects_is_full(Space *space);
 
 /**
  * @brief It gets the id of the object in the space

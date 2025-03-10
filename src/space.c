@@ -198,9 +198,12 @@ Id space_get_west(Space* space) {
   return space->west;
 }
 
-/** the function space_add_object_id adds the given object ID to the set of objects in the space */
+
+/** 
+ * adds a given id to the set of objects in the space
+*/
 Status space_add_object_id(Space* space, Id object_id) {
-  if (!space) { /* removed object_id == NO_ID clause, conflict with game actions take */
+  if (!space || !space->objects) { 
     return ERROR;
   }
 
@@ -212,24 +215,31 @@ Status space_add_object_id(Space* space, Id object_id) {
   return OK;
 }
 
-/** The function space_del_object_id removes the given object ID from the set of objects in the space */
-Status space_del_object_id(Space* space, Id object_id) {
+
+/** 
+ * removes a given id from the set of objects in the space
+*/
+Status space_del_object_id(Space *space, Id object_id) {
   if (!space || object_id == NO_ID) {
     return ERROR;
   }
 
-  /** Remove the object_id from the Set */
-  if (set_del(space->objects, object_id) == ERROR) {
-    return ERROR;
-  }
+  return set_del(space->objects, object_id);
+}
 
-  return OK;
+/** 
+ * returns whether a given space's space->objects field is full
+*/
+Bool space_objects_is_full(Space *space) {
+  if (!space || !space->objects) return TRUE;
+
+  return set_is_full(space->objects);
 }
 
 /**Returns an array with the IDs of all the objects in the Set of Space.*/
 Id *space_get_objects(Space* space) {
   /*long num_objects = 0;*/
-  Id *objects_ids = NULL;
+  Set *objects_ids = NULL;
 
   if (!space || !space->objects) return NULL;
 
