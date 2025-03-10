@@ -2,7 +2,7 @@
  * @brief Implements functions relative to the Player data structure and its fields. 
  * 
  * @file player.c
- * @author PPROG - Grupo 2 - GPA
+ * @author PPROG - Grupo 2 - GPA, AGL
  * @version 0
  * @date 08-02-2025
  * @copyright GNU Public License
@@ -25,6 +25,7 @@ struct _Player {
     Id player_id;                /*!< Id of the player */
     Id object_id;                /*!< Id of the object being carried by the player */  
     Id location_id;              /*!< Id of the current player location */
+    int health;                  /*!< Number of health points of the character */
 };
 
 
@@ -42,6 +43,7 @@ Player *player_create(Id id) {
     player->location_id=NO_ID;
     player->object_id=NO_ID;
     player->name[0] = 0;
+    player->health = MAX_HEALTH_POINTS;  /* Set health to the maximum health points */
 
     /* Correct exit */
     return player;
@@ -122,6 +124,45 @@ Id player_get_object_id(Player *player) {
     return player->object_id;
 }
 
+/**player_get_health returns the health of the player */
+int player_get_health(Player *player){
+    if (!player) return -1; /*return error code if player pointer is NULL */
+
+    return player->health;
+}
+
+/** player_increase_health increases the health of the player */
+Status player_increase_health(Player *player, int health_points) {
+
+    if (!player  || (health_points <= 0)) return ERROR;
+
+    if(player ->health == MAX_HEALTH_POINTS){
+        return OK;
+    }else{
+
+        player ->health += health_points;
+        if(player ->health > MAX_HEALTH_POINTS){
+            player ->health = MAX_HEALTH_POINTS;
+        }
+
+    }
+    return OK;
+}
+
+/** player_remove_health decreases the health of the player */
+Status player_remove_health(Player *player, int health_points) {
+
+    if (!player  || (health_points <= 0)) return ERROR;
+
+    player->health -= health_points; 
+
+    /*health does not go below zero */
+    if (player->health < 0) {
+        player->health = 0;
+    }
+    return OK;
+}
+
 /** player_print prints all the player information */
 Status player_print(Player *player) {
     Id idaux = NO_ID;
@@ -144,6 +185,8 @@ Status player_print(Player *player) {
     } else {
         fprintf(stdout, "--> No object Id found. \n");
     }
+
+    fprintf(stdout, "--> Health of the player: %d \n", player_get_health(player));
 
     return OK;
 }

@@ -27,6 +27,7 @@ struct _Space {
   Id east;                  /*!< Id of the space at the east */
   Id west;                  /*!< Id of the space at the west */
   Set *objects;             /*!< Set of objects in the space */
+  Id character_id;          /*!< Id of the character in the space or NO_ID if there is no character in the sapce */
 };
 
 /** space_create allocates memory for a new space
@@ -51,6 +52,7 @@ Space* space_create(Id id) {
   newSpace->east = NO_ID;
   newSpace->west = NO_ID;
   newSpace->objects = set_create();  /**Initialize the Set*/ 
+  newSpace->character_id = NO_ID;    /** Initialize character_id to NO_ID */
 
   /* check for correct newSpace->objects initialization before exiting the function, as in game.c */
   if (newSpace->objects == NULL) {
@@ -196,6 +198,7 @@ Id space_get_west(Space* space) {
   return space->west;
 }
 
+
 /** 
  * adds a given id to the set of objects in the space
 */
@@ -212,10 +215,11 @@ Status space_add_object_id(Space* space, Id object_id) {
   return OK;
 }
 
+
 /** 
  * removes a given id from the set of objects in the space
 */
-Status space_del_object(Space *space, Id object_id) {
+Status space_del_object_id(Space *space, Id object_id) {
   if (!space || object_id == NO_ID) {
     return ERROR;
   }
@@ -264,6 +268,25 @@ long space_get_number_objects(Space *space) {
   return set_get_number_elements(space->objects);
 }
 
+/**sets the character ID in a given space */
+Status space_set_character(Space* space, Id character_id) {
+  if (!space) {
+    return ERROR;
+  }
+  space->character_id = character_id;
+  return OK;
+}
+
+/**gets the character ID in a given space */
+Id space_get_character(Space* space) {
+  if (!space) {
+    return NO_ID;
+  }
+  return space->character_id;
+}
+
+
+
 /** space_print prints a given space's information, space id and name, links, and object information
  *
 */
@@ -306,7 +329,7 @@ Status space_print(Space* space) {
     fprintf(stdout, "---> No west link.\n");
   }
 
-  /* 3. Print every object in the space or not */
+  /* 3. Print every object in the space or "no objects in the space" */
 
   ids = space_get_objects(space);
   n_ids = space_get_number_objects(space);
@@ -319,6 +342,14 @@ Status space_print(Space* space) {
 
   } else {
     fprintf(stdout, "---> No objects in the space.\n");
+  }
+
+
+  /* 4. Print the character_id in the space or "no character in the space" */
+  if (space->character_id != NO_ID) {
+    fprintf(stdout, "---> Character in the space: %ld\n", space->character_id);
+  } else {
+    fprintf(stdout, "---> No character in the space.\n");
   }
 
   return OK;

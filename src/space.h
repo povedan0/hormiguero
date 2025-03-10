@@ -149,15 +149,16 @@ Id space_get_west(Space* space);
  */
 Status space_add_object_id(Space* space, Id idObject);
 
-/** 
- * @brief Removed a certain object_id from the set of objects contained in a space
- * @author PPROG GROUP 2 - GPA
- * 
- * @param space pointer to space struct where space->objects will be modified
- * @param object_id ID number that muust be searched and removed from set
- * @return OK, if everything goes well or ERROR if there was some mistake 
-*/
-Status space_del_object(Space *space, Id object_id);
+
+/**
+ * @brief removes the given object ID from the set of objects in the space
+ * @author PPROG - Group 2 - AGL, GPA
+ *
+ * @param space a pointer to the space
+ * @param object_id id of the object in the space to be removed
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status space_del_object_id(Space* space, Id object_id);
 
 /** 
  * @brief Returns a boolean containing whether space->objects is full
@@ -195,6 +196,26 @@ Bool space_contains(Space *space, Id object_id);
  * @return Number of objects in a space or -1 if an error occurred 
 */
 long space_get_number_objects(Space *space);
+
+/** 
+ * @brief gets the character ID in a given space 
+ * @author PPROG Grupo 2 - AGL
+ * 
+ * @param space pointer to the space containing the objects
+ * @return Id of the character in the space 
+*/
+Id space_get_character(Space* space);
+
+/** 
+ * @brief set the character ID in a given space 
+ * @author PPROG Grupo 2 - AGL
+ * 
+ * @param space pointer to the space containing the objects
+ * @param character_id id of a character
+ * 
+ * @return OK if the character_id is successfully set; ERROR otherwise 
+*/
+Status space_set_character(Space* space, Id character_id);
 
 /**
  * @brief It prints the space information

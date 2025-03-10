@@ -130,9 +130,12 @@ void game_actions_back(Game *game) {
   return;
 }
 
-/** Implementation of take object function */
+/** Implementation of take object function 
+ *  There are multiple objects in the game. The function iterates through the objects in the space
+ * where the player is located and allow the player to take one of them.
+*/
 void game_actions_take(Game *game) {
-  Id object_id=NO_ID;
+  Id *object_ids=NULL;
   Player *player=NULL;
   Command *last_cmd=NULL;
   Space *space=NULL;
@@ -171,6 +174,14 @@ void game_actions_take(Game *game) {
       space_del_object(space, object_id);
     }
   }
+
+  /* Take the first object in the array */
+  object_id = object_ids[0];
+
+  /* Assign the object to the player and remove it from the space */
+  player_set_object_id(player, object_id); /* Set player->object_id to match that of the object */
+  space_del_object_id(space, object_id); /* Remove the object from the space */
+
 }
 
 /** Implementation of drop object function */
@@ -186,10 +197,12 @@ void game_actions_drop(Game *game) {
 
   if (!(space = game_get_space(game, player_get_location(player)))) return;
 
-  if (space_objects_is_full(space)) return;
+  /* Error checking for object ID and that space does not contain object_id */
+  if ((object_id = player_get_object_id(player)) != NO_ID && !space_objects_is_full(space)) {
+    /* Add the object to the space */
+    space_add_object_id(space, object_id);
 
-  if ((object_id = player_get_object_id(player)) == NO_ID) return;
-
-  space_add_object_id(space, object_id);
-  player_set_object_id(player, NO_ID);
+    /* Reset the object carried by the player to NO_ID */
+    player_set_object_id(player, NO_ID);
+  }
 }
