@@ -21,11 +21,14 @@
 /** macro defining the maximum number of spaces contained in a game */
 #define MAX_SPACES 100
 
-/** macro defining the maximum number of spaces contained in a game */
+/** macro defining the maximum number of objects contained in a game */
 #define MAX_OBJECTS 100
 
-/** macro defining the maximum number of spaces contained in a game */
+/** macro defining the maximum number of characters contained in a game */
 #define MAX_CHARACTERS 100
+
+/** macro defining the maximum lenght of a message from the chat */
+#define MAX_MESSAGE_LENGTH 100
 
 /** alias for the game structure */
 typedef struct _Game Game; 
@@ -50,9 +53,10 @@ Status game_add_space(Game *game, Space *space);
 */
 Status game_add_character(Game *game, Character *character);
 
+
 /**
  * @brief assigns a given object pointer to a certain position in the game->objects array 
- * @author PPROG Group 2 - AGL, GPA
+ * @author PPROG Group 2 - AGL
  * 
  * @param game pointer to game containing game->objects array 
  * @param object space pointer to be assigned 
@@ -60,14 +64,16 @@ Status game_add_character(Game *game, Character *character);
 */
 Status game_add_object(Game *game, Object *object);
 
+
 /**
  * @brief It creates a new game, allocating memory and initializing its members
  * @author PPROG Group 2 - AGL
  *
  * @param 
  * @return a new game, initialized
-*/
-Game *game_create(void);
+ */
+
+Game *game_create();
 
 /** 
  * @brief It initializes a game from a given file whose name is passed by argument. 
@@ -187,6 +193,29 @@ int game_get_number_objects(Game *game);
 Status game_set_object_location(Game *game, Id space_id, Id object_id) ;
 
 /** 
+ * @brief  gets the number of characters in the game
+ * @author PPROG Group 2 - AGL
+ * 
+ * @param game A pointer to the current game struct
+  
+ * @return an integer that corresponds to the number of characters in the game or -1 if pointer to game NULL. 
+*/
+int game_get_number_of_characters(Game *game);
+
+
+/** 
+ * @brief  Returns a pointer to the character with a given ID
+ * @author PPROG Group 2 - AGL
+ * 
+ * @param game A pointer to the current game struct
+ * @param id The ID of a character
+  
+ * @return a pointer to the character with the ID passed as an argument. 
+*/
+Character *game_get_character(Game *game, Id id);
+
+
+/** 
  * @brief  gets the character's location
  * @author PPROG Group 2 - AGL
  * 
@@ -202,8 +231,8 @@ Id game_get_character_location(Game *game, Id character_id);
  * @author PPROG Group 2 - AGL
  * 
  * @param game A pointer to the current game struct
- * @param space_id The id of the space the character must be moved to
- * @param character_id The id of the character added to the space
+ * @param space_id The id of the space the object must be moved to
+ * @param character_id The id of the object added to the space
  * 
  * @return OK if everything went well, or ERROR if an error ocurred. 
 */
@@ -258,6 +287,26 @@ Bool game_get_finished(Game *game);
  * @return OK if everything went well or ERROR if an error ocurred
 */
 Status game_set_finished(Game *game, Bool finished);
+
+/** 
+ * @brief  This function sets the chat message in the game structure.
+ * @author PPROG - Group 2 - AGL
+ * 
+ * @param game A pointer to the current game struct
+ * @param message A pointer to the message string to be set
+ * @return OK if the message is successfully set. ERROR if the game pointer is NULL, the message pointer is NULL,
+ * or the message length exceeds the maximum allowed length
+*/
+Status game_set_chat_message(Game *game, const char *message);
+
+/** 
+ * @brief This function retrieves the current chat message stored in the game structur
+ * @author PPROG - Group 2 - AGL
+ * 
+ * @param game A pointer to the current game struct
+ * @return A pointer to the chat message string if the game pointer is valid, or NULL if the game pointer is NULL
+*/
+char *game_get_chat_message(Game *game);
 
 /** 
  * @brief Prints the current game state

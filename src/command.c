@@ -17,11 +17,12 @@
 
 /** @brief defines the maximum lenght to be read at the command line */
 #define CMD_LENGHT 30
+
 /** @brief defines the length of the statically-defined auxiliary string */
-#define CMD_STRING 10
+#define COMPLEMENT_LENGTH 30
 
 /** global variable to commmand.c that will match user input to the corresponding commands */
-char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"n", "Next"}, {"b", "Back"}, {"t", "Take"}, {"d", "Drop"}};
+char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"n", "Next"}, {"b", "Back"},  {"l", "Left"},  {"r", "Right"}, {"t", "Take"}, {"d", "Drop"}, {"a", "Attack"}, {"c", "Chat"}};
 
 /**
  * @brief Command
@@ -29,8 +30,8 @@ char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "E
  * This struct stores all the information related to a command.
  */
 struct _Command {
-  CommandCode code;         /*!< Name of the command */
-  char string[CMD_STRING];  /*!< Auxiliary string which stores additional info for some commands */
+  CommandCode code;                      /*!< Name of the command */
+  char complement[COMPLEMENT_LENGTH];    /*!< Auxiliary string which stores additional info for some commands */
 };
 
 /** command_create allocates memory for a new command
@@ -48,6 +49,9 @@ Command* command_create(void) {
   /* Initialization of an empty command*/
   newCommand->code = NO_CMD;
 
+  /* Initialization of an empty complement*/
+  newCommand->complement[0] = '\0';
+
   return newCommand;
 }
 
@@ -63,28 +67,6 @@ Status command_destroy(Command* command) {
   free(command);
   command = NULL;
   return OK;
-}
-
-/** 
- * assings a string passed as argument to the corresponding coommand->string field
-*/
-Status command_set_string(Command *command, char *string) {
-  if (!command || !string) {
-    return ERROR;
-  }
-
-  if (!strcpy(command->string, string)) return ERROR;
-
-  return OK;
-}
-
-/** fetches the string asssociated with a given command, or NULL */
-char *command_get_string(Command *command) {
-  if (!command) {
-    return NULL;
-  }
-
-  return command->string;
 }
 
 /** command_set_code receives a command code and assigns it to a given 
@@ -112,6 +94,32 @@ CommandCode command_get_code(Command* command) {
   return command->code;
 }
 
+/** command_set_complement receives a complement (string of chars) and assigns it to a given 
+ * command variable
+ * 
+*/
+Status command_set_complement(Command* command, char *complement) {
+  if (!command || !complement) {
+    return ERROR;
+  }
+
+  if (!strcpy(command->complement, complement)) return ERROR;
+
+
+  return OK;
+}
+
+/** command_get_complement retrieves the command contained in a certain command
+ * variable
+ * 
+*/
+char* command_get_complement(Command* command) {
+  if (!command) {
+    return NULL;
+  }
+  return command->complement;
+}
+
 /** command_get_user_input interprets user input and determines which 
  * command code it is correspondent to, assigning the auxiliary string in the command if it is necessary 
  * 
@@ -136,20 +144,26 @@ Status command_get_user_input(Command* command) {
 
     cmd = UNKNOWN;
     while (cmd == UNKNOWN && i < N_CMD) {
-      /* Match input according to its code (b/n/e/t/d) or meaning (Back/Next/Exit/Take/Drop) */
+      /* Match input according to its code (b/n/e/l/r/t/d/a/c) or meaning (Back/Next/Exit/Left/Right/Take/Drop/Attack/Chat) */
       if (!strcasecmp(token, cmd_to_str[i][CMDS]) || !strcasecmp(token, cmd_to_str[i][CMDL])) {
         cmd = i + NO_CMD;
       } else {
         i++;
       }
     }
-    if (cmd == TAKE /* cmd == DROP */) { /* player can only hold one object for now */
+    
+    /* If the command is TAKE, read the complement */
+    if (cmd == TAKE) {
       token = strtok(NULL, " \n");
-      command_set_string(command, token);
-    } else {
-      command_set_string(command, 0); /* empty string to avoid undefined behaviour of object locations */
+      if (token) {
+        command_set_complement(command, token);
+      } else {
+        command_set_complement(command, ""); /*Set an empty complement if none is done*/
+      }
     }
-    command_set_code(command, cmd);
+
+    /* Set the command code */
+    return command_set_code(command, cmd);
   }
   else
     return command_set_code(command, EXIT);
