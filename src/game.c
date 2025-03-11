@@ -116,6 +116,8 @@ Game *game_create(void) {
 
   /* variable initializations */
   game->n_spaces = 0;
+  game->n_characters = 0;
+  game->n_objects = 0;
   game->player = player_create(1); /* suppose player_id == 1 */
   game->last_cmd = command_create();
   game->finished = FALSE;
