@@ -238,7 +238,7 @@ void game_actions_take(Game *game) {
 
     name = object_get_name(game_get_object_at(game, i));
     
-    if (strcasecmp(name, command_get_string(last_cmd)) == 0) {
+    if (strcasecmp(name, command_get_complement(last_cmd)) == 0) {
       player_set_object_id(player, object_id);
       space_del_object_id(space, object_id);
     }

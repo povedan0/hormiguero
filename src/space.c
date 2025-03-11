@@ -239,7 +239,7 @@ Bool space_objects_is_full(Space *space) {
 /**Returns an array with the IDs of all the objects in the Set of Space.*/
 Id *space_get_objects(Space* space) {
   /*long num_objects = 0;*/
-  Set *objects_ids = NULL;
+  Id *objects_ids = NULL;
 
   if (!space || !space->objects) return NULL;
 
