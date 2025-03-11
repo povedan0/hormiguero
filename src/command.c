@@ -15,10 +15,10 @@
 #include <string.h>
 #include <strings.h>
 
-/** macro defines the maximum size of a command code */
+/** @brief defines the maximum lenght to be read at the command line */
 #define CMD_LENGHT 30
 
-/** macro defines the maximum size of a complement name */
+/** @brief defines the length of the statically-defined auxiliary string */
 #define COMPLEMENT_LENGTH 30
 
 /** global variable to commmand.c that will match user input to the corresponding commands */
@@ -30,8 +30,8 @@ char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "E
  * This struct stores all the information related to a command.
  */
 struct _Command {
-  CommandCode code; /*!< Name of the command */
-  char complement[COMPLEMENT_LENGTH];    /*!< Name of the complement command */
+  CommandCode code;                      /*!< Name of the command */
+  char complement[COMPLEMENT_LENGTH];    /*!< Auxiliary string which stores additional info for some commands */
 };
 
 /** command_create allocates memory for a new command
@@ -49,8 +49,8 @@ Command* command_create(void) {
   /* Initialization of an empty command*/
   newCommand->code = NO_CMD;
 
-   /* Initialization of an empty complement*/
-   newCommand->complement[0] = '\0';
+  /* Initialization of an empty complement*/
+  newCommand->complement[0] = '\0';
 
   return newCommand;
 }
@@ -99,10 +99,11 @@ CommandCode command_get_code(Command* command) {
  * 
 */
 Status command_set_complement(Command* command, char *complement) {
-  if (!command) {
+  if (!command || !complement) {
     return ERROR;
   }
-  strcpy(command->complement, complement);
+
+  if (!strcpy(command->complement, complement)) return ERROR;
 
 
   return OK;
@@ -120,7 +121,7 @@ char* command_get_complement(Command* command) {
 }
 
 /** command_get_user_input interprets user input and determines which 
- * command code it is correspondent to
+ * command code it is correspondent to, assigning the auxiliary string in the command if it is necessary 
  * 
 */
 Status command_get_user_input(Command* command) {
@@ -150,9 +151,7 @@ Status command_get_user_input(Command* command) {
         i++;
       }
     }
-    /* Set the command code */
-    command_set_code(command, cmd);
-
+    
     /* If the command is TAKE, read the complement */
     if (cmd == TAKE) {
       token = strtok(NULL, " \n");
@@ -163,7 +162,8 @@ Status command_get_user_input(Command* command) {
       }
     }
 
-    return OK;
+    /* Set the command code */
+    return command_set_code(command, cmd);
   }
   else
     return command_set_code(command, EXIT);

@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <time.h>
 
 /**
@@ -203,55 +204,44 @@ void game_actions_right(Game *game) {
  * where the player is located and allow the player to take one of them.
 */
 void game_actions_take(Game *game) {
-  Id *object_ids=NULL;
+  Id object_id;
   Player *player=NULL;
+  Command *last_cmd=NULL;
   Space *space=NULL;
-  Id player_location = NO_ID;
-  Id object_id = NO_ID;
-  Command *command = NULL;
-  const char *complement = NULL;
-  Object *object = NULL;
-  int i;
+  const char *name;
+  int i, n_objects;
   
-
-  command = game_get_last_command(game);
+  if (!(last_cmd = game_get_last_command(game))) {
+    return;
+  }
 
   if (!(player = game_get_player(game))) {
     return;
   }
 
-  /* Get the player's location */
-  player_location = game_get_player_location(game);
-
-
-   /* Get the space at the player's location */
-   if (!(space = game_get_space(game, player_location))) {
+  if ((space = game_get_space(game, player_get_location(player))) == NULL) {
     return;
   }
 
-  /* Get the object IDs from the space */
-  object_ids = space_get_objects(space);
-   /* Error checking for object IDs */
-   if (!object_ids) {
+  if (player_get_object_id(player) != NO_ID) {
     return;
   }
 
-   /* Get the complement from the command */
-   complement = command_get_complement(command);
+  if ((n_objects = game_get_number_objects(game)) <= 0 ) {
+    return;
+  }
 
-  /* Search for the object by name */
-  for (i = 0; object_ids[i] != NO_ID; i++) {
-    object = game_get_object(game, object_ids[i]);
-    if (object && !strcmp(object_get_name(object), complement)) {
-      object_id = object_ids[i];
-      break;
+  for (i = 0 ; i < n_objects ; i++) {
+    if (!space_contains(space, object_id = object_get_id(game_get_object_at(game, i)))) {
+      continue;
     }
-  }
 
-  /* If the object is found, assign it to the player and remove it from the space */
-  if (object_id != NO_ID) {
-    player_set_object_id(player, object_id); /* Set player->object_id to match that of the object */
-    space_del_object_id(space, object_id); /* Remove the object from the space */
+    name = object_get_name(game_get_object_at(game, i));
+    
+    if (strcasecmp(name, command_get_string(last_cmd)) == 0) {
+      player_set_object_id(player, object_id);
+      space_del_object_id(space, object_id);
+    }
   }
 }
 
@@ -268,11 +258,8 @@ void game_actions_drop(Game *game) {
 
   if (!(space = game_get_space(game, player_get_location(player)))) return;
 
-  /* Get the object ID from the player */
-  object_id = player_get_object_id(player);
-
   /* Error checking for object ID and that space does not contain object_id */
-  if (object_id != NO_ID && !space_contains(space, object_id)) {
+  if ((object_id = player_get_object_id(player)) != NO_ID && !space_objects_is_full(space)) {
     /* Add the object to the space */
     space_add_object_id(space, object_id);
 
