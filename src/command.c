@@ -149,7 +149,7 @@ Status command_get_user_input(Command* command) {
     } else {
       command_set_string(command, 0); /* empty string to avoid undefined behaviour of object locations */
     }
-    command_set_code(command, cmd);
+    return command_set_code(command, cmd);
   }
   else
     return command_set_code(command, EXIT);

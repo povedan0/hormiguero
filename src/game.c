@@ -413,7 +413,6 @@ int game_get_number_objects(Game *game) {
 */
 void game_print(Game *game) {
   int i = 0;
-  Id idaux;
 
   fprintf(stdout, "\n\n-------------\n\n");
 
