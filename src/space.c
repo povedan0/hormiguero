@@ -20,14 +20,15 @@
  * This struct stores all the information of a space.
  */
 struct _Space {
-  Id id;                    /*!< Id number of the space, it must be unique */
-  char name[WORD_SIZE + 1]; /*!< Name of the space */
-  Id north;                 /*!< Id of the space at the north */
-  Id south;                 /*!< Id of the space at the south */
-  Id east;                  /*!< Id of the space at the east */
-  Id west;                  /*!< Id of the space at the west */
-  Set *objects;             /*!< Set of objects in the space */
-  Id character_id;          /*!< Id of the character in the space or NO_ID if there is no character in the sapce */
+  Id id;                      /*!< Id number of the space, it must be unique */
+  char name[WORD_SIZE + 1];   /*!< Name of the space */
+  Id north;                   /*!< Id of the space at the north */
+  Id south;                   /*!< Id of the space at the south */
+  Id east;                    /*!< Id of the space at the east */
+  Id west;                    /*!< Id of the space at the west */
+  Set *objects;               /*!< Set of objects in the space */
+  Id character_id;            /*!< Id of the character in the space or NO_ID if there is no character in the sapce */
+  char **gdesc;               /*!< graphic description of the space */
 };
 
 /** space_create allocates memory for a new space
@@ -35,6 +36,7 @@ struct _Space {
  */
 Space* space_create(Id id) {
   Space* newSpace = NULL;
+  int i;
 
   /* Error control */
   if (id == NO_ID) return NULL;
@@ -42,6 +44,20 @@ Space* space_create(Id id) {
   newSpace = (Space*)malloc(sizeof(Space));
   if (newSpace == NULL) {
     return NULL;
+  }
+
+  if (!(newSpace->gdesc = (char **) malloc(GDESC_HEIGHT * sizeof(char *)))) {
+    space_destroy(newSpace);
+    return NULL;
+  }
+
+  if (!(newSpace->gdesc[0] = (char *) malloc(GDESC_HEIGHT * GDESC_LENGTH * sizeof(char)))) {
+    space_destroy(newSpace);
+    return NULL;
+  }
+
+  for (i = 0 ; i < GDESC_HEIGHT  ; i++) {
+    newSpace->gdesc[i] = newSpace->gdesc[0] + i*GDESC_LENGTH ;
   }
 
   /* Initialization of an empty space*/
@@ -75,6 +91,11 @@ Status space_destroy(Space* space) {
     set_destroy(&(space->objects));
   }
 
+  if (space->gdesc) {
+    if (space->gdesc[0]) free(space->gdesc[0]);
+    free(space->gdesc);
+  }
+
   free(space);
   /**space = NULL;*/ /**nonsense */
   return OK;
@@ -101,6 +122,7 @@ Status space_set_name(Space* space, char* name) {
   if (!strcpy(space->name, name)) {
     return ERROR;
   }
+
   return OK;
 }
 
@@ -285,6 +307,24 @@ Id space_get_character(Space* space) {
   return space->character_id;
 }
 
+Status space_set_gdesc(Space *s, char **gdesc) {
+  int i = 0;
+
+  if (!s || !gdesc) return ERROR;
+
+  for (i = 0; i < GDESC_HEIGHT ; i++) {
+    strcpy(s->gdesc[i], gdesc[i]);
+  }
+
+  return OK;
+}
+
+char **space_get_gdesc(Space *s) {
+  if (!s || !s->gdesc || !s->gdesc[0]) return NULL;
+
+  return s->gdesc;
+}
+
 
 
 /** space_print prints a given space's information, space id and name, links, and object information
@@ -337,7 +377,7 @@ Status space_print(Space* space) {
   if (ids != NULL) {
     fprintf(stdout, "---> Number of objects in the space: %ld\n", n_ids);
     for (i = 0 ; i < n_ids ; i++) {
-      fprintf(stdout, "\n  ---> Object %ld: %ld", i+1, ids[i]);
+      fprintf(stdout, "  ---> Object %ld: %ld\n", i+1, ids[i]);
     }
 
   } else {
@@ -350,6 +390,15 @@ Status space_print(Space* space) {
     fprintf(stdout, "---> Character in the space: %ld\n", space->character_id);
   } else {
     fprintf(stdout, "---> No character in the space.\n");
+  }
+
+  if (space->gdesc) {
+    fprintf(stdout, "---> Graphic description of the space: \n");
+    for (i = 0 ; i < GDESC_HEIGHT ; i++) {
+      fprintf(stdout, " %s\n", space->gdesc[i]);
+    }
+  } else {
+    fprintf(stdout, "---> No graphic description of the space.\n");
   }
 
   return OK;

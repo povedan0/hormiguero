@@ -17,6 +17,9 @@
 /** alias for the space structure */
 typedef struct _Space Space;
 
+#define GDESC_HEIGHT 5
+#define GDESC_LENGTH 10
+
 /**
  * @brief It creates a new space, allocating memory and initializing its members
  * @author PPROG Group 2 (GPA, AGL)
@@ -216,6 +219,10 @@ Id space_get_character(Space* space);
  * @return OK if the character_id is successfully set; ERROR otherwise 
 */
 Status space_set_character(Space* space, Id character_id);
+
+Status space_set_gdesc(Space *s, char **gdesc);
+
+char **space_get_gdesc(Space *s);
 
 /**
  * @brief It prints the space information

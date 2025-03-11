@@ -161,7 +161,6 @@ Status command_get_user_input(Command* command) {
         command_set_complement(command, ""); /*Set an empty complement if none is done*/
       }
     }
-
     /* Set the command code */
     return command_set_code(command, cmd);
   }
