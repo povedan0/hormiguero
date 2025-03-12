@@ -1,4 +1,4 @@
-EXE=anthill set_test character_test
+EXE=anthill space_test set_test character_test
 CFLAGS=-Wall -ansi -pedantic -g
 CC=gcc
 CLIB = -L. -lscreen

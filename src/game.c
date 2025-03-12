@@ -275,16 +275,6 @@ Object *game_get_object(Game *game, Id id) {
   return NULL;
 }
 
-/** 
-* game_get_objects returns the game->objects array to be iterated through int other functions 
-*/
-Object **game_get_objects(Game *game) {
-  if (!game) return NULL;
-
-  return game->objects;
-}
-
-
 /**
  * game_get_player_location returns the space id where the player is currently located
 */
@@ -379,6 +369,14 @@ Character *game_get_character(Game *game, Id id) {
   return NULL;
 }
 
+/** 
+ * fetches the character contained in that position of the game->characters array
+*/
+Character *game_get_character_at(Game *game, int position) {
+  if (!game || position >= game->n_characters || position < 0) return NULL;
+
+  return game->characters[position];
+}
 /**
  * game_get_character_location cycles through every space and returns 
  * the space id that matches the character's location
@@ -444,6 +442,8 @@ Bool game_get_finished(Game *game) { return game->finished; }
  * game_set_finished receives a boolean and updates game->finished to match 
 */
 Status game_set_finished(Game *game, Bool finished) {
+  if (!game) return ERROR;
+
   game->finished = finished;
 
   return OK;
@@ -453,7 +453,7 @@ Status game_set_finished(Game *game, Bool finished) {
  * fetches the object pointer contained at a certain position in the game->objects array 
 */
 Object *game_get_object_at(Game *game, int pos) {
-  if (!game || pos >= MAX_OBJECTS || pos <0) {
+  if (!game || pos >= game->n_objects || pos < 0) {
     return NULL;
   }
 
@@ -475,7 +475,8 @@ Status game_set_chat_message(Game *game, const char *message) {
 
   if (strlen(message) >= MAX_MESSAGE_LENGTH) return ERROR;
 
-  strcpy(game->chat_message, message);
+  if (!strcpy(game->chat_message, message)) return ERROR;
+
   return OK;
 }
 

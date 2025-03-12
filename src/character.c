@@ -45,7 +45,7 @@ Character *character_create(Id id) {
     character->name[0] = '\0';
     character->gdesc[0] = '\0';
     character->health = MAX_HEALTH_POINTS;  /* Set health to the maximum health points */
-    character -> friendly = TRUE;           /* Set friendly to TRUE */
+    character->friendly = TRUE;             /* Set friendly to TRUE */
     character->message[0] = '\0';           
     
     /* Correct exit */

@@ -211,34 +211,43 @@ void game_actions_take(Game *game) {
   const char *name;
   int i, n_objects;
   
+  /* fetch the last command */
   if (!(last_cmd = game_get_last_command(game))) {
     return;
   }
 
+  /* fetch player */
   if (!(player = game_get_player(game))) {
     return;
   }
 
+  /* fetch the current space structure */
   if ((space = game_get_space(game, player_get_location(player))) == NULL) {
     return;
   }
 
+  /* player already has an object */
   if (player_get_object_id(player) != NO_ID) {
     return;
   }
 
+  /* invalid number of objects in the game */
   if ((n_objects = game_get_number_objects(game)) <= 0 ) {
     return;
   }
 
   for (i = 0 ; i < n_objects ; i++) {
+    /* check if space contains object in the i-th position in the game->objects array */
     if (!space_contains(space, object_id = object_get_id(game_get_object_at(game, i)))) {
       continue;
     }
 
+    /* get object name */
     name = object_get_name(game_get_object_at(game, i));
     
+    /* compare object name with the string passed as second argument to the take command */
     if (strcasecmp(name, command_get_complement(last_cmd)) == 0) {
+      /* if comparison is successful, set player's object id and remove object from set */
       player_set_object_id(player, object_id);
       space_del_object_id(space, object_id);
     }
@@ -254,11 +263,13 @@ void game_actions_drop(Game *game) {
   /* Error checking */
   if (!game) return;
 
+  /* fecth player */
   if (!(player = game_get_player(game))) return;
 
+  /* fetch current space */
   if (!(space = game_get_space(game, player_get_location(player)))) return;
 
-  /* Error checking for object ID and that space does not contain object_id */
+  /* Error checking for object ID and that space is not full */
   if ((object_id = player_get_object_id(player)) != NO_ID && !space_objects_is_full(space)) {
     /* Add the object to the space */
     space_add_object_id(space, object_id);
@@ -279,7 +290,7 @@ void game_actions_attack(Game *game) {
   if (!game) return;
 
   /* Get the player's location */
-  player_location = game_get_player_location(game);
+  if ((player_location = game_get_player_location(game)) == NO_ID) return;
 
   /* Get the space at that player location */
   if (!(space = game_get_space(game, player_location))) {
