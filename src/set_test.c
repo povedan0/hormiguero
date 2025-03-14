@@ -228,11 +228,13 @@ void test6_set_del() {
   set_destroy(&set);
 }
 
+/**This function tests the behavior of set_contains_id when the set is NULL. */
 void test1_set_contains_id() {
   Set *s= NULL;
   PRINT_TEST_RESULT(set_contains_id(s, 1) == FALSE);
 }
 
+/** This function checks the behavior of set_contains_id when the element_id is NO_ID. */
 void test2_set_contains_id() {
   Set *s;
   s = set_create();
@@ -240,6 +242,7 @@ void test2_set_contains_id() {
   set_destroy(&s);
 }
 
+/**This function checks the behavior of set_contains_id when the element_id is not included in the set. */
 void test3_set_contains_id() {
   Set *s;
   s = set_create();
@@ -248,6 +251,7 @@ void test3_set_contains_id() {
   set_destroy(&s);
 }
 
+/** This function checks the behavior of set_contains_id when the element_id is in the set. */
 void test4_set_contains_id() {
   Set *s;
   s = set_create();

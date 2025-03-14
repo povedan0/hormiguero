@@ -161,7 +161,7 @@ void test5_set_del();
 void test6_set_del();
 
 /**
- * @test Tests wehther the ID number 1 is contained in a NULL set
+ * @test Tests whether the ID number 1 is contained in a NULL set
  * @pre A set pointer has been created and initialized to NULL
  * @post The expected result of the function is FALSE
 */
@@ -175,7 +175,7 @@ void test1_set_contains_id();
 void test2_set_contains_id();
 
 /** 
- * @test Tests whether the set contains a certain id
+ * @test Tests whether the set contains a certain id that is not present in the set
  * @pre The set is created and initialized, id=1 is added to it, different id is searched
  * @post The expected function output is FALSE
 */
