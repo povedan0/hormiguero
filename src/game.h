@@ -132,14 +132,25 @@ Player *game_get_player(Game *game);
 */
 Object *game_get_object(Game *game, Id id);
 
+
 /** 
-* @brief Fetches the game->objects array 
-* @author PPROG Group 2 - GPA
-* 
-* @param game pointer to game struct containing game->objects 
-* @return game->objects pointer, or NULL in case of error
+ * @brief returns the number of objects in the game
+ * @author PPROG Group 2 - AGL
+ * 
+ * @param game pointer to _Game   
+ * @return integer, number of objects in the game (retunrs -1 if game points to NULL)
 */
-Object **game_get_objects(Game *game);
+int game_get_number_of_objects(Game *game);
+
+/** 
+ * @brief gets the id of an object at a given index
+ * @author PPROG Group 2 - AGL
+ * 
+ *  @param game pointer to _Game  
+ *  @param index  given index for the collection of objects in the game 
+ * @return id of the object at the given index; or NO_ID if error
+*/
+Id game_get_object_id_at(Game *game, int index);
 
 /** 
  * @brief Matches the current player location to a space Id passed by argument
@@ -159,26 +170,7 @@ Status game_set_player_location(Game *game, Id id);
  * @param Id Id of the object
  * @return Id of the space where the object is currently located. 
 */
-Id game_get_object_location(Game *game, Id object_id);
-
-/**
- * @brief returns the pointer to object contained in that position of the game->objects array
- * @author PPROG Group 2 - GPA 
- * 
- * @param game game structure containing the objects array
- * @param pos position in the array to return 
- * @return the pointer to object contained in that position of the array
-*/
-Object *game_get_object_at(Game *game, int pos);
-
-/** 
- * @brief retrieves the number of objects contained in a game
- * @author PPROG Group 2 - GPA
- * 
- * @param game pointer to gaem structure containing the number of objects
- * @return game->n_objects, which ranges from 0 to MAX_OBJECTS or -1 if an error occurred
-*/
-int game_get_number_objects(Game *game);
+Id game_get_object_location(Game *game,  Id object_id);
 
 /** 
  * @brief Matches the current object location to a space Id passed by argument
@@ -201,6 +193,27 @@ Status game_set_object_location(Game *game, Id space_id, Id object_id) ;
  * @return an integer that corresponds to the number of characters in the game or -1 if pointer to game NULL. 
 */
 int game_get_number_of_characters(Game *game);
+
+/** 
+ * @brief  gets the ID of a character at a specific index, which can then be used to iterate through the characters 
+ * @author PPROG Group 2 - AGL
+ * 
+ * @param game A pointer to the current game struct
+  
+ * @return Id of a character with a given index. 
+*/
+Id game_get_character_id_at(Game *game, int index);
+
+
+/** 
+ * @brief  Returns an array with the IDs of all the characters in the Game
+ * @author PPROG Group 2 - AGL
+ * 
+ * @param game A pointer to the current game struct
+  
+ * @return Returns an array with the IDs of all the characters in the GameL. 
+*/
+Id *game_get_characters(Game * game);
 
 
 /** 
@@ -237,18 +250,6 @@ Id game_get_character_location(Game *game, Id character_id);
  * @return OK if everything went well, or ERROR if an error ocurred. 
 */
 Status game_set_character_location(Game *game, Id space_id, Id character_id);
-
-/** 
- * @brief sets the location of the object to a space_id
- * @author PPROG Group 2 - AGL, GPA
- * 
- * @param game A pointer to the current game struct
- * @param space_id The id of the space the object must be moved to
- * @param object_id The id of the object added to the space
- * 
- * @return OK if everything went well, or ERROR if an error ocurred. 
-*/
-Status game_set_object_location(Game *game, Id space_id, Id object_id);
 
 /** 
  * @brief Retrieves the last command input stored in the game struct
