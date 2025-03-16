@@ -103,6 +103,15 @@ Status game_destroy(Game *game);
 */
 Space *game_get_space(Game *game, Id id);
 
+/** 
+ * @brief Given a pointer to a game and a object Id, returns a object struct or null. 
+ * @author Profesores PPROG
+ * 
+ * @param game A pointer to game where the object exists. 
+ * @param id Id of the desired object
+ * @return The desired object if it can be found within the given game, or null if it cannot. 
+*/
+Object *game_get_object(Game *game, Id id);
 
 /** 
  * @brief It retrieves the current player location, stored in game struct
