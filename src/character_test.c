@@ -18,14 +18,14 @@
 #define MAX_TESTS 44
 
 
-int main(int argv, char **argc) {    
+int main(int argc, char **argv) {    
   int test = 0;
   int all = 1;
 
-  if (argv < 2) {
+  if (argc < 2) {
     printf("Running all test for module Space:\n");
   } else {
-    test = atoi(argc[1]);
+    test = atoi(argv[1]);
     all = 0;
     printf("Running test %d:\t", test);
     if (test < 1 && test > MAX_TESTS) {

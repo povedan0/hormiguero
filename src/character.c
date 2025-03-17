@@ -35,7 +35,9 @@ Character *character_create(Id id) {
     Character *character=NULL; 
 
     /* Error checking */
-    if (!(character = (Character *)malloc(sizeof(Character))) || id == NO_ID) {
+    if (id == NO_ID) return NULL;
+
+    if (!(character = (Character *)malloc(sizeof(Character)))) {
         return NULL;
     }
 
@@ -126,13 +128,13 @@ Status character_increase_health(Character *character, int health_points) {
 
     if (!character  || (health_points <= 0)) return ERROR;
 
-    if(character ->health == MAX_HEALTH_POINTS){
+    if(character->health == MAX_HEALTH_POINTS){
         return OK;
     }else{
 
-        character ->health += health_points;
-        if(character ->health > MAX_HEALTH_POINTS){
-            character ->health = MAX_HEALTH_POINTS;
+        character->health += health_points;
+        if(character->health > MAX_HEALTH_POINTS){
+            character->health = MAX_HEALTH_POINTS;
         }
 
     }

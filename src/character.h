@@ -17,7 +17,7 @@
 #define GDESC_SIZE 6
 
 /** macro defining the maximum number of health points for characters */
-#define MAX_HEALTH_POINTS 100
+#define MAX_HEALTH_POINTS 5
 
 /** alias for the Character data structure */
 typedef struct _Character Character;
@@ -28,7 +28,7 @@ typedef struct _Character Character;
 
 /** 
  * @brief Allocates memory for a given character and initializes its members
- * @author PPROG Group 2 (AGL)
+ * @author PPROG Group 2 - GPA
  * 
  * @param id The id of the character to be created
  * @return NULL if an error occurred or a pointer to the newly created character variable

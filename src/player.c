@@ -34,7 +34,9 @@ Player *player_create(Id id) {
     Player *player=NULL; 
 
     /* Error checking */
-    if (!(player = (Player *)malloc(sizeof(Player))) || id == NO_ID) {
+    if (id == NO_ID) return NULL;
+
+    if (!(player = (Player *)malloc(sizeof(Player)))) {
         return NULL;
     }
 
