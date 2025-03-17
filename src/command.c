@@ -32,6 +32,7 @@ char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "E
 struct _Command {
   CommandCode code;                      /*!< Name of the command */
   char complement[COMPLEMENT_LENGTH];    /*!< Auxiliary string which stores additional info for some commands */
+  Status status;                         /*!< Status of the command after execution, OK/ERROR */
 };
 
 /** command_create allocates memory for a new command
@@ -51,6 +52,7 @@ Command* command_create(void) {
 
   /* Initialization of an empty complement*/
   newCommand->complement[0] = '\0';
+  newCommand->status = OK;
 
   return newCommand;
 }
@@ -120,6 +122,20 @@ char* command_get_complement(Command* command) {
   return command->complement;
 }
 
+Status command_get_status(Command *command) {
+  if (!command) return ERROR;
+
+  return command->status;
+}
+
+Status command_set_status(Command *command, Status status) {
+  if (!command) return ERROR;
+
+  command->status = status;
+
+  return OK;
+}
+
 /** command_get_user_input interprets user input and determines which 
  * command code it is correspondent to, assigning the auxiliary string in the command if it is necessary 
  * 
@@ -158,7 +174,7 @@ Status command_get_user_input(Command* command) {
       if (token) {
         command_set_complement(command, token);
       } else {
-        command_set_complement(command, ""); /*Set an empty complement if none is done*/
+        command_set_complement(command, " "); /*Set an empty complement if none is done*/
       }
     }
     /* Set the command code */

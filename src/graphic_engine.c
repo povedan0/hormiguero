@@ -14,11 +14,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "command.h"
-#include "libscreen.h"
-#include "space.h"
-#include "types.h"
-
 /** Various static declarations of macros related to the graphical interface */
 #define WIDTH_MAP 55
 #define WIDTH_DES 30
@@ -510,12 +505,19 @@ void graphic_engine_paint_map(Graphic_engine *ge, Game *game) {
 void graphic_engine_paint_feedback(Graphic_engine *ge, Game *game) {
   extern char *cmd_to_str[N_CMD][N_CMDT];
   char str[128];
+  Command *command = NULL;
   CommandCode last_cmd = UNKNOWN;
 
   if (!ge || !game) return;
 
-  last_cmd = command_get_code(game_get_last_command(game));
-  sprintf(str, " %s (%s)", cmd_to_str[last_cmd - NO_CMD][CMDL], cmd_to_str[last_cmd - NO_CMD][CMDS]);
+  last_cmd = command_get_code(command = game_get_last_command(game));
+
+  if (command_get_status(command) == ERROR) {
+    sprintf(str, " %s (%s): ERROR", cmd_to_str[last_cmd - NO_CMD][CMDL], cmd_to_str[last_cmd - NO_CMD][CMDS]);
+  } else {
+    sprintf(str, " %s (%s): OK", cmd_to_str[last_cmd - NO_CMD][CMDL], cmd_to_str[last_cmd - NO_CMD][CMDS]);    
+  }
+  
   screen_area_puts(ge->feedback, str);
   
 }
@@ -653,13 +655,35 @@ void graphic_engine_paint_description(Graphic_engine *ge, Game *game) {
 
   /***********************************/
 
-  sprintf(str, "Message: %s", game_get_chat_message(game));
-  if (strlen(str) > WIDTH_DES) {
+  if (command_get_code(game_get_last_command(game)) == CHAT && command_get_status(game_get_last_command(game)) == OK) {
+    sprintf(str, "Player has chatted with: %s", character_get_name(game_get_character(game, space_get_character(game_get_space(game, game_get_player_location(game))))));
+    if (strlen(str) > WIDTH_DES) {
       str[WIDTH_DES] = '\0';
       str[WIDTH_DES - 1] = '.';
       str[WIDTH_DES - 2] = '.';
-      str[WIDTH_DES - 3] = '.';
+      str[WIDTH_DES - 3] = '.';      
+    }
+
+    screen_area_puts(ge->descript, str);
+    sprintf(str, "Message: %s", game_get_chat_message(game));
+    if (strlen(str) > WIDTH_DES) {
+        str[WIDTH_DES] = '\0';
+        str[WIDTH_DES - 1] = '.';
+        str[WIDTH_DES - 2] = '.';
+        str[WIDTH_DES - 3] = '.';
+    }
+    screen_area_puts(ge->descript, str);
+
+  } else {
+    sprintf(str, "Player has not chatted with anyone.");
+    if (strlen(str) > WIDTH_DES) {
+        str[WIDTH_DES] = '\0';
+        str[WIDTH_DES - 1] = '.';
+        str[WIDTH_DES - 2] = '.';
+        str[WIDTH_DES - 3] = '.';
+    }
+    screen_area_puts(ge->descript, str);
   }
-  screen_area_puts(ge->descript, str);
+
   /***********************************/
 }

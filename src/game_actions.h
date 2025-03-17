@@ -12,6 +12,7 @@
 #define GAME_ACTIONS_H
 
 #include "command.h"
+#include "object.h"
 #include "game.h"
 #include "types.h"
 #include "space.h"

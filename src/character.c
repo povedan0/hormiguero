@@ -8,7 +8,6 @@
  * @copyright GNU Public License
 */
 
-
 #include "character.h"
 
 #include <stdio.h>
@@ -24,7 +23,7 @@
 struct _Character {
     Id  character_id;               /*!< Id of the character */
     char name[WORD_SIZE + 1];       /*!< Name of the character */
-    char gdesc[GDESC_SIZE];         /*!< Graphical description of the character */
+    char gdesc[GDESC_SIZE + 1];         /*!< Graphical description of the character */
     int health;                     /*!< Number of health points of the character */
     Bool friendly;                  /*!< Boolean indicating whether the character is friendly (TRUE) */  
     char message[WORD_SIZE + 1];    /*!< Message */

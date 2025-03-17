@@ -8,12 +8,11 @@
  * @copyright GNU Public License
  */
 
+#include "set_test.h"
+
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <string.h> 
-#include "set.h"
-#include "set_test.h"
-#include "test.h"
 
 #define MAX_TESTS 24
 

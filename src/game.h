@@ -27,9 +27,6 @@
 /** macro defining the maximum number of characters contained in a game */
 #define MAX_CHARACTERS 100
 
-/** macro defining the maximum lenght of a message from the chat */
-#define MAX_MESSAGE_LENGTH 100
-
 /** alias for the game structure */
 typedef struct _Game Game; 
 
