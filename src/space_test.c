@@ -13,7 +13,7 @@
 #include <stdlib.h> 
 #include <string.h> 
 
-#define MAX_TESTS 37
+#define MAX_TESTS 53
 
 /** 
  * @brief Main function for SPACE unit tests. 
@@ -42,8 +42,8 @@ int main(int argc, char** argv) {
   }
 
 
-  if (all || test == 1) test1_space_create();
-  if (all || test == 2) test2_space_create();
+  if (all || test == 1) test1_space_create(); 
+  if (all || test == 2) test2_space_create(); 
   if (all || test == 3) test1_space_set_name();
   if (all || test == 4) test2_space_set_name();
   if (all || test == 5) test3_space_set_name();
@@ -70,19 +70,36 @@ int main(int argc, char** argv) {
   if (all || test == 26) test2_space_get_east();
   if (all || test == 27) test1_space_get_west();
   if (all || test == 28) test2_space_get_west();
-  if (all || test == 29) test1_space_get_objects();
-  if (all || test == 30) test2_space_get_objects();
-  if (all || test == 31) test3_space_get_objects();
-  if (all || test == 32) test1_space_get_number_objects();
-  if (all || test == 33) test2_space_get_number_objects();
+  if (all || test == 29) test1_space_destroy();
+  if (all || test == 30) test2_space_destroy();
+  if (all || test == 31) test1_space_get_number_objects();
+  if (all || test == 32) test2_space_get_number_objects();
+  if (all || test == 33) test3_space_get_number_objects();
   if (all || test == 34) test1_space_contains(); 
   if (all || test == 35) test2_space_contains(); 
   if (all || test == 36) test3_space_contains(); 
   if (all || test == 37) test4_space_contains(); 
+  if (all || test == 38) test1_space_del_object_id();
+  if (all || test == 39) test2_space_del_object_id();
+  if (all || test == 40) test3_space_del_object_id();
+  if (all || test == 41) test1_space_objects_is_full();
+  if (all || test == 42) test2_space_objects_is_full();
+  if (all || test == 43) test1_space_set_character();
+  if (all || test == 44) test2_space_set_character();
+  if (all || test == 45) test1_space_get_character();
+  if (all || test == 46) test2_space_get_character();
+  if (all || test == 47) test1_space_set_gdesc();
+  if (all || test == 48) test2_space_set_gdesc();
+  if (all || test == 49) test1_space_get_gdesc();
+  if (all || test == 50) test2_space_get_gdesc();
+  if (all || test == 51) test1_space_get_objects();
+  if (all || test == 52) test2_space_get_objects();
+  if (all || test == 53) test3_space_get_objects();
+  
 
   PRINT_PASSED_PERCENTAGE;
 
-  return 1;
+  return 0;
 }
 
 /**This function tests the space_create function by creating a space with a valid ID
@@ -103,6 +120,18 @@ void test2_space_create() {
   s = space_create(4);
   PRINT_TEST_RESULT(space_get_id(s) == 4);
   space_destroy(s);
+}
+
+/**This function tests the space_destroy function with a valid space*/
+void test1_space_destroy() {
+  Space *s = space_create(1);
+  PRINT_TEST_RESULT(space_destroy(s) == OK);
+}
+
+/**This function tests the space_destroy function with a NULL space*/
+void test2_space_destroy() {
+  Space *s = NULL;
+  PRINT_TEST_RESULT(space_destroy(s) == ERROR);
 }
 
 /**This function tests the space_set_name function by creating a space,
@@ -220,6 +249,125 @@ void test3_space_add_object_id() {
   PRINT_TEST_RESULT(space_add_object_id(s, NO_ID) == ERROR);
   space_destroy(s);
 }
+
+/**This function tests space_del_object_id with a valid space and object ID*/
+void test1_space_del_object_id() {
+  Space *s = space_create(1);
+  space_add_object_id(s, 1);
+  PRINT_TEST_RESULT(space_del_object_id(s, 1) == OK);
+  space_destroy(s);
+}
+
+/**This function tests space_del_object_id with a NULL space*/
+void test2_space_del_object_id() {
+  Space *s = NULL;
+  PRINT_TEST_RESULT(space_del_object_id(s, 1) == ERROR);
+}
+
+/**This function tests space_del_object_id with an invalid object ID*/
+void test3_space_del_object_id() {
+  Space *s = space_create(1);
+  PRINT_TEST_RESULT(space_del_object_id(s, NO_ID) == ERROR);
+  space_destroy(s);
+}
+
+/**This function tests space_objects_is_full with a NULL space*/
+void test1_space_objects_is_full() {
+  Space *s = NULL;
+  PRINT_TEST_RESULT(space_objects_is_full(s) == TRUE);
+}
+
+/**This function tests space_objects_is_full with an empty space*/
+void test2_space_objects_is_full() {
+  Space *s = space_create(1);
+  PRINT_TEST_RESULT(space_objects_is_full(s) == FALSE);
+  space_destroy(s);
+}
+
+/**This function tests space_set_character with a valid space and character ID*/
+void test1_space_set_character() {
+  Space *s = space_create(1);
+  PRINT_TEST_RESULT(space_set_character(s, 1) == OK);
+  space_destroy(s);
+}
+
+/**This function tests space_set_character with a NULL space*/
+void test2_space_set_character() {
+  Space *s = NULL;
+  PRINT_TEST_RESULT(space_set_character(s, 1) == ERROR);
+}
+
+/**This function tests space_get_character with a valid space*/
+void test1_space_get_character() {
+  Space *s = space_create(1);
+  space_set_character(s, 1);
+  PRINT_TEST_RESULT(space_get_character(s) == 1);
+  space_destroy(s);
+}
+
+/**This function tests space_get_character with a NULL space*/
+void test2_space_get_character() {
+  Space *s = NULL;
+  PRINT_TEST_RESULT(space_get_character(s) == NO_ID);
+}
+
+/**This function tests space_set_gdesc with a valid space and gdesc*/
+void test1_space_set_gdesc() {
+  Space *s = space_create(1);
+  char **gdesc = (char **)malloc(GDESC_HEIGHT * sizeof(char *));
+  int i;
+  for (i = 0; i < GDESC_HEIGHT; i++) {
+    gdesc[i] = (char *)malloc(GDESC_LENGTH * sizeof(char));
+    strcpy(gdesc[i], "test");
+  }
+  PRINT_TEST_RESULT(space_set_gdesc(s, gdesc) == OK);
+  for (i = 0; i < GDESC_HEIGHT; i++) {
+    free(gdesc[i]);
+  }
+  free(gdesc);
+  space_destroy(s);
+}
+
+/**This function tests space_set_gdesc with a NULL space*/
+void test2_space_set_gdesc() {
+  Space *s = NULL;
+  char **gdesc = (char **)malloc(GDESC_HEIGHT * sizeof(char *));
+  int i;
+  for (i = 0; i < GDESC_HEIGHT; i++) {
+    gdesc[i] = (char *)malloc(GDESC_LENGTH * sizeof(char));
+    strcpy(gdesc[i], "test");
+  }
+  PRINT_TEST_RESULT(space_set_gdesc(s, gdesc) == ERROR);
+  for (i = 0; i < GDESC_HEIGHT; i++) {
+    free(gdesc[i]);
+  }
+  free(gdesc);
+}
+
+/**This function tests space_get_gdesc with a valid space*/
+void test1_space_get_gdesc() {
+  Space *s = space_create(1);
+  char **gdesc = (char **)malloc(GDESC_HEIGHT * sizeof(char *));
+  int i;
+  for (i = 0; i < GDESC_HEIGHT; i++) {
+    gdesc[i] = (char *)malloc(GDESC_LENGTH * sizeof(char));
+    strcpy(gdesc[i], "test");
+  }
+  space_set_gdesc(s, gdesc);
+  PRINT_TEST_RESULT(space_get_gdesc(s) != NULL);
+  for (i = 0; i < GDESC_HEIGHT; i++) {
+    free(gdesc[i]);
+  }
+  free(gdesc);
+  space_destroy(s);
+}
+
+/**This function tests space_get_gdesc with a NULL space*/
+void test2_space_get_gdesc() {
+  Space *s = NULL;
+  PRINT_TEST_RESULT(space_get_gdesc(s) == NULL);
+}
+
 /**This function tests the space_get_name function by creating a space,
  * setting its name, and checking if the function correctly reads the name. */
 void test1_space_get_name() {
@@ -364,6 +512,15 @@ void test2_space_get_number_objects() {
     s = space_create(1);
     PRINT_TEST_RESULT(space_get_number_objects(s) == 0);
     space_destroy(s);
+}
+
+/**This function tests space_get_number_objects with a space containing objects*/
+void test3_space_get_number_objects() {
+  Space *s = space_create(1);
+  space_add_object_id(s, 1);
+  space_add_object_id(s, 2);
+  PRINT_TEST_RESULT(space_get_number_objects(s) == 2);
+  space_destroy(s);
 }
 
 /** This function creates a space, adds an object to it, and checks if

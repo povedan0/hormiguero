@@ -17,7 +17,7 @@
 #define GDESC_SIZE 6
 
 /** macro defining the maximum number of health points for characters */
-#define MAX_HEALTH_POINTS 5
+#define CHARACTER_MAX_HEALTH_POINTS 5
 
 /** alias for the Character data structure */
 typedef struct _Character Character;

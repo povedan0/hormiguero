@@ -155,7 +155,7 @@ Status space_add_object_id(Space* space, Id idObject);
 
 /**
  * @brief removes the given object ID from the set of objects in the space
- * @author PPROG - Group 2 - AGL, GPA
+ * @author PPROG - Group 2 - GPA
  *
  * @param space a pointer to the space
  * @param object_id id of the object in the space to be removed

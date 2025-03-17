@@ -3,7 +3,6 @@ CFLAGS=-Wall -ansi -pedantic -g
 CC=gcc
 CLIB = -L. -lscreen
 
-
 all: $(EXE)
 
 anthill: command.o space.o game.o game_reader.o set.o character.o game_actions.o game_loop.o graphic_engine.o player.o object.o
@@ -63,5 +62,16 @@ space_test.o: space_test.c space_test.h space.h types.h test.h
 run:
 	./anthill anthill.dat
 
+# Build and run a specific test
+run_set_test: set_test
+	./set_test
+
+run_character_test: character_test 
+	./character_test
+
+run_space_test: space_test
+	./space_test
+
+# Clean rule
 .PHONY clean:
 	rm -f *.o $(EXE)

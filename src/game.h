@@ -64,7 +64,7 @@ Status game_add_object(Game *game, Object *object);
 
 /**
  * @brief It creates a new game, allocating memory and initializing its members
- * @author PPROG Group 2 - AGL
+ * @author PPROG Group 2 - GPA
  *
  * @param 
  * @return a new game, initialized
@@ -140,7 +140,7 @@ Status game_set_player_location(Game *game, Id id);
 
 /** 
  * @brief It retrieves the current object location, stored in game struct
- * @author PPROG Group 2 - GPA - AGL (mod to include array of objects)
+ * @author PPROG Group 2 - GPA
  * 
  * @param game A pointer to the current game struct
  * @param Id Id of the object
@@ -150,7 +150,7 @@ Id game_get_object_location(Game *game, Id object_id);
 
 /**
  * @brief returns the pointer to object contained in that position of the game->objects array
- * @author PPROG Group 2 - GPA 
+ * @author PPROG Group 2 - AGL 
  * 
  * @param game game structure containing the objects array
  * @param pos position in the array to return 
@@ -286,7 +286,7 @@ Status game_set_finished(Game *game, Bool finished);
 
 /** 
  * @brief  This function sets the chat message in the game structure.
- * @author PPROG - Group 2 - AGL, GPA (added error checks)
+ * @author PPROG - Group 2 - GPA
  * 
  * @param game A pointer to the current game struct
  * @param message A pointer to the message string to be set
@@ -306,7 +306,7 @@ char *game_get_chat_message(Game *game);
 
 /** 
  * @brief Prints the current game state
- * @author Profesores PPROG
+ * @author PPROG Group 2 - GPA
  * 
  * @param game A pointer to the current game struct
 */

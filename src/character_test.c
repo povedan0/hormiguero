@@ -23,7 +23,7 @@ int main(int argv, char **argc) {
   int all = 1;
 
   if (argv < 2) {
-    printf("Running all test for module Space:\n");
+    printf("Running all test for module Character:\n");
   } else {
     test = atoi(argc[1]);
     all = 0;
@@ -83,7 +83,7 @@ int main(int argv, char **argc) {
 
   PRINT_PASSED_PERCENTAGE;
 
-  return 1;
+  return 0;
 }
 
 /**This function tests if a character is successfully created with a valid ID. */
@@ -239,7 +239,7 @@ void test4_character_increase_health() {
   Character *c = NULL;
   c = character_create(10);
   character_increase_health(c, 10);
-  PRINT_TEST_RESULT(character_get_health(c) == MAX_HEALTH_POINTS);
+  PRINT_TEST_RESULT(character_get_health(c) == CHARACTER_MAX_HEALTH_POINTS);
   character_destroy(c);
 }
 /**This function tests the increase of a character's health after it has been decreased */
@@ -248,7 +248,7 @@ void test5_character_increase_health() {
   c = character_create(10),
   character_remove_health(c, 2);
   character_increase_health(c, 1);
-  PRINT_TEST_RESULT(character_get_health(c) == MAX_HEALTH_POINTS-1);
+  PRINT_TEST_RESULT(character_get_health(c) == CHARACTER_MAX_HEALTH_POINTS-1);
   character_destroy(c);
 }
 /**This function tests the behavior of character_remove_health when the character is NULL */
@@ -269,7 +269,7 @@ void test2_character_remove_health() {
 void test3_character_remove_health() {
   Character *c = NULL;
   c = character_create(10);
-  character_remove_health(c, MAX_HEALTH_POINTS+1);
+  character_remove_health(c, CHARACTER_MAX_HEALTH_POINTS+1);
   PRINT_TEST_RESULT(character_get_health(c) == 0);
   character_destroy(c);
 }
@@ -286,8 +286,8 @@ void test4_character_remove_health() {
 void test5_character_remove_health() {
   Character *c = NULL;
   c = character_create(10);
-  character_remove_health(c, 10); 
-  PRINT_TEST_RESULT(character_get_health(c) == MAX_HEALTH_POINTS - 10);
+  character_remove_health(c, 2); 
+  PRINT_TEST_RESULT(character_get_health(c) == CHARACTER_MAX_HEALTH_POINTS - 2);
   character_destroy(c);
 }
 
@@ -401,7 +401,7 @@ void test1_character_get_health() {
 void test2_character_get_health() {
   Character *c = NULL;
   c = character_create(10);
-  PRINT_TEST_RESULT(character_get_health(c) == MAX_HEALTH_POINTS);
+  PRINT_TEST_RESULT(character_get_health(c) == CHARACTER_MAX_HEALTH_POINTS);
   character_destroy(c);
 }
 

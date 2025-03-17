@@ -45,7 +45,7 @@ Character *character_create(Id id) {
     character->character_id = id;
     character->name[0] = '\0';
     character->gdesc[0] = '\0';
-    character->health = MAX_HEALTH_POINTS;  /* Set health to the maximum health points */
+    character->health = CHARACTER_MAX_HEALTH_POINTS;  /* Set health to the maximum health points */
     character->friendly = TRUE;             /* Set friendly to TRUE */
     character->message[0] = '\0';           
     
@@ -128,13 +128,13 @@ Status character_increase_health(Character *character, int health_points) {
 
     if (!character  || (health_points <= 0)) return ERROR;
 
-    if(character->health == MAX_HEALTH_POINTS){
+    if(character->health == CHARACTER_MAX_HEALTH_POINTS){
         return OK;
     }else{
 
         character->health += health_points;
-        if(character->health > MAX_HEALTH_POINTS){
-            character->health = MAX_HEALTH_POINTS;
+        if(character->health > CHARACTER_MAX_HEALTH_POINTS) {
+            character->health = CHARACTER_MAX_HEALTH_POINTS;
         }
 
     }
