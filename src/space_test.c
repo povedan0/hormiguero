@@ -85,6 +85,8 @@ int main(int argc, char** argv) {
   return 1;
 }
 
+/**This function tests the space_create function by creating a space with a valid ID
+ * and checking if the function correctly returns a non-NULL pointer. */
 void test1_space_create() {
   int result;
   Space *s;
@@ -94,6 +96,8 @@ void test1_space_create() {
   space_destroy(s);
 }
 
+/**This function tests the space_create function by creating a space with a valid ID
+ * and checking if the function correctly returns the expected ID. */
 void test2_space_create() {
   Space *s;
   s = space_create(4);
@@ -101,6 +105,8 @@ void test2_space_create() {
   space_destroy(s);
 }
 
+/**This function tests the space_set_name function by creating a space,
+ * setting its name, and checking if the function correctly returns OK. */
 void test1_space_set_name() {
   Space *s;
   s = space_create(5);
@@ -108,11 +114,14 @@ void test1_space_set_name() {
   space_destroy(s);
 }
 
+/**This function tests the space_set_name function by passing a NULL space
+ * and checking if the function correctly returns ERROR. */
 void test2_space_set_name() {
   Space *s = NULL;
   PRINT_TEST_RESULT(space_set_name(s, "hola") == ERROR);
 }
-
+/**This function tests the space_set_name function by creating a space,
+ * attempting to set its name to NULL, and checking if the function correctly returns ERROR. */
 void test3_space_set_name() {
   Space *s;
   s = space_create(5);
@@ -120,6 +129,8 @@ void test3_space_set_name() {
   space_destroy(s);
 }
 
+/**This function retrieves the ID of the space that is located to the north
+ * of the given space. If the space is NULL, it returns NO_ID. */
 void test1_space_set_north() {
   Space *s;
   s = space_create(5);
@@ -127,11 +138,16 @@ void test1_space_set_north() {
   space_destroy(s);
 }
 
+/**This function tests the space_set_north function by passing a NULL space
+ * and checking if the function correctly returns ERROR. */
 void test2_space_set_north() {
   Space *s = NULL;
   PRINT_TEST_RESULT(space_set_north(s, 4) == ERROR);
 }
 
+/**This function tests the space_set_south function by creating a space,
+ * setting the ID of the space located to the south, and checking if the function
+ * correctly returns OK. */
 void test1_space_set_south() {
   Space *s;
   s = space_create(5);
@@ -139,11 +155,16 @@ void test1_space_set_south() {
   space_destroy(s);
 }
 
+/**This function tests the space_set_south function by passing a NULL space
+ * and checking if the function correctly returns ERROR. */
 void test2_space_set_south() {
   Space *s = NULL;
   PRINT_TEST_RESULT(space_set_south(s, 4) == ERROR);
 }
 
+/**This function tests the space_set_east function by creating a space,
+ * setting the ID of the space located to the east, and checking if the function
+ * correctly returns OK. */
 void test1_space_set_east() {
   Space *s;
   s = space_create(5);
@@ -151,6 +172,8 @@ void test1_space_set_east() {
   space_destroy(s);
 }
 
+/**This function tests the space_set_east function by passing a NULL space
+ * and checking if the function correctly returns ERROR. */
 void test2_space_set_east() {
   Space *s = NULL;
   PRINT_TEST_RESULT(space_set_east(s, 4) == ERROR);
@@ -163,11 +186,17 @@ void test1_space_set_west() {
   space_destroy(s);
 }
 
+/** This function tests the space_set_west function by creating a space,
+ * setting the ID of the space located to the west, and checking if the function
+ * correctly returns OK. */
 void test2_space_set_west() {
   Space *s = NULL;
   PRINT_TEST_RESULT(space_set_west(s, 4) == ERROR);
 }
 
+/**This function tests the space_add_object_id function by creating a space,
+ * adding an object ID to the set of objects in the space, and checking if the function
+ * correctly returns OK. */
 void test1_space_add_object_id() {
   Space *s;
   s = space_create(1);
@@ -175,18 +204,24 @@ void test1_space_add_object_id() {
   space_destroy(s);
 }
 
+/**This function tests the space_add_object_id function by passing a NULL space
+ * and checking if the function correctly returns ERROR. */
 void test2_space_add_object_id() {
   Space *s = NULL;
   PRINT_TEST_RESULT(space_add_object_id(s,1) == ERROR);
 }
 
+/**This function tests the space_add_object_id function by creating a space,
+ * attempting to add an invalid object ID (NO_ID) to the set of objects in the space,
+ * and checking if the function correctly returns ERROR. */
 void test3_space_add_object_id() {
   Space *s = NULL;
   s = space_create(1);
   PRINT_TEST_RESULT(space_add_object_id(s, NO_ID) == ERROR);
   space_destroy(s);
 }
-
+/**This function tests the space_get_name function by creating a space,
+ * setting its name, and checking if the function correctly reads the name. */
 void test1_space_get_name() {
   Space *s;
   s = space_create(1);
@@ -194,12 +229,16 @@ void test1_space_get_name() {
   PRINT_TEST_RESULT(strcmp(space_get_name(s), "adios") == 0);
   space_destroy(s);
 }
-
+/** This function tests the space_get_name function by passing a NULL space
+ * and checking if the function correctly returns NULL. */
 void test2_space_get_name() {
   Space *s = NULL;
   PRINT_TEST_RESULT(space_get_name(s) == NULL);
 }
 
+/**This function tests the space_get_objects function by creating a space,
+ * adding an object ID to the set of objects in the space, and checking if the function
+ * correctly returns a non-NULL array of object IDs. */
 void test1_space_get_objects() {
   Space *s;
   s = space_create(1);
@@ -208,6 +247,9 @@ void test1_space_get_objects() {
   space_destroy(s);
 }
 
+/**This function tests the space_get_objects function by creating a space
+ * without adding any object IDs to it, and checking if the function correctly
+ * returns NULL. */
 void test2_space_get_objects() {
   Space *s;
   s = space_create(1);
@@ -215,11 +257,16 @@ void test2_space_get_objects() {
   space_destroy(s);  
 }
 
+/**This function tests the space_get_objects function by passing a NULL space
+ * and checking if the function correctly returns NULL. */
 void test3_space_get_objects() {
   Space *s = NULL;
   PRINT_TEST_RESULT(space_get_objects(s) == NULL);
 }
 
+/**This function tests the space_get_north function by creating a space,
+ * setting the ID of the space located to the north, and checking if the function
+ * correctly gets the north ID. */
 void test1_space_get_north() {
   Space *s;
   s = space_create(5);
@@ -228,11 +275,16 @@ void test1_space_get_north() {
   space_destroy(s);
 }
 
+/**This function tests the space_get_north function by passing a NULL space
+ * and checking if the function correctly returns NO_ID. */
 void test2_space_get_north() {
   Space *s = NULL;
   PRINT_TEST_RESULT(space_get_north(s) == NO_ID);
 }
 
+/**This function tests the space_get_south function by creating a space,
+ * setting the ID of the space located to the south, and checking if the function
+ * correctly gets the south ID. */
 void test1_space_get_south() {
   Space *s;
   s = space_create(5);
@@ -241,11 +293,15 @@ void test1_space_get_south() {
   space_destroy(s);
 }
 
+/** This function tests the space_get_south function by passing a NULL space
+ * and checking if the function correctly returns NO_ID. */
 void test2_space_get_south() {
   Space *s = NULL;
   PRINT_TEST_RESULT(space_get_south(s) == NO_ID);
 }
 
+/** This function creates a space, sets its east neighbor, and checks if
+ * space_get_east correctly retrieves the east neighbor's ID. */
 void test1_space_get_east() {
   Space *s;
   s = space_create(5);
@@ -254,11 +310,15 @@ void test1_space_get_east() {
   space_destroy(s);
 }
 
+/**This function checks if space_get_east correctly handles a NULL space
+ * by returning NO_ID. */
 void test2_space_get_east() {
   Space *s = NULL;
   PRINT_TEST_RESULT(space_get_east(s) == NO_ID);
 }
 
+/**This function creates a space, sets its west space, and checks if
+ * space_get_west correctly reads the west space's ID. */
 void test1_space_get_west() {
   Space *s;
   s = space_create(5);
@@ -267,11 +327,15 @@ void test1_space_get_west() {
   space_destroy(s);
 }
 
+/**This function checks if space_get_west correctly handles a NULL space
+ * by returning NO_ID. */
 void test2_space_get_west() {
   Space *s = NULL;
   PRINT_TEST_RESULT(space_get_west(s) == NO_ID);
 }
 
+/**This function returns the ID of the specified space. If the space is NULL,
+ * it returns NO_ID. */
 void test1_space_get_id() {
   Space *s;
   s = space_create(25);
@@ -279,16 +343,22 @@ void test1_space_get_id() {
   space_destroy(s);
 }
 
+/**This function checks if space_get_id correctly handles a NULL space
+ * by returning NO_ID. */
 void test2_space_get_id() {
   Space *s = NULL;
   PRINT_TEST_RESULT(space_get_id(s) == NO_ID);
 }
 
+/**This function checks if space_get_number_objects correctly handles a NULL space
+ * by returning -1. */
 void test1_space_get_number_objects() {
     Space *s = NULL;
     PRINT_TEST_RESULT(space_get_number_objects(s) == -1);
 }
 
+/**This function creates a space and checks if space_get_number_objects correctly
+ * returns 0 when the space contains no objects. */
 void test2_space_get_number_objects() {
     Space *s;
     s = space_create(1);
@@ -296,6 +366,8 @@ void test2_space_get_number_objects() {
     space_destroy(s);
 }
 
+/** This function creates a space, adds an object to it, and checks if
+ * space_contains correctly identifies that the space contains the object. */
 void test1_space_contains() {
     Space *s;
     s = space_create(1);
@@ -304,18 +376,23 @@ void test1_space_contains() {
     space_destroy(s);
 }
 
+/**This function checks if space_contains correctly handles a NULL space
+ * by returning FALSE when checking for an object. */
 void test2_space_contains() {
     Space *s = NULL;
     PRINT_TEST_RESULT(space_contains(s, 1) == FALSE);
 }
 
+/**This function creates a space and checks if space_contains correctly
+ * returns FALSE when checking for NO_ID. */
 void test3_space_contains() {
     Space *s;
     s = space_create(1);
     PRINT_TEST_RESULT(space_contains(s, NO_ID) == FALSE);
     space_destroy(s);
 }
-
+/**This function creates a space and checks if space_contains correctly
+ * returns FALSE when checking for an object ID that is not present in the space. */
 void test4_space_contains() {
     Space *s;
     s = space_create(1);
