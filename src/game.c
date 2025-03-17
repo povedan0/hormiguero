@@ -3,7 +3,7 @@
  *
  * @file game.c
  * @author PPROG - Grupo 2 - GPA, AGL
- * @version 0
+ * @version 2.1.6
  * @date 27-01-2025
  * @copyright GNU Public License
  */

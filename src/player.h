@@ -2,7 +2,7 @@
  * 
  * @file player.h
  * @author PPROG - Grupo 2 - GPA
- * @version 0
+ * @version 2.0.1
  * @date 08-02-2025
  * @copyright GNU Public License
 */

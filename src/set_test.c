@@ -3,7 +3,7 @@
  * 
  * @file set_test.c
  * @author PPROG - Group 2 - AGL
- * @version 0.0 
+ * @version 1.0.2 
  * @date 22-02-2025
  * @copyright GNU Public License
  */

@@ -3,7 +3,7 @@
  * 
  * @file player.c
  * @author PPROG - Grupo 2 - GPA, AGL
- * @version 0
+ * @version 2.0.3
  * @date 08-02-2025
  * @copyright GNU Public License
 */

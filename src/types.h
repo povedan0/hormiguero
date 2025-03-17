@@ -3,10 +3,10 @@
  *
  * @file types.h
  * @author PPROG - Grupo 2 - GPA, AGL
- * @version 0
+ * @version 1.0.1
  * @date 27-01-2025
  * @copyright GNU Public License
- */
+*/
 
 #ifndef TYPES_H
 #define TYPES_H
@@ -19,7 +19,5 @@ typedef long Id; /** alias for long integer */
 typedef enum { FALSE, TRUE } Bool; /** boolean variable declaration */
 
 typedef enum { ERROR, OK } Status; /** define status variable for improved function readability */
-
-typedef enum { N, S, E, W } Direction; /** define direction type with values N (North), S (South), E (East), and W (West) */
 
 #endif

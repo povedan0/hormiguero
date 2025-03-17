@@ -3,7 +3,7 @@
  *
  * @file game_loop.c
  * @author PPROG - Grupo 2 - GPA, AGL
- * @version 0
+ * @version 1.1.2
  * @date 27-01-2025
  * @copyright GNU Public License
  */

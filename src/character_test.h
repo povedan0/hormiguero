@@ -3,7 +3,7 @@
  * 
  * @file character_test.h
  * @author PPROG Group 2 - GPA
- * @version 0.0 
+ * @version 1.0.1
  * @date 22-02-2025
  * @copyright GNU Public License
 */

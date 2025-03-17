@@ -2,7 +2,7 @@
  * 
  * @file character.h
  * @author PPROG - Grupo 2 - AGL
- * @version 0
+ * @version 1.1.3
  * @date 25-02-2025
  * @copyright GNU Public License
 */

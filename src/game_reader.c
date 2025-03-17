@@ -3,7 +3,7 @@
  *
  * @file game_reader.c
  * @author  PPROG Group 2 (GPA, AGL)
- * @version 0
+ * @version 2.2.5
  * @date 05-02-2025
  * @copyright GNU Public License
  */

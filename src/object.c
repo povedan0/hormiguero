@@ -3,7 +3,7 @@
  *
  * @file object.c
  * @author PPROG - Grupo 2 - AGL
- * @version 0
+ * @version 1.0.2
  * @date 09-02-2025
  * @copyright GNU Public License
  */
