@@ -62,6 +62,9 @@ space_test.o: space_test.c space_test.h space.h types.h test.h
 run:
 	./anthill anthill.dat
 
+runv:
+	valgrind --leak-check=full --show-leak-kinds=all ./anthill anthill.dat
+
 # Build and run a specific test
 run_set_test: set_test
 	./set_test
