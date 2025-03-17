@@ -3,13 +3,16 @@
  * 
  * @file set_test.h
  * @author PPROG - Group 2 - AGL
- * @version 0.0 
+ * @version 1.0.2
  * @date 22-02-2025
  * @copyright GNU Public License
  */
 
 #ifndef SET_TEST_H
 #define SET_TEST_H
+
+#include "set.h"
+#include "test.h"
 
 /**
  * @test Test set creation

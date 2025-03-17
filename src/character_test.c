@@ -3,7 +3,7 @@
  * 
  * @file character_test.c
  * @author PPROG - Group 2 - GPA
- * @version 0.0 
+ * @version 1.0.1
  * @date 22-02-2025
  * @copyright GNU Public License
 */
@@ -23,7 +23,7 @@ int main(int argv, char **argc) {
   int all = 1;
 
   if (argv < 2) {
-    printf("Running all test for module Space:\n");
+    printf("Running all test for module Character:\n");
   } else {
     test = atoi(argc[1]);
     all = 0;
@@ -83,16 +83,17 @@ int main(int argv, char **argc) {
 
   PRINT_PASSED_PERCENTAGE;
 
-  return 1;
+  return 0;
 }
 
+/**This function tests if a character is successfully created with a valid ID. */
 void test1_character_create() {
   Character *c;
   c = character_create(1);
   PRINT_TEST_RESULT(c!=NULL);
   character_destroy(c);
 }
-
+/**Yhis function checks if the character's ID is correctly set upon creation. */
 void test2_character_create() {
   Character *c=NULL;
   c = character_create(3);
@@ -100,6 +101,7 @@ void test2_character_create() {
   character_destroy(c);
 }
 
+/** This test checks the behavior of character_create when NO_ID is provided */
 void test3_character_create() {
   Character *c=NULL;
   c = character_create(NO_ID);
@@ -107,22 +109,26 @@ void test3_character_create() {
   character_destroy(c);
 }
 
+/**Tests the behavior of character_destroy when the character is NULL */
 void test1_character_destroy() {
   Character *c=NULL;
   PRINT_TEST_RESULT(character_destroy(c) == ERROR);
 }
 
+/**Tests the successful destruction of a character */
 void test2_character_destroy() {
   Character *c = NULL;
   c = character_create(10);
   PRINT_TEST_RESULT(character_destroy(c) == OK); 
 }
 
+/**Tests the behavior of character_set_name when the character is NULL */
 void test1_character_set_name() {
   Character *c=NULL;
   PRINT_TEST_RESULT(character_set_name(c, "hi") == ERROR);
 }
 
+/**Tests the behavior of character_set_name when the name is NULL */
 void test2_character_set_name() {
   Character *c=NULL;
   char *s=NULL;
@@ -131,6 +137,9 @@ void test2_character_set_name() {
   character_destroy(c);
 }
 
+/** Tests the behavior of character_set_name when the name exceeds the allowed lengt
+ * name longer than WORD_SIZE is given to the character
+ */
 void test3_character_set_name() {
   Character *c=NULL;
   int i;
@@ -143,7 +152,7 @@ void test3_character_set_name() {
   free(s);
   character_destroy(c);
 }
-
+/**Tests the successful setting of a character's name */
 void test4_character_set_name() {
   Character *c = NULL;
   char s[] = "hola";
@@ -152,6 +161,7 @@ void test4_character_set_name() {
   character_destroy(c);
 }
 
+/** Tests whether the character's name is correctly set and found */
 void test5_character_set_name() {
   Character *c=NULL;
   c = character_create(10);
@@ -159,13 +169,14 @@ void test5_character_set_name() {
   PRINT_TEST_RESULT(strcmp(character_get_name(c), "a") == 0);
   character_destroy(c);
 }
-
+/**This function tests  the behavior of character_set_gdesc when the character is NULL */
 void test1_character_set_gdesc() {
   Character *c=NULL;
   char gdesc[] = "hola";
   PRINT_TEST_RESULT(character_set_gdesc(c, gdesc) == ERROR);
 }
 
+/**This function tests  Tests the behavior of character_set_gdesc when the gdesc is NULL */
 void test2_character_set_gdesc() {
   Character *c;
   char *gdesc=NULL;
@@ -174,6 +185,7 @@ void test2_character_set_gdesc() {
   character_destroy(c);
 }
 
+/**This function tests the behavior of character_set_gdesc when the gdesc exceeds the allowed length */
 void test3_character_set_gdesc() {
   Character *c;
   char gdesc[] = "aaaaaaaaaaaa";
@@ -182,6 +194,7 @@ void test3_character_set_gdesc() {
   character_destroy(c);
 }
 
+/**This function tests the successful setting of a character's gdesc */
 void test4_character_set_gdesc() {
   Character *c;
   char gdesc[] = "a";
@@ -190,6 +203,7 @@ void test4_character_set_gdesc() {
   character_destroy(c);
 }
 
+/**This function tests whether the character's gdesc is correctly set and found */
 void test5_character_set_gdesc() {
   Character *c=NULL;
   c = character_create(10);
@@ -198,11 +212,12 @@ void test5_character_set_gdesc() {
   character_destroy(c);
 }
 
+/**This function tests the behavior of character_increase_health when the character is NULL */
 void test1_character_increase_health() {
   Character *c=NULL;
   PRINT_TEST_RESULT(character_increase_health(c, 1) == ERROR);
 }
-
+/**This function tests the behavior of character_increase_health when the health points are negative */
 void test2_character_increase_health() {
   Character *c;
   c = character_create(10);
@@ -210,6 +225,7 @@ void test2_character_increase_health() {
   character_destroy(c);
 }
 
+/**This function tests the successful increase of a character's health */
 void test3_character_increase_health() {
   Character *c=NULL;
   c = character_create(10);
@@ -217,28 +233,31 @@ void test3_character_increase_health() {
   character_destroy(c);
 }
 
+/**This function tests the character_increase_health function when 
+ * health points are added to reach MAX_HEALTH_POINTS */
 void test4_character_increase_health() {
   Character *c = NULL;
   c = character_create(10);
   character_increase_health(c, 10);
-  PRINT_TEST_RESULT(character_get_health(c) == MAX_HEALTH_POINTS);
+  PRINT_TEST_RESULT(character_get_health(c) == CHARACTER_MAX_HEALTH_POINTS);
   character_destroy(c);
 }
-
+/**This function tests the increase of a character's health after it has been decreased */
 void test5_character_increase_health() {
   Character *c = NULL;
   c = character_create(10),
   character_remove_health(c, 2);
   character_increase_health(c, 1);
-  PRINT_TEST_RESULT(character_get_health(c) == MAX_HEALTH_POINTS-1);
+  PRINT_TEST_RESULT(character_get_health(c) == CHARACTER_MAX_HEALTH_POINTS-1);
   character_destroy(c);
 }
- 
+/**This function tests the behavior of character_remove_health when the character is NULL */
 void test1_character_remove_health() {
   Character *c= NULL;
   PRINT_TEST_RESULT(character_remove_health(c, 10) == ERROR);
 }
 
+/**This function tests the behavior of character_remove_health when the health points are negative */
 void test2_character_remove_health() {
   Character *c=NULL;
   c = character_create(10);
@@ -246,14 +265,16 @@ void test2_character_remove_health() {
   character_destroy(c);
 }
 
+/**This function tests the behavior of character_remove_health when health points (to be removed) exceed the character's current health */
 void test3_character_remove_health() {
   Character *c = NULL;
   c = character_create(10);
-  character_remove_health(c, MAX_HEALTH_POINTS+1);
+  character_remove_health(c, CHARACTER_MAX_HEALTH_POINTS+1);
   PRINT_TEST_RESULT(character_get_health(c) == 0);
   character_destroy(c);
 }
 
+/**This function tests the successful decrease of a character's health */
 void test4_character_remove_health() {
   Character *c = NULL;
   c = character_create(10);
@@ -261,19 +282,22 @@ void test4_character_remove_health() {
   character_destroy(c);
 }
 
+/**This function tests whether the character's health is correctly decreased */
 void test5_character_remove_health() {
   Character *c = NULL;
   c = character_create(10);
-  character_remove_health(c, 10); 
-  PRINT_TEST_RESULT(character_get_health(c) == MAX_HEALTH_POINTS - 10);
+  character_remove_health(c, 2); 
+  PRINT_TEST_RESULT(character_get_health(c) == CHARACTER_MAX_HEALTH_POINTS - 2);
   character_destroy(c);
 }
 
+/**This function tests the behavior of character_set_friendly when the character is NULL */
 void test1_character_set_friendly() {
   Character *c=NULL;
   PRINT_TEST_RESULT(character_set_friendly(c, TRUE) == ERROR);
 }
 
+/**This function tests the successful setting of a character's friendly status */
 void test2_character_set_friendly() {
   Character *c=NULL;
   c = character_create(10);
@@ -281,11 +305,13 @@ void test2_character_set_friendly() {
   character_destroy(c);
 }
 
+/**Tests the behavior of character_set_message when the character is NULL */
 void test1_character_set_message() {
   Character *c=NULL;
   PRINT_TEST_RESULT(character_set_message(c, "hola") == ERROR);
 }
 
+/**This function tests the behavior of character_set_message when the message is NULL */
 void test2_character_set_message() {
   Character *c = NULL;
   char *g=NULL;
@@ -294,6 +320,7 @@ void test2_character_set_message() {
   character_destroy(c);
 }
 
+/**This function tests the behavior of character_set_message when the message exceeds the allowed length */
 void test3_character_set_message() {
   Character *c=NULL;
   int i;
@@ -307,6 +334,7 @@ void test3_character_set_message() {
   character_destroy(c);
 }
 
+/**This function tests the successful setting of a character's message */
 void test4_character_set_message() {
   Character *c = NULL; 
   char g[] = "Hola!";
@@ -315,6 +343,7 @@ void test4_character_set_message() {
   character_destroy(c);
 }
 
+/**This function tests whether the character's message is correctly set and read */
 void test5_character_set_message() {
   Character *c = NULL; 
   char g[] = "Hola!";
@@ -323,12 +352,13 @@ void test5_character_set_message() {
   PRINT_TEST_RESULT(strcmp(character_get_message(c), "Hola!") == 0);
   character_destroy(c);
 }
-
+/**This function tests the behavior of character_get_id when the character is NULL */
 void test1_character_get_id() {
   Character *c = NULL;
   PRINT_TEST_RESULT(character_get_id(c) == NO_ID);
 }
 
+/**This function test the character_get_id when a valid character is created with a given ID */
 void test2_character_get_id() {
   Character *c = NULL;
   c = character_create(10);
@@ -336,23 +366,24 @@ void test2_character_get_id() {
   character_destroy(c);
 }
 
+/**This function tests the behavior of character_get_name when the character is NULL */
 void test1_character_get_name() {
   Character *c=NULL;
   PRINT_TEST_RESULT(character_get_name(c) == NULL);
 }
-
+/**This function tests the behavior of character_get_name when a valid character is created */
 void test2_character_get_name() {
   Character *c=NULL;
   c = character_create(10);
   PRINT_TEST_RESULT(character_get_name(c) != NULL);
   character_destroy(c);
 }
-
+/**Tests the behavior of character_get_gdesc when the character is NULL */
 void test1_character_get_gdesc() {
   Character *c=NULL;
   PRINT_TEST_RESULT(character_get_gdesc(c) == NULL);
 }
-
+/**This function tests the successful reading of a character's graphical description */
 void test2_character_get_gdesc() {
   Character *c=NULL;
   c = character_create(10);
@@ -360,23 +391,27 @@ void test2_character_get_gdesc() {
   character_destroy(c);
 }
 
+/**This function tests the behavior of character_get_health when the character is NULL */
 void test1_character_get_health() {
   Character *c = NULL;
   PRINT_TEST_RESULT(character_get_health(c) == -1);
 }
 
+/** This function tests the successful reading of a character's health */
 void test2_character_get_health() {
   Character *c = NULL;
   c = character_create(10);
-  PRINT_TEST_RESULT(character_get_health(c) == MAX_HEALTH_POINTS);
+  PRINT_TEST_RESULT(character_get_health(c) == CHARACTER_MAX_HEALTH_POINTS);
   character_destroy(c);
 }
 
+/** This function tests the behavior of character_get_friendly when the character is NULL */
 void test1_character_get_friendly() {
   Character *c = NULL;
   PRINT_TEST_RESULT(character_get_friendly(c) == FALSE);
 }
 
+/**This function test the successful reading of a character's friendly status */
 void test2_character_get_friendly() {
   Character *c = NULL;
   c = character_create(10);
@@ -384,11 +419,13 @@ void test2_character_get_friendly() {
   character_destroy(c);
 }
 
+/**This function tests the behavior of character_get_message when the character is NULL */
 void test1_character_get_message() {
   Character *c = NULL;
   PRINT_TEST_RESULT(character_get_message(c) == NULL);
 }
 
+/**This function tests the successful reading of a character's message */
 void test2_character_get_message() {
   Character *c = NULL;
   c = character_create(10);

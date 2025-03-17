@@ -3,7 +3,7 @@
  * 
  * @file player.c
  * @author PPROG - Grupo 2 - GPA, AGL
- * @version 0
+ * @version 2.0.3
  * @date 08-02-2025
  * @copyright GNU Public License
 */
@@ -34,7 +34,9 @@ Player *player_create(Id id) {
     Player *player=NULL; 
 
     /* Error checking */
-    if (!(player = (Player *)malloc(sizeof(Player))) || id == NO_ID) {
+    if (id == NO_ID) return NULL;
+
+    if (!(player = (Player *)malloc(sizeof(Player)))) {
         return NULL;
     }
 
@@ -43,7 +45,7 @@ Player *player_create(Id id) {
     player->location_id=NO_ID;
     player->object_id=NO_ID;
     player->name[0] = 0;
-    player->health = MAX_HEALTH_POINTS;  /* Set health to the maximum health points */
+    player->health = PLAYER_MAX_HEALTH_POINTS;  /* Set health to the maximum health points */
 
     /* Correct exit */
     return player;
@@ -136,13 +138,13 @@ Status player_increase_health(Player *player, int health_points) {
 
     if (!player  || (health_points <= 0)) return ERROR;
 
-    if(player ->health == MAX_HEALTH_POINTS){
+    if(player ->health == PLAYER_MAX_HEALTH_POINTS){
         return OK;
     }else{
 
         player ->health += health_points;
-        if(player ->health > MAX_HEALTH_POINTS){
-            player ->health = MAX_HEALTH_POINTS;
+        if(player ->health > PLAYER_MAX_HEALTH_POINTS){
+            player ->health = PLAYER_MAX_HEALTH_POINTS;
         }
 
     }

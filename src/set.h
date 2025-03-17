@@ -3,7 +3,7 @@
  *
  * @file set.h
  * @author PPROG - Grupo 2 - GPA
- * @version 0
+ * @version 1.2.0
  * @date 18-02-2025
  * @copyright GNU Public License
  */

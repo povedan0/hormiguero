@@ -3,7 +3,7 @@
  *
  * @file space.h
  * @author PPROG - Grupo 2 - GPA, AGL
- * @version 0
+ * @version 2.0.2
  * @date 27-01-2025
  * @copyright GNU Public License
  */
@@ -22,7 +22,7 @@ typedef struct _Space Space;
 
 /**
  * @brief It creates a new space, allocating memory and initializing its members
- * @author PPROG Group 2 (GPA, AGL)
+ * @author PPROG Group 2 - GPA
  *
  * @param id the identification number for the new space
  * @return a new space, initialized
@@ -155,7 +155,7 @@ Status space_add_object_id(Space* space, Id idObject);
 
 /**
  * @brief removes the given object ID from the set of objects in the space
- * @author PPROG - Group 2 - AGL, GPA
+ * @author PPROG - Group 2 - GPA
  *
  * @param space a pointer to the space
  * @param object_id id of the object in the space to be removed
@@ -220,8 +220,23 @@ Id space_get_character(Space* space);
 */
 Status space_set_character(Space* space, Id character_id);
 
+/** 
+ * @brief sets a given gdesc to the space->gdesc field. The graphic description muts be an array of strings which will be represented from the top down in the terminal
+ * @author PPROG Group 2 - GPA
+ * 
+ * @param s the space structure that will be modified
+ * @param gdesc array of strings containing the graphic description of the space
+ * @return OK if everything went well or ERROR if an error occurred
+*/
 Status space_set_gdesc(Space *s, char **gdesc);
 
+/**
+ * @brief fetches the array of strings that make up a space's graphic description
+ * @author PPROG Group 2 - GPA
+ * 
+ * @param s space structure containing s->gdesc
+ * @return array of strings that makes up the gdesc, or NULL in case of an error 
+*/
 char **space_get_gdesc(Space *s);
 
 /**

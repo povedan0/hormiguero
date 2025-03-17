@@ -3,15 +3,13 @@
  *
  * @file game.c
  * @author PPROG - Grupo 2 - GPA, AGL
- * @version 0
+ * @version 2.1.6
  * @date 27-01-2025
  * @copyright GNU Public License
  */
 
 #include "game.h"
 #include "game_reader.h"
-#include "space.h"
-#include "character.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,7 +35,7 @@ struct _Game {
   int n_objects;                            /*!< number of objects loaded in the game */
   Command *last_cmd;                        /*!< pointer to last Command */
   Bool finished;                            /*!< boolean containing whether game has finished */
-  char chat_message[MAX_MESSAGE_LENGTH];    /*!< message from the chat */
+  char chat_message[WORD_SIZE + 1];         /*!< message from the chat */
 }; 
 
 /**
@@ -137,9 +135,9 @@ Game *game_create() {
   }
 
    /* Create two characters with IDs 1 and 2 */
-   game->characters[game->n_characters++] = character_create(CHARACTER_ID_1);
-   game->characters[game->n_characters++] = character_create(CHARACTER_ID_2);
-
+  game->characters[game->n_characters++] = character_create(CHARACTER_ID_1);
+  game->characters[game->n_characters++] = character_create(CHARACTER_ID_2);
+  
   /* Check if character creation was successful */
   if (game->characters[0] == NULL || game->characters[1] == NULL) {
     for (i = 0; i < game->n_characters; i++) {
@@ -152,7 +150,15 @@ Game *game_create() {
     game_destroy(game);
     return NULL;
   }
-  
+
+  character_set_friendly(game->characters[0], FALSE);
+  character_set_gdesc(game->characters[0], "/\\oo/\\");
+  character_set_name(game->characters[0], "spider");
+
+  character_set_friendly(game->characters[1], TRUE);
+  character_set_message(game->characters[1], "helloooo");
+  character_set_gdesc(game->characters[1], "mo^^");
+  character_set_name(game->characters[1], "ant");
 
   return game;
 }
@@ -220,7 +226,7 @@ Status game_destroy(Game *game) {
   command_destroy(game->last_cmd);
   player_destroy(game->player);
   
-/**free the game structure */
+  /**free the game structure */
   free(game);
 
   return OK;
@@ -274,16 +280,6 @@ Object *game_get_object(Game *game, Id id) {
 
   return NULL;
 }
-
-/** 
-* game_get_objects returns the game->objects array to be iterated through int other functions 
-*/
-Object **game_get_objects(Game *game) {
-  if (!game) return NULL;
-
-  return game->objects;
-}
-
 
 /**
  * game_get_player_location returns the space id where the player is currently located
@@ -379,6 +375,14 @@ Character *game_get_character(Game *game, Id id) {
   return NULL;
 }
 
+/** 
+ * fetches the character contained in that position of the game->characters array
+*/
+Character *game_get_character_at(Game *game, int position) {
+  if (!game || position >= game->n_characters || position < 0) return NULL;
+
+  return game->characters[position];
+}
 /**
  * game_get_character_location cycles through every space and returns 
  * the space id that matches the character's location
@@ -444,6 +448,8 @@ Bool game_get_finished(Game *game) { return game->finished; }
  * game_set_finished receives a boolean and updates game->finished to match 
 */
 Status game_set_finished(Game *game, Bool finished) {
+  if (!game) return ERROR;
+
   game->finished = finished;
 
   return OK;
@@ -453,7 +459,7 @@ Status game_set_finished(Game *game, Bool finished) {
  * fetches the object pointer contained at a certain position in the game->objects array 
 */
 Object *game_get_object_at(Game *game, int pos) {
-  if (!game || pos >= MAX_OBJECTS || pos <0) {
+  if (!game || pos >= game->n_objects || pos < 0) {
     return NULL;
   }
 
@@ -473,9 +479,10 @@ int game_get_number_objects(Game *game) {
 Status game_set_chat_message(Game *game, const char *message) {
   if (!game || !message) return ERROR;
 
-  if (strlen(message) >= MAX_MESSAGE_LENGTH) return ERROR;
+  if (strlen(message) > WORD_SIZE) return ERROR;
 
-  strcpy(game->chat_message, message);
+  if (!strcpy(game->chat_message, message)) return ERROR;
+
   return OK;
 }
 

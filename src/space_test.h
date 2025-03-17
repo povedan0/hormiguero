@@ -3,7 +3,7 @@
  * 
  * @file space_test.h
  * @author PPROG Group 2 - GPA
- * @version 0.0
+ * @version 2.2.2
  * @date 24-02-2025
  * @copyright GNU Public License 
 */
@@ -248,6 +248,13 @@ void test1_space_get_number_objects();
 void test2_space_get_number_objects();
 
 /**  
+ * @test Test retrieving number of objects in a space  
+ * @pre Space containing objects  
+ * @post Retrieved number matches expected value  
+ */  
+void test3_space_get_number_objects();
+
+/**  
  * @test Test checking object containment in space  
  * @pre Space with an object  
  * @post Function returns TRUE  
@@ -274,5 +281,111 @@ void test3_space_contains();
  * @post Function returns FALSE  
  */  
 void test4_space_contains();
+
+/**  
+ * @test Test deleting an object ID from a space  
+ * @pre Valid space with object ID  
+ * @post Object ID successfully removed  
+ */  
+void test1_space_del_object_id();
+
+/**  
+ * @test Test deleting an object ID from a NULL space  
+ * @pre NULL space  
+ * @post Function returns error  
+ */  
+void test2_space_del_object_id();
+
+/**  
+ * @test Test deleting an invalid object ID  
+ * @pre Valid space with an invalid object ID  
+ * @post Function returns error  
+ */  
+void test3_space_del_object_id();
+
+/**  
+ * @test Test checking if space is full with a NULL space  
+ * @pre NULL space  
+ * @post Function returns TRUE  
+ */  
+void test1_space_objects_is_full();
+
+/**  
+ * @test Test checking if space is full with an empty space  
+ * @pre Empty space  
+ * @post Function returns FALSE  
+ */  
+void test2_space_objects_is_full();
+
+/**  
+ * @test Test setting a character in a space  
+ * @pre Valid space and character ID  
+ * @post Character successfully set  
+ */  
+void test1_space_set_character();
+
+/**  
+ * @test Test setting a character in a NULL space  
+ * @pre NULL space  
+ * @post Function returns error  
+ */  
+void test2_space_set_character();
+
+/**  
+ * @test Test retrieving character from a space  
+ * @pre Valid space with a character  
+ * @post Retrieved character matches expected value  
+ */  
+void test1_space_get_character();
+
+/**  
+ * @test Test retrieving character from a NULL space  
+ * @pre NULL space  
+ * @post Function returns NO_ID  
+ */  
+void test2_space_get_character();
+
+/**  
+ * @test Test setting graphical description in a space  
+ * @pre Valid space with graphical description  
+ * @post Function successfully sets description  
+ */  
+void test1_space_set_gdesc();
+
+/**  
+ * @test Test setting graphical description in a NULL space  
+ * @pre NULL space  
+ * @post Function returns error  
+ */  
+void test2_space_set_gdesc();
+
+/**  
+ * @test Test retrieving graphical description from a space  
+ * @pre Valid space with graphical description  
+ * @post Function returns non-NULL description  
+ */  
+void test1_space_get_gdesc();
+
+/**  
+ * @test Test retrieving graphical description from a NULL space  
+ * @pre NULL space  
+ * @post Function returns NULL  
+ */  
+void test2_space_get_gdesc();
+
+/**  
+ * @test Test destroying a valid space  
+ * @pre Valid space  
+ * @post Space successfully destroyed  
+ */  
+void test1_space_destroy();
+
+/**  
+ * @test Test destroying a NULL space  
+ * @pre NULL space  
+ * @post Function returns error  
+ */  
+void test2_space_destroy();
+
 
 #endif

@@ -3,7 +3,7 @@
  *
  * @file space.c
  * @author PPROG - Grupo 2 - GPA, AGL
- * @version 0
+ * @version 2.0.7
  * @date 27-01-2025
  * @copyright GNU Public License
  */
@@ -307,6 +307,7 @@ Id space_get_character(Space* space) {
   return space->character_id;
 }
 
+/** sets space->gdesc */
 Status space_set_gdesc(Space *s, char **gdesc) {
   int i = 0;
 
@@ -319,6 +320,7 @@ Status space_set_gdesc(Space *s, char **gdesc) {
   return OK;
 }
 
+/** gets space->gdesc */
 char **space_get_gdesc(Space *s) {
   if (!s || !s->gdesc || !s->gdesc[0]) return NULL;
 

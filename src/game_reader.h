@@ -4,7 +4,7 @@
  *
  * @file game_reader.h
  * @author  PPROG - Grupo 2 - GPA, AGL
- * @version 0
+ * @version 2.0.1
  * @date 05-02-2025
  * @copyright GNU Public License
  */

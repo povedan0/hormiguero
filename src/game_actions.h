@@ -3,7 +3,7 @@
  *
  * @file game.h
  * @author PPROG - Grupo 2 - GPA, AGL
- * @version 0
+ * @version 2.0.1
  * @date 27-01-2025
  * @copyright GNU Public License
  */
@@ -12,6 +12,7 @@
 #define GAME_ACTIONS_H
 
 #include "command.h"
+#include "object.h"
 #include "game.h"
 #include "types.h"
 #include "space.h"

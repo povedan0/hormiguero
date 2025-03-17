@@ -2,7 +2,7 @@
  * 
  * @file player.h
  * @author PPROG - Grupo 2 - GPA
- * @version 0
+ * @version 2.0.1
  * @date 08-02-2025
  * @copyright GNU Public License
 */
@@ -13,7 +13,7 @@
 #include "types.h"
 
 /** macro defining the maximum number of health points for player */
-#define MAX_HEALTH_POINTS 100
+#define PLAYER_MAX_HEALTH_POINTS 5
 
 /** alias for the Player data structure */
 typedef struct _Player Player;

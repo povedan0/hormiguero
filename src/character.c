@@ -3,11 +3,10 @@
  * 
  * @file character.c
  * @author  PPROG - Grupo 2 - AGL
- * @version 0
+ * @version 1.1.3
  * @date 25-02-2025
  * @copyright GNU Public License
 */
-
 
 #include "character.h"
 
@@ -24,7 +23,7 @@
 struct _Character {
     Id  character_id;               /*!< Id of the character */
     char name[WORD_SIZE + 1];       /*!< Name of the character */
-    char gdesc[GDESC_SIZE];         /*!< Graphical description of the character */
+    char gdesc[GDESC_SIZE + 1];         /*!< Graphical description of the character */
     int health;                     /*!< Number of health points of the character */
     Bool friendly;                  /*!< Boolean indicating whether the character is friendly (TRUE) */  
     char message[WORD_SIZE + 1];    /*!< Message */
@@ -36,7 +35,9 @@ Character *character_create(Id id) {
     Character *character=NULL; 
 
     /* Error checking */
-    if (!(character = (Character *)malloc(sizeof(Character))) || id == NO_ID) {
+    if (id == NO_ID) return NULL;
+
+    if (!(character = (Character *)malloc(sizeof(Character)))) {
         return NULL;
     }
 
@@ -44,8 +45,8 @@ Character *character_create(Id id) {
     character->character_id = id;
     character->name[0] = '\0';
     character->gdesc[0] = '\0';
-    character->health = MAX_HEALTH_POINTS;  /* Set health to the maximum health points */
-    character -> friendly = TRUE;           /* Set friendly to TRUE */
+    character->health = CHARACTER_MAX_HEALTH_POINTS;  /* Set health to the maximum health points */
+    character->friendly = TRUE;             /* Set friendly to TRUE */
     character->message[0] = '\0';           
     
     /* Correct exit */
@@ -127,13 +128,13 @@ Status character_increase_health(Character *character, int health_points) {
 
     if (!character  || (health_points <= 0)) return ERROR;
 
-    if(character ->health == MAX_HEALTH_POINTS){
+    if(character->health == CHARACTER_MAX_HEALTH_POINTS){
         return OK;
     }else{
 
-        character ->health += health_points;
-        if(character ->health > MAX_HEALTH_POINTS){
-            character ->health = MAX_HEALTH_POINTS;
+        character->health += health_points;
+        if(character->health > CHARACTER_MAX_HEALTH_POINTS) {
+            character->health = CHARACTER_MAX_HEALTH_POINTS;
         }
 
     }

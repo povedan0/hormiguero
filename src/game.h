@@ -3,7 +3,7 @@
  *
  * @file game.h
  * @author PPROG - Grupo 2 - GPA, AGL
- * @version 0
+ * @version 2.1.0
  * @date 27-01-2025
  * @copyright GNU Public License
  */
@@ -26,9 +26,6 @@
 
 /** macro defining the maximum number of characters contained in a game */
 #define MAX_CHARACTERS 100
-
-/** macro defining the maximum lenght of a message from the chat */
-#define MAX_MESSAGE_LENGTH 100
 
 /** alias for the game structure */
 typedef struct _Game Game; 
@@ -67,7 +64,7 @@ Status game_add_object(Game *game, Object *object);
 
 /**
  * @brief It creates a new game, allocating memory and initializing its members
- * @author PPROG Group 2 - AGL
+ * @author PPROG Group 2 - GPA
  *
  * @param 
  * @return a new game, initialized
@@ -103,6 +100,15 @@ Status game_destroy(Game *game);
 */
 Space *game_get_space(Game *game, Id id);
 
+/** 
+ * @brief Given a pointer to a game and a object Id, returns a object struct or null. 
+ * @author Profesores PPROG
+ * 
+ * @param game A pointer to game where the object exists. 
+ * @param id Id of the desired object
+ * @return The desired object if it can be found within the given game, or null if it cannot. 
+*/
+Object *game_get_object(Game *game, Id id);
 
 /** 
  * @brief It retrieves the current player location, stored in game struct
@@ -123,25 +129,6 @@ Id game_get_player_location(Game *game);
 Player *game_get_player(Game *game);
 
 /** 
- * @brief fetches the object pointer contained in game-object
- * @author PPROG Group 2 - GPA, AGL(mod. to include array of objects)
- * 
- * @param game pointer to _Game containing the object variable 
- * @param Id of the object  
- * @return object pointer if everything went well or NULL if anything went wrong
-*/
-Object *game_get_object(Game *game, Id id);
-
-/** 
-* @brief Fetches the game->objects array 
-* @author PPROG Group 2 - GPA
-* 
-* @param game pointer to game struct containing game->objects 
-* @return game->objects pointer, or NULL in case of error
-*/
-Object **game_get_objects(Game *game);
-
-/** 
  * @brief Matches the current player location to a space Id passed by argument
  * @author PPROG Group 2 - AGL
  * 
@@ -153,7 +140,7 @@ Status game_set_player_location(Game *game, Id id);
 
 /** 
  * @brief It retrieves the current object location, stored in game struct
- * @author PPROG Group 2 - GPA - AGL (mod to include array of objects)
+ * @author PPROG Group 2 - GPA
  * 
  * @param game A pointer to the current game struct
  * @param Id Id of the object
@@ -163,7 +150,7 @@ Id game_get_object_location(Game *game, Id object_id);
 
 /**
  * @brief returns the pointer to object contained in that position of the game->objects array
- * @author PPROG Group 2 - GPA 
+ * @author PPROG Group 2 - AGL 
  * 
  * @param game game structure containing the objects array
  * @param pos position in the array to return 
@@ -214,6 +201,15 @@ int game_get_number_of_characters(Game *game);
 */
 Character *game_get_character(Game *game, Id id);
 
+/**
+ * @brief Fetches the character structure contained in that position in game->characters
+ * @author PPROG Group 2 - GPA 
+ * 
+ * @param game pointer to the game structure containing the data 
+ * @param position int position in the array to retrieve
+ * @return character structure contained in that position
+*/
+Character *game_get_character_at(Game *game, int position);
 
 /** 
  * @brief  gets the character's location
@@ -240,7 +236,7 @@ Status game_set_character_location(Game *game, Id space_id, Id character_id);
 
 /** 
  * @brief sets the location of the object to a space_id
- * @author PPROG Group 2 - AGL, GPA
+ * @author PPROG Group 2 - GPA (changed return logic)
  * 
  * @param game A pointer to the current game struct
  * @param space_id The id of the space the object must be moved to
@@ -280,7 +276,7 @@ Bool game_get_finished(Game *game);
 
 /** 
  * @brief Updates the value of the game->finished boolean variable
- * @author Profesores PPROG
+ * @author PPROG Group 2 - GPA
  * 
  * @param game A pointer to the current game struct
  * @param finished Boolean variable to assign to game->finished
@@ -290,7 +286,7 @@ Status game_set_finished(Game *game, Bool finished);
 
 /** 
  * @brief  This function sets the chat message in the game structure.
- * @author PPROG - Group 2 - AGL
+ * @author PPROG - Group 2 - GPA
  * 
  * @param game A pointer to the current game struct
  * @param message A pointer to the message string to be set
@@ -310,7 +306,7 @@ char *game_get_chat_message(Game *game);
 
 /** 
  * @brief Prints the current game state
- * @author Profesores PPROG
+ * @author PPROG Group 2 - GPA
  * 
  * @param game A pointer to the current game struct
 */

@@ -3,17 +3,16 @@
  * 
  * @file set_test.c
  * @author PPROG - Group 2 - AGL
- * @version 0.0 
+ * @version 1.0.2 
  * @date 22-02-2025
  * @copyright GNU Public License
  */
 
+#include "set_test.h"
+
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <string.h> 
-#include "set.h"
-#include "set_test.h"
-#include "test.h"
 
 #define MAX_TESTS 24
 
@@ -71,7 +70,7 @@ int main(int argc, char** argv) {
 
   PRINT_PASSED_PERCENTAGE;
 
-  return 1;
+  return 0;
 }
 
 /**Test whether a new set is successfully created*/
@@ -228,6 +227,8 @@ void test6_set_del() {
   set_destroy(&set);
 }
 
+/**This function tests the set_contains_id function by passing a NULL set
+ * and checking if the function correctly returns FALSE. */
 void test1_set_contains_id() {
   Set *s= NULL;
   PRINT_TEST_RESULT(set_contains_id(s, 1) == FALSE);
@@ -240,6 +241,10 @@ void test2_set_contains_id() {
   set_destroy(&s);
 }
 
+/*** This function tests the set_contains_id function by creating a set,
+ * adding an element to it, and checking if the function correctly returns
+ * FALSE when searching for an element that is not in the set.
+ */ 
 void test3_set_contains_id() {
   Set *s;
   s = set_create();
@@ -248,6 +253,9 @@ void test3_set_contains_id() {
   set_destroy(&s);
 }
 
+/**This function tests the set_contains_id function by creating a set,
+ * adding an element to it, and checking if the function correctly returns
+ * TRUE when searching for an element that is in the set. */
 void test4_set_contains_id() {
   Set *s;
   s = set_create();
